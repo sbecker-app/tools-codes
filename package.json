@@ -1,0 +1,28 @@
+{
+  "name": "mcp",
+  "version": "0.1.0",
+  "private": true,
+  "packageManager": "pnpm@9.12.0",
+  "scripts": {
+    "codex": "bash scripts/codex.sh",
+    "codex:debug": "bash -lc 'export CODEX_HOME=\"$PWD/.codex\"; exec codex --debug'",
+    "claude": "bash scripts/claude.sh",
+    "claude:debug": "bash scripts/claude.sh --debug",
+    "gateway": "node ./mcp/gateway/index.js"
+  },
+  "dependencies": {
+    "@dotenvx/dotenvx": "^1.51.0",
+    "@modelcontextprotocol/sdk": "^1.20.2",
+    "@openai/codex": "^0.53.0",
+    "zod": "^3.25.76"
+  },
+  "devDependencies": {
+    "@mermaid-js/mermaid-cli": "^10.9.1",
+    "@modelcontextprotocol/server-filesystem": "^2025.8.21",
+    "@upstash/context7-mcp": "^1.0.26",
+    "concurrently": "^9.2.1",
+    "dotenv-cli": "^10.0.0",
+    "github-mcp-server": "^1.8.7",
+    "mongodb-mcp-server": "^1.2.0"
+  }
+}

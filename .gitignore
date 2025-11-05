@@ -1,0 +1,12 @@
+.claude
+!./.claude/.claude.json
+!./.claude/config.json
+!./.claude/mcp_settings.json
+
+.codex
+!.codex/config.toml
+
+.env
+.idea
+
+node_modules
