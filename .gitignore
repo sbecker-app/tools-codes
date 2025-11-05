@@ -1,8 +1,11 @@
+# claude AI assistants
 .claude
 !./.claude/.claude.json
 !./.claude/config.json
 !./.claude/mcp_settings.json
+!./.claude/commands
 
+# codex AI assistants
 .codex
 !.codex/config.toml
 
