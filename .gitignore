@@ -3,6 +3,7 @@
 !./.claude/.claude.json
 !./.claude/config.json
 !./.claude/mcp_settings.json
+!./.claude/settings.local.json
 !./.claude/commands
 
 # codex AI assistants
