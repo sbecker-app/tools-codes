@@ -1,0 +1,24 @@
+#!/bin/sh
+#
+# Hook Git pour vérifier le format des messages de commit
+# Le message doit commencer par: ml:, feat:, mcp: ou sbe:
+#
+
+commit_msg_file=$1
+commit_msg=$(cat "$commit_msg_file")
+
+# Regex pour vérifier que le message commence par un des préfixes requis
+if ! echo "$commit_msg" | grep -qE "^(ml|feat|mcp|sbe):"; then
+    echo "❌ ERREUR: Le message de commit doit commencer par l'un des préfixes suivants:"
+    echo "   - ml:   (millenium)"
+    echo "   - feat: (Feature)"
+    echo "   - mcp:  (MCP)"
+    echo "   - sbe:  (SBE)"
+    echo ""
+    echo "Votre message: $commit_msg"
+    echo ""
+    echo "Exemple valide: feat: ajout d'une nouvelle fonctionnalité"
+    exit 1
+fi
+
+exit 0
