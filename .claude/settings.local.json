@@ -1,0 +1,49 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node --check:*)",
+      "WebSearch",
+      "Bash(node /Users/frx33355/Documents/dev/mcp/analyze-sharebase.js:*)",
+      "WebFetch(domain:fonciamillenium.atlassian.net)",
+      "Bash(npx tsc:*)",
+      "Bash(git -C /Users/frx33355/Documents/dev/mcp log --all --since=\"2024-03-01\" --until=\"2024-05-31\" --pretty=format:\"%h|%ad|%s\" --date=short --name-only)",
+      "Bash(git -C /Users/frx33355/Documents/dev/mcp log --all --since=\"2025-03-01\" --until=\"2025-05-31\" --pretty=format:\"%h|%ad|%s\" --date=short --name-only)",
+      "Bash(git checkout:*)",
+      "Bash(git restore:*)",
+      "Bash(tree:*)",
+      "Bash(mcp__Atlassian-Remote__get-issue '{\"\"issueKey\"\": \"\"PROD-28294\"\"}')",
+      "Bash(pnpm install:*)",
+      "Bash(cat:*)",
+      "Bash(pnpm nx build:*)",
+      "Bash(npx tsx:*)",
+      "Bash(for dir in contract-*/dist)",
+      "Bash(do if [ -f \"$dir/index.js\" ])",
+      "Bash([ ! -f \"$dir/index.cjs\" ])",
+      "Bash(then cp \"$dir/index.js\" \"$dir/index.cjs\")",
+      "Bash(echo:*)",
+      "Bash(fi)",
+      "Bash(done)",
+      "Bash(for dir in */dist)",
+      "Bash(for dir in service-*/dist packages/*/dist)",
+      "Bash(do if [ -f $dir/index.js ])",
+      "Bash([ ! -f $dir/index.cjs ])",
+      "Bash(then cp $dir/index.js $dir/index.cjs)",
+      "Bash(chmod:*)",
+      "Bash(mkdir:*)",
+      "Bash(/Users/frx33355/Documents/dev/mcp/scripts/install-hooks.sh:*)",
+      "Bash(git add:*)",
+      "Bash(mongosh:*)",
+      "Bash(pnpm nx test:*)",
+      "Bash(pnpm nx test:jest:*)",
+      "Bash(NODE_ENV=test npx jest:*)",
+      "Bash(pnpm exec tsc:*)",
+      "Bash(git cherry-pick:*)",
+      "Bash(git branch:*)"
+    ],
+    "deny": [
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
+    ],
+    "ask": []
+  }
+}
