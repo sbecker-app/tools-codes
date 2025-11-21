@@ -1,0 +1,1564 @@
+{
+  "metadata": {
+    "fileName": "CAFAL301_2025103090703_0601.txt",
+    "filePath": "/Users/frx33355/Downloads/CAFAL301_2025103090703_0601.txt",
+    "parsedAt": "2025-11-20T11:57:18.910Z",
+    "type": "AL",
+    "department": "30",
+    "codeLessor": "P8456",
+    "period": {
+      "month": 11,
+      "year": 2025
+    }
+  },
+  "statistics": {
+    "totalLines": 2,
+    "emitterLines": 2,
+    "detailLines": 62,
+    "uniqueBeneficiaries": 60
+  },
+  "headers": [
+    {
+      "prefix": "0302",
+      "type": "AL",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "month": 11,
+      "year": 2025,
+      "description": "MENSUELS",
+      "rawLine": "0302999301P8456   051125CAISSE D ALLOCATIONS FAMFONCIA FABRE GIBERT             E4097800085210448203241PAIEMENTS MENSUELS                                       "
+    },
+    {
+      "prefix": "0302",
+      "type": "AL",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "month": 11,
+      "year": 2025,
+      "description": "REGULARISATIONS",
+      "rawLine": "0302999301P8456   051125CAISSE D ALLOCATIONS FAMFONCIA FABRE GIBERT             E4097800085210448203242PAIEMENTS REGULARISATIONS                                "
+    }
+  ],
+  "cafTransfers": [
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000000101279T",
+      "name": "BOURINAT",
+      "firstName": "MARYSE",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 21000,
+        "valueEur": 210,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000103149500000000101279TBOURINAT            MARYSE      2510    0000002100000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000000142487V",
+      "name": "CARTERON",
+      "firstName": "NASSERA",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 28600,
+        "valueEur": 286,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000104542100000000142487VCARTERON            NASSERA     2510    0000002860000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000000687349U",
+      "name": "TRANIER",
+      "firstName": "JEAN-CHRISTO",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 28600,
+        "valueEur": 286,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000102916100000000687349UTRANIER             JEAN-CHRISTO2510    0000002860000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000000806724C",
+      "name": "PARMEGGIANI",
+      "firstName": "SIGRID",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 42600,
+        "valueEur": 426,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000101449300000000806724CPARMEGGIANI         SIGRID      2510    0000004260000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000000847895Z",
+      "name": "ATTARD",
+      "firstName": "FLORENCE",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 39700,
+        "valueEur": 397,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000171830200000000847895ZATTARD              FLORENCE    2510    0000003970000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000000861539H",
+      "name": "MORGHADI",
+      "firstName": "BELKHEIR",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 30400,
+        "valueEur": 304,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000101336500000000861539HMORGHADI            BELKHEIR    2510    0000003040000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000000878930N",
+      "name": "SERVOL",
+      "firstName": "JACQUELINE",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 11900,
+        "valueEur": 119,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000451995700000000878930NSERVOL              JACQUELINE  2510    0000001190000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000000915401W",
+      "name": "BOSC",
+      "firstName": "NADINE",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 26000,
+        "valueEur": 260,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000726982500000000915401WBOSC                NADINE      2510    0000002600000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000000938942A",
+      "name": "BOUAHAFARA",
+      "firstName": "FLORENCE",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 24600,
+        "valueEur": 246,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000105045800000000938942ABOUAHAFARA          FLORENCE    2510    0000002460000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000000975031Z",
+      "name": "LAUROY",
+      "firstName": "ALEXANDRA",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 18800,
+        "valueEur": 188,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000727735100000000975031ZLAUROY              ALEXANDRA   2510    0000001880000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001000672L",
+      "name": "SCHWARZ",
+      "firstName": "PATRICIA",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 28600,
+        "valueEur": 286,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000456907800000001000672LSCHWARZ             PATRICIA    2510    0000002860000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001014154N",
+      "name": "MEISSONNIER",
+      "firstName": "MONIQUE",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 15900,
+        "valueEur": 159,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000103449500000001014154NMEISSONNIER         MONIQUE     2510    0000001590000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001043465T",
+      "name": "BERNARD",
+      "firstName": "PATRICIA",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 8200,
+        "valueEur": 82,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000101884700000001043465TBERNARD             PATRICIA    2510    0000000820000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001066312Y",
+      "name": "NAVARRE",
+      "firstName": "CAROLINE",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 19400,
+        "valueEur": 194,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000102782900000001066312YNAVARRE             CAROLINE    2510    0000001940000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001152012J",
+      "name": "MORENO",
+      "firstName": "OLIVIER",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 28600,
+        "valueEur": 286,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000726669800000001152012JMORENO              OLIVIER     2510    0000002860000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001200906M",
+      "name": "BIZZOTTO",
+      "firstName": "VALERIE",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 22000,
+        "valueEur": 220,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000102704500000001200906MBIZZOTTO            VALERIE     2510    0000002200000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001201745P",
+      "name": "BIANCO",
+      "firstName": "CHRISTELLE",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 31300,
+        "valueEur": 313,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000104603400000001201745PBIANCO              CHRISTELLE  2510    0000003130000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001249596A",
+      "name": "KIZILIRMAK",
+      "firstName": "HACI-BEKTAS",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 22000,
+        "valueEur": 220,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000458411300000001249596AKIZILIRMAK          HACI-BEKTAS 2510    0000002200000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001310387H",
+      "name": "FAUBERT",
+      "firstName": "VERONIQUE",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 10300,
+        "valueEur": 103,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000101953300000001310387HFAUBERT             VERONIQUE   2510    0000001030000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001317768R",
+      "name": "LAVERNY",
+      "firstName": "VIRGINIE",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 46000,
+        "valueEur": 460,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        LAVERNY00000000000001317768RLAVERNY             VIRGINIE    2510    0000004600000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001318588F",
+      "name": "MARCOGNET",
+      "firstName": "TERENCE",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 7800,
+        "valueEur": 78,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000104806300000001318588FMARCOGNET           TERENCE     2510    0000000780000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001328391B",
+      "name": "CHOQUET",
+      "firstName": "ELODIE",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 28600,
+        "valueEur": 286,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000229605500000001328391BCHOQUET             ELODIE      2510    0000002860000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001363467A",
+      "name": "GUERIN",
+      "firstName": "SONIA",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 17800,
+        "valueEur": 178,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000103209000000001363467AGUERIN              SONIA       2510    0000001780000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001363520B",
+      "name": "FAURE EUSTACHE",
+      "firstName": "MICHELE",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 23800,
+        "valueEur": 238,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000103124400000001363520BFAURE EUSTACHE      MICHELE     2510    0000002380000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001375352J",
+      "name": "ASSAM JABIR",
+      "firstName": "RACHID",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 37400,
+        "valueEur": 374,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000726179100000001375352JASSAM JABIR         RACHID      2510    0000003740000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001375393C",
+      "name": "VALSER",
+      "firstName": "GERARD",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 17100,
+        "valueEur": 171,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000104703100000001375393CVALSER              GERARD      2510    0000001710000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001380018H",
+      "name": "IBNYASINE",
+      "firstName": "YAMINA",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 39700,
+        "valueEur": 397,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000103150700000001380018HIBNYASINE           YAMINA      2510    0000003970000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001387910T",
+      "name": "EL HADI",
+      "firstName": "JASON",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 28600,
+        "valueEur": 286,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000104812100000001387910TEL HADI             JASON       2510    0000002860000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001389465B",
+      "name": "METARFI",
+      "firstName": "SALEM",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 30400,
+        "valueEur": 304,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000102695200000001389465BMETARFI             SALEM       2510    0000003040000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001395524L",
+      "name": "GENEST",
+      "firstName": "FREDERIC",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 28600,
+        "valueEur": 286,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000115160800000001395524LGENEST              FREDERIC    2510    0000002860000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001399567B",
+      "name": "LESUEUR",
+      "firstName": "THOMAS",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 28600,
+        "valueEur": 286,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000104726700000001399567BLESUEUR             THOMAS      2510    0000002860000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001400237E",
+      "name": "DAVULCU",
+      "firstName": "MEHMET",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 22400,
+        "valueEur": 224,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000103123500000001400237EDAVULCU             MEHMET      2510    0000002240000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001410961V",
+      "name": "ISAMBERT",
+      "firstName": "LAURE",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 10800,
+        "valueEur": 108,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000672008700000001410961VISAMBERT            LAURE       2510    0000001080000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001422146L",
+      "name": "DE ALBERTIS",
+      "firstName": "MEHDI",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 21875,
+        "valueEur": 218.75,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 1625,
+        "valueEur": 16.25,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000726118400000001422146LDE ALBERTIS         MEHDI       2510    0000002187500000001625000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001447058G",
+      "name": "GUTIERREZ",
+      "firstName": "YOANN",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 28600,
+        "valueEur": 286,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000720062100000001447058GGUTIERREZ           YOANN       2510    0000002860000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001452763C",
+      "name": "VALCKE",
+      "firstName": "MARINA",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 28600,
+        "valueEur": 286,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000308252700000001452763CVALCKE              MARINA      2510    0000002860000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001453315U",
+      "name": "BENZERROUK",
+      "firstName": "TARIQ",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 12200,
+        "valueEur": 122,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000749759400000001453315UBENZERROUK          TARIQ       2510    0000001220000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001458329P",
+      "name": "LOPEZ",
+      "firstName": "MARION",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 13700,
+        "valueEur": 137,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000212187300000001458329PLOPEZ               MARION      2510    0000001370000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001479270V",
+      "name": "BENOIT",
+      "firstName": "MARIE",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 5000,
+        "valueEur": 50,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000104155300000001479270VBENOIT              MARIE       2510    0000000500000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001480438Y",
+      "name": "GLAIZE",
+      "firstName": "MANON",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 28600,
+        "valueEur": 286,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000610818100000001480438YGLAIZE              MANON       2510    0000002860000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001484907P",
+      "name": "HUBERT",
+      "firstName": "TRACY",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 13700,
+        "valueEur": 137,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000743951600000001484907PHUBERT              TRACY       2510    0000001370000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001489189U",
+      "name": "KAROUA",
+      "firstName": "RACHIDA",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 7500,
+        "valueEur": 75,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000115450400000001489189UKAROUA              RACHIDA     2510    0000000750000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001492175Q",
+      "name": "TADBIRT-NOEL",
+      "firstName": "SADIA",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 12300,
+        "valueEur": 123,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000000000000000001492175QTADBIRT-NOEL        SADIA       2510    0000001230000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001493536B",
+      "name": "MATHIEU",
+      "firstName": "BRIGITTE",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 9300,
+        "valueEur": 93,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000104586100000001493536BMATHIEU             BRIGITTE    2510    0000000930000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001507087K",
+      "name": "BARADJI",
+      "firstName": "IBRAHIM",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 21700,
+        "valueEur": 217,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000104778800000001507087KBARADJI             IBRAHIM     2510    0000002170000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001514277T",
+      "name": "GOUJET",
+      "firstName": "MATHILDE",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 30600,
+        "valueEur": 306,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000110643900000001514277TGOUJET              MATHILDE    2510    0000003060000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001518699F",
+      "name": "TOURNIE",
+      "firstName": "MAGALIE",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 18800,
+        "valueEur": 188,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000104895300000001518699FTOURNIE             MAGALIE     2510    0000001880000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001523895H",
+      "name": "QUEUDOT",
+      "firstName": "SAHONA",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 22400,
+        "valueEur": 224,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000000000000000001523895HQUEUDOT             SAHONA      2510    0000002240000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001530778M",
+      "name": "DI LIEGRO",
+      "firstName": "MARCEL",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 28600,
+        "valueEur": 286,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000705088600000001530778MDI LIEGRO           MARCEL      2510    0000002860000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001543289D",
+      "name": "BAGNOL",
+      "firstName": "GWENOLA",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 2800,
+        "valueEur": 28,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000726770200000001543289DBAGNOL              GWENOLA     2510    0000000280000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001548034V",
+      "name": "KARTOUCHE",
+      "firstName": "SAMRA",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 34400,
+        "valueEur": 344,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000175373300000001548034VKARTOUCHE           SAMRA       2510    0000003440000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001558669Y",
+      "name": "DELABARRE",
+      "firstName": "FLAVIE",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 30600,
+        "valueEur": 306,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000454444400000001558669YDELABARRE           FLAVIE      2510    0000003060000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001572142W",
+      "name": "BARBON",
+      "firstName": "JOSIANE",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 2000,
+        "valueEur": 20,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000450884400000001572142WBARBON              JOSIANE     2510    0000000200000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001574662H",
+      "name": "COLMANT",
+      "firstName": "MAXIME",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 28600,
+        "valueEur": 286,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000666873800000001574662HCOLMANT             MAXIME      2510    0000002860000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001575845S",
+      "name": "MORENO",
+      "firstName": "MARIA",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 28600,
+        "valueEur": 286,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000716862200000001575845SMORENO              MARIA       2510    0000002860000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001583714P",
+      "name": "NOUVEL",
+      "firstName": "NICOLAS",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 15200,
+        "valueEur": 152,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000619251300000001583714PNOUVEL              NICOLAS     2510    0000001520000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001606593W",
+      "name": "ALCANTARA",
+      "firstName": "JAWED",
+      "year": 2025,
+      "month": 10,
+      "amount": {
+        "value": 18300,
+        "valueEur": 183,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        ALCANTARAJAWE00000001606593WALCANTARA           JAWED       2510    0000001830000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001351128A",
+      "name": "DEVEZE",
+      "firstName": "ROMEO",
+      "year": 2025,
+      "month": 5,
+      "amount": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 12400,
+        "valueEur": 124,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456                     00000001351128ADEVEZE              ROMEO       250525050000000000000000012400000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001499892P",
+      "name": "LAUSENAZ PIRE",
+      "firstName": "JUSTINE",
+      "year": 2025,
+      "month": 9,
+      "amount": {
+        "value": 1500,
+        "valueEur": 15,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        LAUSENAZ0000000000001499892PLAUSENAZ PIRE       JUSTINE     250925090000000150000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001523895H",
+      "name": "QUEUDOT",
+      "firstName": "SAHONA",
+      "year": 2025,
+      "month": 9,
+      "amount": {
+        "value": 22100,
+        "valueEur": 221,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000000000000000001523895HQUEUDOT             SAHONA      250925090000002210000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001561493L",
+      "name": "LEON-DUFOUR",
+      "firstName": "AVELINA",
+      "year": 2025,
+      "month": 9,
+      "amount": {
+        "value": 6100,
+        "valueEur": 61,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        000000000000000000001561493LLEON-DUFOUR         AVELINA     250925090000000610000000000000000                                            "
+    },
+    {
+      "prefix": "0602",
+      "typeCode": "999",
+      "department": "30",
+      "codeLessor": "P8456",
+      "codeCAF": "00000001606593W",
+      "name": "ALCANTARA",
+      "firstName": "JAWED",
+      "year": 2025,
+      "month": 8,
+      "amount": {
+        "value": 36000,
+        "valueEur": 360,
+        "currency": "EUR"
+      },
+      "retenue": {
+        "value": 0,
+        "valueEur": 0,
+        "currency": "EUR"
+      },
+      "rawLine": "0602999301P8456        ALCANTARAJAWE00000001606593WALCANTARA           JAWED       250825090000003600000000000000000                                            "
+    }
+  ],
+  "cafTransfersGrouped": {
+    "paiementsMensuels": [],
+    "regularisations": [
+      {
+        "prefix": "0602",
+        "typeCode": "999",
+        "department": "30",
+        "codeLessor": "P8456",
+        "codeCAF": "00000001351128A",
+        "name": "DEVEZE",
+        "firstName": "ROMEO",
+        "year": 2025,
+        "month": 5,
+        "amount": {
+          "value": 0,
+          "valueEur": 0,
+          "currency": "EUR"
+        },
+        "retenue": {
+          "value": 12400,
+          "valueEur": 124,
+          "currency": "EUR"
+        },
+        "rawLine": "0602999301P8456                     00000001351128ADEVEZE              ROMEO       250525050000000000000000012400000                                            "
+      },
+      {
+        "prefix": "0602",
+        "typeCode": "999",
+        "department": "30",
+        "codeLessor": "P8456",
+        "codeCAF": "00000001499892P",
+        "name": "LAUSENAZ PIRE",
+        "firstName": "JUSTINE",
+        "year": 2025,
+        "month": 9,
+        "amount": {
+          "value": 1500,
+          "valueEur": 15,
+          "currency": "EUR"
+        },
+        "retenue": {
+          "value": 0,
+          "valueEur": 0,
+          "currency": "EUR"
+        },
+        "rawLine": "0602999301P8456        LAUSENAZ0000000000001499892PLAUSENAZ PIRE       JUSTINE     250925090000000150000000000000000                                            "
+      },
+      {
+        "prefix": "0602",
+        "typeCode": "999",
+        "department": "30",
+        "codeLessor": "P8456",
+        "codeCAF": "00000001523895H",
+        "name": "QUEUDOT",
+        "firstName": "SAHONA",
+        "year": 2025,
+        "month": 9,
+        "amount": {
+          "value": 22100,
+          "valueEur": 221,
+          "currency": "EUR"
+        },
+        "retenue": {
+          "value": 0,
+          "valueEur": 0,
+          "currency": "EUR"
+        },
+        "rawLine": "0602999301P8456        000000000000000000001523895HQUEUDOT             SAHONA      250925090000002210000000000000000                                            "
+      },
+      {
+        "prefix": "0602",
+        "typeCode": "999",
+        "department": "30",
+        "codeLessor": "P8456",
+        "codeCAF": "00000001561493L",
+        "name": "LEON-DUFOUR",
+        "firstName": "AVELINA",
+        "year": 2025,
+        "month": 9,
+        "amount": {
+          "value": 6100,
+          "valueEur": 61,
+          "currency": "EUR"
+        },
+        "retenue": {
+          "value": 0,
+          "valueEur": 0,
+          "currency": "EUR"
+        },
+        "rawLine": "0602999301P8456        000000000000000000001561493LLEON-DUFOUR         AVELINA     250925090000000610000000000000000                                            "
+      },
+      {
+        "prefix": "0602",
+        "typeCode": "999",
+        "department": "30",
+        "codeLessor": "P8456",
+        "codeCAF": "00000001606593W",
+        "name": "ALCANTARA",
+        "firstName": "JAWED",
+        "year": 2025,
+        "month": 8,
+        "amount": {
+          "value": 36000,
+          "valueEur": 360,
+          "currency": "EUR"
+        },
+        "retenue": {
+          "value": 0,
+          "valueEur": 0,
+          "currency": "EUR"
+        },
+        "rawLine": "0602999301P8456        ALCANTARAJAWE00000001606593WALCANTARA           JAWED       250825090000003600000000000000000                                            "
+      }
+    ]
+  },
+  "totals": [
+    {
+      "prefix": "0802",
+      "totalAmount": {
+        "value": 1290075,
+        "valueEur": 12900.75,
+        "currency": "EUR"
+      },
+      "totalRetenue": {
+        "value": 1625,
+        "valueEur": 16.25,
+        "currency": "EUR"
+      },
+      "rawLine": "0802999301P8456                                                                      0000570000129007500000001625                                               "
+    },
+    {
+      "prefix": "0802",
+      "totalAmount": {
+        "value": 65700,
+        "valueEur": 657,
+        "currency": "EUR"
+      },
+      "totalRetenue": {
+        "value": 12400,
+        "valueEur": 124,
+        "currency": "EUR"
+      },
+      "rawLine": "0802999301P8456                                                                      0000050000006570000000012400                                               "
+    }
+  ],
+  "aggregatedTotals": {
+    "totalAmountSum": 1355775,
+    "totalAmountSumEur": 13557.75,
+    "totalRetenueSum": 14025,
+    "totalRetenueSumEur": 140.25,
+    "currency": "EUR",
+    "netAmount": 1341750,
+    "netAmountEur": 13417.5
+  }
+}
