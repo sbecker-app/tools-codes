@@ -1,0 +1,36 @@
+{
+  "mcpServers": {
+    "Atlassian-Remote": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote@latest", "https://mcp.atlassian.com/v1/sse"]
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp", "--transport", "stdio"]
+    },
+    "GitHub": {
+      "command": "pnpm",
+      "args": ["exec", "github-mcp-server-mcp"]
+    },
+    "Notion": {
+      "command": "npx",
+      "args": ["-y", "@notionhq/notion-mcp-server@latest"]
+    },
+    "fs": {
+      "command": "npx",
+      "args": ["-y", "@modelcontextprotocol/server-filesystem", "."]
+    },
+    "mongodb": {
+      "command": "npx",
+      "args": ["-y", "mongodb-mcp-server"]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["@playwright/mcp@latest", "--extension"]
+    },
+    "shell": {
+      "command": "node",
+      "args": ["./mcp/shell/index.js"]
+    }
+  }
+}
