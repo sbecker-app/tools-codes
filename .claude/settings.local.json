@@ -55,7 +55,8 @@
       "mcp__mongodb__aggregate",
       "Bash(bash:*)",
       "mcp__github__git-commit",
-      "mcp__github__git-status"
+      "mcp__github__git-status",
+      "Bash(pnpm list:*)"
     ],
     "deny": [
       "Bash(git commit:*)",

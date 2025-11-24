@@ -16,6 +16,15 @@
 | **Commandes système (bash, pnpm, node)** | `shell` | Local (`node`) | N/A | Exécution de commandes shell dans un environnement contrôlé. |
 | **Base MongoDB locale (dev)** | `mongodb` | Local (`npx`) | N/A | Accès et requêtes sur la base MongoDB via le MCP Mongo officiel. |
 | **Tests end-to-end et UI (Playwright)** | `playwright` | Local (`npx`) | N/A | Lancement de tests e2e et captures automatisées. |
+| **https://foncia-stark-pp.datadoghq.eu/** | `Datadog PP` | Web (manuel) | SSO | Logs et APM pré-production Millenium. |
+
+---
+
+## 🔗 URLs utiles
+
+| Environnement | URL | Description |
+|---------------|-----|-------------|
+| Datadog PP | https://foncia-stark-pp.datadoghq.eu/logs | Logs pré-production |
 
 ---
 

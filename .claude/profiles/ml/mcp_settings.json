@@ -27,6 +27,10 @@
     "shell": {
       "command": "node",
       "args": ["./mcp/shell/index.js"]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"]
     }
   }
 }
