@@ -8,25 +8,21 @@
       "command": "npx",
       "args": ["-y", "@upstash/context7-mcp", "--transport", "stdio"]
     },
-    "GitHub": {
+    "github": {
       "command": "pnpm",
       "args": ["exec", "github-mcp-server-mcp"]
-    },
-    "Notion": {
-      "command": "npx",
-      "args": ["-y", "@notionhq/notion-mcp-server@latest"]
-    },
-    "fs": {
-      "command": "npx",
-      "args": ["-y", "@modelcontextprotocol/server-filesystem", "."]
     },
     "mongodb": {
       "command": "npx",
       "args": ["-y", "mongodb-mcp-server"]
     },
-    "playwright": {
+    "filesystem": {
       "command": "npx",
-      "args": ["@playwright/mcp@latest", "--extension"]
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users/frx33355/Documents/dev/millenium"
+      ]
     },
     "shell": {
       "command": "node",
