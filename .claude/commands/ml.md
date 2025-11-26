@@ -25,6 +25,12 @@ En complément du CLAUDE.md principal, consulte également :
 3. **Vérifie** les versions réelles avant de répondre
 4. **Cherche** la documentation localement d'abord
 
+## ⚡ Commande PDATA
+
+```bash
+pnpm nx run plato:pdata-runner <chemin-relatif-du-script>
+```
+
 ---
 
 **Mode Agent ML activé** 🤖
