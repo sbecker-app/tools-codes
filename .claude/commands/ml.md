@@ -25,6 +25,15 @@ En complément du CLAUDE.md principal, consulte également :
 3. **Vérifie** les versions réelles avant de répondre
 4. **Cherche** la documentation localement d'abord
 
+## 🎫 Gestion des sujets / tickets PROD
+
+Quand on parle d'un sujet ou ticket PROD :
+
+1. **Lire le ticket Jira** : `PROD-XXXXX` via l'outil Atlassian
+2. **Chercher la ou les MRs associées** : dans GitLab ou liens du ticket
+3. **Consulter l'historique** : commentaires, transitions, pièces jointes
+4. **Lire la documentation locale** : chercher dans `/Users/frx33355/Documents/dev/mcp/docs/` les fichiers `PROD-XXXXX*.md` qui contiennent les notes de discussion et l'état des tests
+
 ## ⚡ Commande PDATA
 
 ```bash
