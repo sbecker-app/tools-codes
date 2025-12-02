@@ -1,5 +1,5 @@
 # 🤖 AGENTS_MCP_ROUTING.md
-> Résumé de routage MCP pour Codex  
+> Résumé de routage MCP pour Codex
 > Configuration basée sur ton `config.toml` (2025-11-04)
 
 ---
@@ -8,6 +8,7 @@
 
 | Contexte / Domaine détecté | MCP cible | Transport | Auth | Description |
 |-----------------------------|------------|------------|------|--------------|
+| **Contexte tickets PROD / notes dev** | `SQLite (markdown.db)` | Local (shell) | N/A | **PRIORITAIRE** : Interroger la base SQLite avant de charger les fichiers MD. Voir `AGENTS_context-db.md` |
 | **https://fonciamillenium.atlassian.net/**<br>ou clé Jira (ex : `PROD-27785`) | `Atlassian-Remote` | SSE (via `mcp-remote`) | Sans login (`rmcp_client`) | Lecture / édition de tickets Jira, pages Confluence, commentaires, transitions, etc. |
 | **https://github.com/** | `GitHub` | Local (`pnpm exec`) | N/A | Commandes Git locales : commits, branches, merges, logs, etc. |
 | **https://www.notion.so/** ou doc interne Notion | `Notion` | Local (`npx`) | N/A | Lecture / écriture de pages, commentaires, requêtes Notion API. |

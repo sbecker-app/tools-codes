@@ -76,7 +76,17 @@
       "mcp__mongodb__update-many",
       "Bash(/Users/frx33355/Library/pnpm/pnpm nx build service-lease-worker)",
       "Bash(npm run build:service-lease-worker:*)",
-      "mcp__playwright__browser_console_messages"
+      "mcp__playwright__browser_console_messages",
+      "mcp__Atlassian-Remote__search",
+      "mcp__github__git-diff",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__get-library-docs",
+      "mcp__filesystem__create_directory",
+      "Bash(mv:*)",
+      "Bash(sqlite3:*)",
+      "Bash(corepack enable)",
+      "Bash(corepack prepare:*)",
+      "Bash(docker info:*)"
     ],
     "deny": [
       "Bash(git commit:*)",

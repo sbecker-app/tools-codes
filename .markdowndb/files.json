@@ -1,0 +1,820 @@
+[
+  {
+    "_id": "f0fe0ef6a71500c89ce60acc4321f057666841e9",
+    "file_path": "docs/LOCAL_BO_ACCESS.md",
+    "extension": "md",
+    "url_path": "LOCAL_BO_ACCESS",
+    "filetype": "doc",
+    "metadata": {
+      "type": "doc",
+      "title": "Accès Local au BO Millenium",
+      "tags": [
+        "bo",
+        "local",
+        "dev",
+        "impersonate",
+        "datadog"
+      ],
+      "created": "2025-11-20T00:00:00.000Z",
+      "tasks": []
+    },
+    "tags": [
+      "bo",
+      "local",
+      "dev",
+      "impersonate",
+      "datadog"
+    ],
+    "links": [
+      {
+        "from": "LOCAL_BO_ACCESS.md",
+        "to": "https://foncia-stark-pp.datadoghq.eu/logs",
+        "toRaw": "https://foncia-stark-pp.datadoghq.eu/logs",
+        "text": "https://foncia-stark-pp.datadoghq.eu/logs",
+        "embed": false,
+        "internal": false
+      },
+      {
+        "from": "LOCAL_BO_ACCESS.md",
+        "to": "https://foncia-stark-prod.datadoghq.eu/logs",
+        "toRaw": "https://foncia-stark-prod.datadoghq.eu/logs",
+        "text": "https://foncia-stark-prod.datadoghq.eu/logs",
+        "embed": false,
+        "internal": false
+      }
+    ],
+    "tasks": []
+  },
+  {
+    "_id": "e821c18563ad9f4d85616f98fcf9130a3070de2d",
+    "file_path": "docs/PROD-27785.md",
+    "extension": "md",
+    "url_path": "PROD-27785",
+    "filetype": null,
+    "metadata": {
+      "ticket": "PROD-27785",
+      "title": "Integration PData Revue des Index dans la RCL",
+      "status": "en_cours",
+      "domain": "accounting",
+      "tags": [
+        "pdata",
+        "rcl",
+        "routing",
+        "legacy",
+        "allocation-key"
+      ],
+      "created": "2025-11-01T00:00:00.000Z",
+      "updated": "2025-11-24T00:00:00.000Z",
+      "tasks": [
+        {
+          "description": "Tests unitaires passent",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Tests d'integration passent",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Test manuel sur environnement de dev",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Verification que les cles PData existantes sont bien detectees",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Verification de la non-regression sur cles normales",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Review du code par un pair",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Documentation mise a jour",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Monitoring des logs pour erreurs de validation",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Verification des RCL creees en production",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Feedback des utilisateurs sur les montants",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Monitoring des performances (temps de creation RCL)",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        }
+      ]
+    },
+    "tags": [
+      "pdata",
+      "rcl",
+      "routing",
+      "legacy",
+      "allocation-key"
+    ],
+    "links": [
+      {
+        "from": "PROD-27785.md",
+        "to": "https://fonciamillenium.atlassian.net/browse/PROD-27785",
+        "toRaw": "https://fonciamillenium.atlassian.net/browse/PROD-27785",
+        "text": "PROD-27785",
+        "embed": false,
+        "internal": false
+      }
+    ],
+    "tasks": [
+      {
+        "description": "Tests unitaires passent",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Tests d'integration passent",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Test manuel sur environnement de dev",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Verification que les cles PData existantes sont bien detectees",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Verification de la non-regression sur cles normales",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Review du code par un pair",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Documentation mise a jour",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Monitoring des logs pour erreurs de validation",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Verification des RCL creees en production",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Feedback des utilisateurs sur les montants",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Monitoring des performances (temps de creation RCL)",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      }
+    ]
+  },
+  {
+    "_id": "20b85cd252fa54463a338e23c40ec7cfb0f6dad4",
+    "file_path": "docs/PROD-28299-DIFF.md",
+    "extension": "md",
+    "url_path": "PROD-28299-DIFF",
+    "filetype": "diff",
+    "metadata": {
+      "ticket": "PROD-28299",
+      "title": "Diff des modifications PROD-28299",
+      "status": "annexe",
+      "type": "diff",
+      "parent": "PROD-28299",
+      "tags": [
+        "diff",
+        "code-review"
+      ],
+      "created": "2025-11-28T00:00:00.000Z",
+      "tasks": []
+    },
+    "tags": [
+      "diff",
+      "code-review"
+    ],
+    "links": [
+      {
+        "from": "PROD-28299-DIFF.md",
+        "to": "PROD-28299.md",
+        "toRaw": "./PROD-28299.md",
+        "text": "PROD-28299.md",
+        "embed": false,
+        "internal": true
+      }
+    ],
+    "tasks": []
+  },
+  {
+    "_id": "205882f1ad7a8c9b10f64f2d326c7208d97ac172",
+    "file_path": "docs/PROD-28299.md",
+    "extension": "md",
+    "url_path": "PROD-28299",
+    "filetype": null,
+    "metadata": {
+      "ticket": "PROD-28299",
+      "title": "Contrôle sur la date de perte du mandat",
+      "status": "en_cours",
+      "domain": "gl",
+      "team": "amarillo",
+      "tags": [
+        "validation",
+        "mandat",
+        "service-lease",
+        "plato",
+        "myfoncia"
+      ],
+      "created": "2025-11-20T00:00:00.000Z",
+      "updated": "2025-11-28T00:00:00.000Z",
+      "tasks": [
+        {
+          "description": "Lecture du contexte du ticket",
+          "checked": true,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Analyse du code modifié",
+          "checked": true,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Investigation INC-106061 (lien avec myFoncia)",
+          "checked": true,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Création des tests unitaires et d'intégration",
+          "checked": true,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Exécuter les tests en local",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Validation en PP",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        }
+      ]
+    },
+    "tags": [
+      "validation",
+      "mandat",
+      "service-lease",
+      "plato",
+      "myfoncia"
+    ],
+    "links": [
+      {
+        "from": "PROD-28299.md",
+        "to": "https://fonciamillenium.atlassian.net/browse/PROD-28299",
+        "toRaw": "https://fonciamillenium.atlassian.net/browse/PROD-28299",
+        "text": "PROD-28299",
+        "embed": false,
+        "internal": false
+      },
+      {
+        "from": "PROD-28299.md",
+        "to": "LOCAL_BO_ACCESS.md",
+        "toRaw": "./LOCAL_BO_ACCESS.md",
+        "text": "LOCAL_BO_ACCESS.md",
+        "embed": false,
+        "internal": true
+      },
+      {
+        "from": "PROD-28299.md",
+        "to": "PROD-28299-DIFF.md",
+        "toRaw": "./PROD-28299-DIFF.md",
+        "text": "PROD-28299-DIFF.md",
+        "embed": false,
+        "internal": true
+      }
+    ],
+    "tasks": [
+      {
+        "description": "Lecture du contexte du ticket",
+        "checked": true,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Analyse du code modifié",
+        "checked": true,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Investigation INC-106061 (lien avec myFoncia)",
+        "checked": true,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Création des tests unitaires et d'intégration",
+        "checked": true,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Exécuter les tests en local",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Validation en PP",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      }
+    ]
+  },
+  {
+    "_id": "236ee50de0ac942966a200b1e777e2274c19f21e",
+    "file_path": "docs/PROD-28327.md",
+    "extension": "md",
+    "url_path": "PROD-28327",
+    "filetype": null,
+    "metadata": {
+      "ticket": "PROD-28327",
+      "title": "Analyse du Déséquilibre 4510/7000 et Impact GLI/Honoraires",
+      "status": "en_cours",
+      "domain": "gl",
+      "tags": [
+        "caf",
+        "lettrage",
+        "pdata",
+        "comptabilite",
+        4510,
+        7000
+      ],
+      "assignee": "BECKER Sebastien",
+      "created": "2025-11-24T00:00:00.000Z",
+      "updated": "2025-12-01T00:00:00.000Z",
+      "tasks": [
+        {
+          "description": "Creer le PDATA de correction ( PROD-28327.ts )",
+          "checked": true,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Corriger le PDATA reusable avec pagination ( letter-caf-payments.ts )",
+          "checked": true,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Corriger le bug du filtre MongoDB ($elemMatch)",
+          "checked": true,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Creer le script d'analyse des ecarts 7000 ( analyze-7000-gaps.ts )",
+          "checked": true,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Analyser l'origine de ORIGINE_INCONNUE",
+          "checked": true,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Verifier les ecarts pour FONCIA BRETAGNE",
+          "checked": true,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Ajouter parametre  includeCancelled  au script reusable (01 Dec 2025)",
+          "checked": true,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Executer le PDATA en mode DRY_RUN pour voir le rapport",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Valider le rapport avec le business",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Executer le PDATA en mode reel (DRY_RUN = false)",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Verifier que les ecarts sont corriges",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Monitorer les messages  caf-lettering  qui echouent (long terme)",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        }
+      ]
+    },
+    "tags": [
+      "caf",
+      "lettrage",
+      "pdata",
+      "comptabilite",
+      4510,
+      7000
+    ],
+    "links": [
+      {
+        "from": "PROD-28327.md",
+        "to": "https://fonciamillenium.atlassian.net/browse/PROD-28327",
+        "toRaw": "https://fonciamillenium.atlassian.net/browse/PROD-28327",
+        "text": "PROD-28327",
+        "embed": false,
+        "internal": false
+      },
+      {
+        "from": "PROD-28327.md",
+        "to": "PROD-28327_COMMANDES.md",
+        "toRaw": "./PROD-28327_COMMANDES.md",
+        "text": "PROD-28327_COMMANDES.md",
+        "embed": false,
+        "internal": true
+      }
+    ],
+    "tasks": [
+      {
+        "description": "Creer le PDATA de correction ( PROD-28327.ts )",
+        "checked": true,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Corriger le PDATA reusable avec pagination ( letter-caf-payments.ts )",
+        "checked": true,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Corriger le bug du filtre MongoDB ($elemMatch)",
+        "checked": true,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Creer le script d'analyse des ecarts 7000 ( analyze-7000-gaps.ts )",
+        "checked": true,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Analyser l'origine de ORIGINE_INCONNUE",
+        "checked": true,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Verifier les ecarts pour FONCIA BRETAGNE",
+        "checked": true,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Ajouter parametre  includeCancelled  au script reusable (01 Dec 2025)",
+        "checked": true,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Executer le PDATA en mode DRY_RUN pour voir le rapport",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Valider le rapport avec le business",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Executer le PDATA en mode reel (DRY_RUN = false)",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Verifier que les ecarts sont corriges",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Monitorer les messages  caf-lettering  qui echouent (long terme)",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      }
+    ]
+  }
+]

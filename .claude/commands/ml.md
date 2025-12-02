@@ -17,6 +17,7 @@ Ce fichier est la **source de vérité** principale pour l'agent ML.
 En complément du CLAUDE.md principal, consulte également :
 - `/Users/frx33355/Documents/dev/mcp/agents/AGENTS_mcp-routing.md` - Règles de routage MCP contextuel
 - `/Users/frx33355/Documents/dev/mcp/agents/AGENTS_doc-fetching.md` - Stratégie de recherche documentaire
+- `/Users/frx33355/Documents/dev/mcp/agents/AGENTS_context-db.md` - **Gestion du contexte via SQLite**
 
 ## 🧭 Comportement
 
@@ -29,10 +30,26 @@ En complément du CLAUDE.md principal, consulte également :
 
 Quand on parle d'un sujet ou ticket PROD :
 
-1. **Lire le ticket Jira** : `PROD-XXXXX` via l'outil Atlassian
-2. **Chercher la ou les MRs associées** : dans GitLab ou liens du ticket
-3. **Consulter l'historique** : commentaires, transitions, pièces jointes
-4. **Lire la documentation locale** : chercher dans `/Users/frx33355/Documents/dev/mcp/docs/` les fichiers `PROD-XXXXX*.md` qui contiennent les notes de discussion et l'état des tests
+1. **Interroger SQLite d'abord** (économie de tokens) :
+   ```bash
+   sqlite3 /Users/frx33355/Documents/dev/mcp/data/markdown.db \
+     "SELECT file_path, json_extract(metadata, '$.title'), json_extract(metadata, '$.status') FROM files WHERE json_extract(metadata, '$.ticket') = 'PROD-XXXXX'"
+   ```
+2. **Charger le fichier MD** seulement si nécessaire pour travailler dessus
+3. **Lire le ticket Jira** : `PROD-XXXXX` via l'outil Atlassian
+4. **Chercher la ou les MRs associées** : dans GitLab ou liens du ticket
+5. **Consulter l'historique** : commentaires, transitions, pièces jointes
+
+### Sauvegarde et ré-indexation automatique
+
+**RÈGLE** : Quand l'utilisateur demande de "sauvegarder", "enregistrer" ou "mettre à jour" un contexte/ticket dans `docs/*.md` :
+
+1. Écrire/modifier le fichier avec frontmatter YAML
+2. **Toujours** ré-indexer automatiquement après :
+   ```bash
+   cd /Users/frx33355/Documents/dev/mcp && npx mddb ./docs && mv markdown.db data/
+   ```
+3. Confirmer que l'indexation est faite
 
 ## ⚡ Commande PDATA
 
