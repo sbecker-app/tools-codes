@@ -3,6 +3,7 @@ type: doc
 title: Accès Local au BO Millenium
 tags: [bo, local, dev, impersonate, datadog]
 created: 2025-11-20
+updated: 2025-12-02
 ---
 
 # Accès Local au BO Millenium
@@ -25,6 +26,13 @@ Pour tester en tant qu'utilisateur d'un cabinet :
 2. Sélectionner le **cabinet** souhaité (ex: FONCIA AD IMMOBILIER - 0580)
 3. Sélectionner un **utilisateur** du cabinet
 4. Cliquer sur "Impersonate"
+
+### Profil par défaut pour les tests
+
+| Champ | Valeur |
+|-------|--------|
+| **Nom** | Melissa Domingues |
+| **Email** | melissa.domingues@foncia.com |
 
 ---
 
@@ -69,6 +77,9 @@ Pour tester en tant qu'utilisateur d'un cabinet :
 
 ### Requêtes utiles
 
-- **Lettrage CAF** : `caf-lettering`
-- **Erreurs Plato** : `service:plato @level:error`
-- **Service Lease** : `service:service-lease`
+| Service | Query |
+|---------|-------|
+| Lettrage CAF | `caf-lettering` |
+| Erreurs Plato | `service:plato @level:error` |
+| Service Lease | `service:service-lease` |
+| Service Lease Worker | `service:service-lease-worker` |

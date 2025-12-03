@@ -16,6 +16,7 @@
         "datadog"
       ],
       "created": "2025-11-20T00:00:00.000Z",
+      "updated": "2025-12-02T00:00:00.000Z",
       "tasks": []
     },
     "tags": [
@@ -26,6 +27,14 @@
       "datadog"
     ],
     "links": [
+      {
+        "from": "LOCAL_BO_ACCESS.md",
+        "to": "mailto:melissa.domingues@foncia.com",
+        "toRaw": "mailto:melissa.domingues@foncia.com",
+        "text": "melissa.domingues@foncia.com",
+        "embed": false,
+        "internal": true
+      },
       {
         "from": "LOCAL_BO_ACCESS.md",
         "to": "https://foncia-stark-pp.datadoghq.eu/logs",
@@ -309,41 +318,6 @@
     ]
   },
   {
-    "_id": "20b85cd252fa54463a338e23c40ec7cfb0f6dad4",
-    "file_path": "docs/PROD-28299-DIFF.md",
-    "extension": "md",
-    "url_path": "PROD-28299-DIFF",
-    "filetype": "diff",
-    "metadata": {
-      "ticket": "PROD-28299",
-      "title": "Diff des modifications PROD-28299",
-      "status": "annexe",
-      "type": "diff",
-      "parent": "PROD-28299",
-      "tags": [
-        "diff",
-        "code-review"
-      ],
-      "created": "2025-11-28T00:00:00.000Z",
-      "tasks": []
-    },
-    "tags": [
-      "diff",
-      "code-review"
-    ],
-    "links": [
-      {
-        "from": "PROD-28299-DIFF.md",
-        "to": "PROD-28299.md",
-        "toRaw": "./PROD-28299.md",
-        "text": "PROD-28299.md",
-        "embed": false,
-        "internal": true
-      }
-    ],
-    "tasks": []
-  },
-  {
     "_id": "205882f1ad7a8c9b10f64f2d326c7208d97ac172",
     "file_path": "docs/PROD-28299.md",
     "extension": "md",
@@ -352,18 +326,18 @@
     "metadata": {
       "ticket": "PROD-28299",
       "title": "Contrôle sur la date de perte du mandat",
-      "status": "en_cours",
+      "status": "implementation_complete",
       "domain": "gl",
       "team": "amarillo",
       "tags": [
         "validation",
         "mandat",
-        "service-lease",
         "plato",
-        "myfoncia"
+        "smarties",
+        "frontend-blocking"
       ],
       "created": "2025-11-20T00:00:00.000Z",
-      "updated": "2025-11-28T00:00:00.000Z",
+      "updated": "2025-12-03T00:00:00.000Z",
       "tasks": [
         {
           "description": "Lecture du contexte du ticket",
@@ -406,7 +380,17 @@
           "metadata": {}
         },
         {
-          "description": "Exécuter les tests en local",
+          "description": "Implémentation frontend (blocage des champs)",
+          "checked": true,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Exécuter les tests en local (Docker requis)",
           "checked": false,
           "created": null,
           "due": null,
@@ -424,15 +408,65 @@
           "scheduled": null,
           "start": null,
           "metadata": {}
+        },
+        {
+          "description": "Un utilisateur ne peut pas saisir de  finalClosingDate  si des lots actifs existent",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Un message d'erreur clair est affiché côté frontend",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "L'API retourne une erreur 400 avec un code explicite si tentative de bypass",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Les lots actifs sont définis par  endManagementDate  null/undefined ou dans le futur",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Tests unitaires et d'intégration couvrent les cas nominaux et edge cases",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
         }
       ]
     },
     "tags": [
       "validation",
       "mandat",
-      "service-lease",
       "plato",
-      "myfoncia"
+      "smarties",
+      "frontend-blocking"
     ],
     "links": [
       {
@@ -442,6 +476,14 @@
         "text": "PROD-28299",
         "embed": false,
         "internal": false
+      },
+      {
+        "from": "PROD-28299.md",
+        "to": "PROD-28299-DIFF.md",
+        "toRaw": "./PROD-28299-DIFF.md",
+        "text": "PROD-28299-DIFF.md",
+        "embed": false,
+        "internal": true
       },
       {
         "from": "PROD-28299.md",
@@ -502,7 +544,17 @@
         "metadata": {}
       },
       {
-        "description": "Exécuter les tests en local",
+        "description": "Implémentation frontend (blocage des champs)",
+        "checked": true,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Exécuter les tests en local (Docker requis)",
         "checked": false,
         "created": null,
         "due": null,
@@ -513,6 +565,56 @@
       },
       {
         "description": "Validation en PP",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Un utilisateur ne peut pas saisir de  finalClosingDate  si des lots actifs existent",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Un message d'erreur clair est affiché côté frontend",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "L'API retourne une erreur 400 avec un code explicite si tentative de bypass",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Les lots actifs sont définis par  endManagementDate  null/undefined ou dans le futur",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Tests unitaires et d'intégration couvrent les cas nominaux et edge cases",
         "checked": false,
         "created": null,
         "due": null,
@@ -816,5 +918,75 @@
         "metadata": {}
       }
     ]
+  },
+  {
+    "_id": "0710b2fe2fe606d08a8247f0fbf4d48daa6d397c",
+    "file_path": "docs/RULES_testing.md",
+    "extension": "md",
+    "url_path": "RULES_testing",
+    "filetype": "rules",
+    "metadata": {
+      "type": "rules",
+      "title": "Règles de Testing",
+      "tags": [
+        "testing",
+        "jest",
+        "vitest",
+        "best-practices"
+      ],
+      "created": "2025-12-02T00:00:00.000Z",
+      "tasks": []
+    },
+    "tags": [
+      "testing",
+      "jest",
+      "vitest",
+      "best-practices"
+    ],
+    "links": [],
+    "tasks": []
+  },
+  {
+    "_id": "915f7636a15141f4387d919fcc243c04e8b6bf27",
+    "file_path": "docs/snowflake-connection.md",
+    "extension": "md",
+    "url_path": "snowflake-connection",
+    "filetype": null,
+    "metadata": {
+      "title": "Configuration Snowflake ML",
+      "status": "annexe",
+      "domain": "tech",
+      "tags": [
+        "snowflake",
+        "datalake",
+        "config",
+        "ml"
+      ],
+      "created": "2024-12-03T00:00:00.000Z",
+      "updated": "2024-12-03T00:00:00.000Z",
+      "tasks": []
+    },
+    "tags": [
+      "snowflake",
+      "datalake",
+      "config",
+      "ml"
+    ],
+    "links": [],
+    "tasks": []
+  },
+  {
+    "_id": "1b65f0f4d5f662492ed649f1ae045afa316642dd",
+    "file_path": "docs/vision-plus.md",
+    "extension": "md",
+    "url_path": "vision-plus",
+    "filetype": null,
+    "metadata": {
+      "tags": [],
+      "tasks": []
+    },
+    "tags": [],
+    "links": [],
+    "tasks": []
   }
 ]

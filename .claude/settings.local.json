@@ -86,7 +86,21 @@
       "Bash(sqlite3:*)",
       "Bash(corepack enable)",
       "Bash(corepack prepare:*)",
-      "Bash(docker info:*)"
+      "Bash(docker info:*)",
+      "Bash(git reset:*)",
+      "Bash(brew tap:*)",
+      "Bash(brew install:*)",
+      "Bash(snow --version:*)",
+      "Bash(snow connection:*)",
+      "Bash(find:*)",
+      "Bash(claude mcp:*)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(uvx --help:*)",
+      "Bash(pip show:*)",
+      "Bash(pip install:*)",
+      "Bash(uvx:*)",
+      "Bash(git remote:*)",
+      "Bash(git symbolic-ref:*)"
     ],
     "deny": [
       "Bash(git commit:*)",
