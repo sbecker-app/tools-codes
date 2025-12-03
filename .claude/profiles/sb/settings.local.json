@@ -1,0 +1,52 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node --check:*)",
+      "WebSearch",
+      "Bash(npx tsc:*)",
+      "Bash(git checkout:*)",
+      "Bash(git restore:*)",
+      "Bash(git fetch:*)",
+      "Bash(git branch:*)",
+      "Bash(git add:*)",
+      "Bash(git reset:*)",
+      "Bash(tree:*)",
+      "Bash(pnpm install:*)",
+      "Bash(pnpm:*)",
+      "Bash(pnpm nx build:*)",
+      "Bash(pnpm nx test:*)",
+      "Bash(pnpm nx run:*)",
+      "Bash(npx tsx:*)",
+      "Bash(npx:*)",
+      "Bash(npm install:*)",
+      "Bash(node:*)",
+      "Bash(echo:*)",
+      "Bash(chmod:*)",
+      "Bash(mkdir:*)",
+      "Bash(mv:*)",
+      "Bash(curl:*)",
+      "Bash(bash:*)",
+      "Bash(find:*)",
+      "mcp__filesystem__read_media_file",
+      "mcp__filesystem__list_directory",
+      "mcp__filesystem__create_directory",
+      "mcp__github__git-commit",
+      "mcp__github__git-status",
+      "mcp__github__git-diff",
+      "mcp__context7__resolve-library-id",
+      "mcp__context7__get-library-docs",
+      "mcp__playwright__browser_navigate",
+      "mcp__playwright__browser_snapshot",
+      "mcp__playwright__browser_click",
+      "mcp__playwright__browser_close",
+      "mcp__playwright__browser_wait_for",
+      "mcp__playwright__browser_take_screenshot",
+      "mcp__playwright__browser_type"
+    ],
+    "deny": [
+      "Bash(git push --force:*)",
+      "Bash(rm -rf:*)"
+    ],
+    "ask": []
+  }
+}

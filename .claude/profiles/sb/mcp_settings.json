@@ -1,0 +1,32 @@
+{
+  "mcpServers": {
+    "Atlassian-Remote": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote@latest", "https://mcp.atlassian.com/v1/sse"]
+    },
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp", "--transport", "stdio"]
+    },
+    "github": {
+      "command": "pnpm",
+      "args": ["exec", "github-mcp-server-mcp"]
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": [
+        "-y",
+        "@modelcontextprotocol/server-filesystem",
+        "/Users/sbecker/Documents/sbecker/tools-codes/src/sb"
+      ]
+    },
+    "shell": {
+      "command": "node",
+      "args": ["./mcp/shell/index.js"]
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@latest"]
+    }
+  }
+}
