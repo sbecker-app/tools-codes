@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Stage Maker - Game 2.5D</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/styles/variables.css">
+  <link rel="stylesheet" href="/shared/styles/reset.css">
+  <link rel="stylesheet" href="/shared/styles/utilities.css">
+  <link rel="stylesheet" href="styles/stage-maker.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Left Toolbar -->
+    <aside class="toolbar-left">
+      <div class="toolbar-left__header">
+        <h1 class="toolbar-left__title">Stage Maker</h1>
+      </div>
+
+      <!-- Tools -->
+      <div class="tool-group">
+        <span class="tool-group__label">Outils</span>
+        <div class="tool-buttons">
+          <button class="tool-btn tool-btn--active" data-tool="select" data-tooltip="Sélection (V) - Sélectionner et déplacer les zones">
+            <span>⬚</span>
+          </button>
+          <button class="tool-btn" data-tool="zone" data-tooltip="Zone (Z) - Dessiner une nouvelle zone de navigation">
+            <span>▢</span>
+          </button>
+          <button class="tool-btn" data-tool="transition" data-tooltip="Transition (T) - Créer un lien entre deux zones">
+            <span>↗</span>
+          </button>
+          <button class="tool-btn" data-tool="sprite" data-tooltip="Sprite (S) - Placer un élément de décor">
+            <span>🖼</span>
+          </button>
+          <button class="tool-btn" data-tool="erase" data-tooltip="Effacer (E) - Supprimer un élément">
+            <span>🗑</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Zone Blocks (drag & drop) -->
+      <div class="tool-group">
+        <span class="tool-group__label">Blocs de zone</span>
+        <div class="zone-blocks">
+          <div class="zone-block zone-block--forward" draggable="true" data-mode="forward" data-tooltip="Zone Avancer - Glissez sur le canvas">
+            <span class="zone-block__icon">→</span>
+            <span class="zone-block__label">Avancer</span>
+          </div>
+          <div class="zone-block zone-block--backward" draggable="true" data-mode="backward" data-tooltip="Zone Reculer - Glissez sur le canvas">
+            <span class="zone-block__icon">←</span>
+            <span class="zone-block__label">Reculer</span>
+          </div>
+          <div class="zone-block zone-block--up" draggable="true" data-mode="up" data-tooltip="Zone Monter - Glissez sur le canvas">
+            <span class="zone-block__icon">↑</span>
+            <span class="zone-block__label">Monter</span>
+          </div>
+          <div class="zone-block zone-block--down" draggable="true" data-mode="down" data-tooltip="Zone Descendre - Glissez sur le canvas">
+            <span class="zone-block__icon">↓</span>
+            <span class="zone-block__label">Descendre</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Mode actif (pour dessin manuel) -->
+      <div class="tool-group">
+        <span class="tool-group__label">Mode actif</span>
+        <div class="mode-buttons">
+          <button class="mode-btn mode-btn--forward mode-btn--active" data-mode="forward" data-tooltip="Déplacement horizontal vers la droite">
+            → Avancer
+          </button>
+          <button class="mode-btn mode-btn--backward" data-mode="backward" data-tooltip="Déplacement horizontal vers la gauche">
+            ← Reculer
+          </button>
+          <button class="mode-btn mode-btn--up" data-mode="up" data-tooltip="Déplacement vertical vers le haut (escalade)">
+            ↑ Monter
+          </button>
+          <button class="mode-btn mode-btn--down" data-mode="down" data-tooltip="Déplacement vertical vers le bas (descente)">
+            ↓ Descendre
+          </button>
+        </div>
+      </div>
+
+      <!-- Layers -->
+      <div class="tool-group">
+        <span class="tool-group__label">Couche</span>
+        <select class="select" id="layer-select">
+          <option value="0">0 - Premier plan</option>
+          <option value="1" selected>1 - Sol</option>
+          <option value="2">2 - Décor proche</option>
+          <option value="3">3 - Décor milieu</option>
+          <option value="4">4 - Arrière-plan proche</option>
+          <option value="5">5 - Arrière-plan lointain</option>
+        </select>
+      </div>
+
+      <!-- Grid options -->
+      <div class="tool-group">
+        <span class="tool-group__label">Grille</span>
+        <label class="checkbox">
+          <input type="checkbox" id="grid-snap" checked> Magnétisme
+        </label>
+        <label class="checkbox">
+          <input type="checkbox" id="grid-show" checked> Afficher
+        </label>
+        <div class="form-row mt-sm">
+          <label class="text-sm">Taille:</label>
+          <input type="number" class="input input--small" id="grid-size" value="32" min="8" max="128" step="8">
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="tool-group mt-auto">
+        <button class="btn btn--secondary w-full mb-sm" id="btn-undo" disabled>
+          ↩ Annuler
+        </button>
+        <button class="btn btn--secondary w-full" id="btn-redo" disabled>
+          ↪ Refaire
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main Editor Area -->
+    <main class="editor-main">
+      <!-- Top bar -->
+      <header class="editor-header">
+        <div class="editor-header__left">
+          <select class="select" id="level-select">
+            <option value="">Nouveau niveau...</option>
+          </select>
+          <input type="text" class="input" id="level-name" placeholder="Nom du niveau" value="Niveau sans titre">
+        </div>
+
+        <div class="editor-header__tabs">
+          <button class="tab-btn tab-btn--active" data-view="macro">Vue Macro</button>
+          <button class="tab-btn" data-view="micro">Vue Micro</button>
+        </div>
+
+        <div class="editor-header__right">
+          <button class="btn btn--secondary" id="btn-test">
+            ▶ Tester
+          </button>
+          <button class="btn btn--primary" id="btn-export">
+            💾 Exporter
+          </button>
+        </div>
+      </header>
+
+      <!-- Canvas area -->
+      <div class="editor-canvas-container">
+        <!-- Macro view (Linear Timeline) -->
+        <div class="editor-view editor-view--macro" id="macro-view">
+          <div class="linear-view" id="linear-view">
+            <div class="linear-timeline" id="linear-timeline">
+              <!-- Zones will be rendered here -->
+              <div class="linear-drop-zone" id="add-zone-btn" data-tooltip="Glissez un bloc de zone ici ou cliquez pour ajouter">
+                +
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Micro view -->
+        <div class="editor-view editor-view--micro hidden" id="micro-view">
+          <canvas id="micro-canvas" width="1200" height="800"></canvas>
+          <div class="zoom-controls">
+            <button class="btn-icon" id="micro-zoom-out">−</button>
+            <span id="micro-zoom-level">100%</span>
+            <button class="btn-icon" id="micro-zoom-in">+</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status bar -->
+      <footer class="editor-status">
+        <span id="status-position">X: 0, Y: 0</span>
+        <span id="status-selection">Aucune sélection</span>
+        <span id="status-zones">Zones: 0</span>
+      </footer>
+    </main>
+
+    <!-- Right Panel -->
+    <aside class="panel-right">
+      <!-- Zone properties (shown when zone selected) -->
+      <div class="panel-section" id="zone-properties">
+        <h3 class="panel-section__title">Propriétés de zone</h3>
+        <div class="panel-section__content">
+          <div class="form-group">
+            <label>ID</label>
+            <input type="text" class="input" id="zone-id" readonly>
+          </div>
+          <div class="form-group">
+            <label>Mode</label>
+            <select class="select" id="zone-mode">
+              <option value="forward">Avancer</option>
+              <option value="backward">Reculer</option>
+              <option value="up">Monter</option>
+              <option value="down">Descendre</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Position</label>
+            <div class="form-row">
+              <input type="number" class="input input--small" id="zone-x" placeholder="X">
+              <input type="number" class="input input--small" id="zone-y" placeholder="Y">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>Taille</label>
+            <div class="form-row">
+              <input type="number" class="input input--small" id="zone-width" placeholder="Largeur">
+              <input type="number" class="input input--small" id="zone-height" placeholder="Hauteur">
+            </div>
+          </div>
+          <button class="btn btn--danger btn--small w-full mt-md" id="btn-delete-zone">
+            Supprimer zone
+          </button>
+        </div>
+      </div>
+
+      <!-- Parallax config -->
+      <div class="panel-section" id="parallax-config">
+        <h3 class="panel-section__title">Parallaxe</h3>
+        <div class="panel-section__content">
+          <div class="parallax-layers" id="parallax-layers">
+            <!-- Généré dynamiquement -->
+          </div>
+        </div>
+      </div>
+
+      <!-- Asset picker (micro view) -->
+      <div class="panel-section hidden" id="asset-picker">
+        <h3 class="panel-section__title">Assets</h3>
+        <div class="panel-section__content">
+          <input type="text" class="input mb-sm" placeholder="Rechercher..." id="asset-search">
+          <div class="asset-picker-grid" id="asset-picker-grid">
+            <!-- Rempli depuis le BackOffice -->
+            <p class="text-muted text-sm text-center p-md">
+              Importez des assets depuis le BackOffice
+            </p>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Export Modal -->
+  <div class="modal hidden" id="export-modal">
+    <div class="modal__overlay"></div>
+    <div class="modal__container">
+      <div class="modal__header">
+        <h2>Exporter le niveau</h2>
+        <button class="btn-icon modal__close">✕</button>
+      </div>
+      <div class="modal__content">
+        <div class="form-group">
+          <label>Nom du fichier</label>
+          <input type="text" class="input" id="export-filename" value="level_001.json">
+        </div>
+        <div class="form-group">
+          <label>Aperçu JSON</label>
+          <pre class="code-preview" id="export-preview"></pre>
+        </div>
+      </div>
+      <div class="modal__footer">
+        <button class="btn btn--secondary modal__close">Annuler</button>
+        <button class="btn btn--secondary" id="btn-copy-json">
+          📋 Copier
+        </button>
+        <button class="btn btn--primary" id="btn-download-json">
+          💾 Télécharger
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>

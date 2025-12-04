@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Game 2.5D</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/styles/variables.css">
+  <link rel="stylesheet" href="/shared/styles/reset.css">
+  <link rel="stylesheet" href="/shared/styles/utilities.css">
+  <link rel="stylesheet" href="styles/game.css">
+
+  <!-- Preload fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <style>
+    /* Critical CSS - chargé inline pour éviter le flash */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: linear-gradient(135deg, var(--bg-dark) 0%, var(--bg-medium) 100%);
+    }
+
+    #loading {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-md);
+      color: var(--text-secondary);
+    }
+
+    #loading.hidden {
+      display: none;
+    }
+
+    .loading-spinner {
+      width: 48px;
+      height: 48px;
+      border: 4px solid var(--surface-3);
+      border-top-color: var(--color-primary);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading screen -->
+  <div id="loading">
+    <div class="loading-spinner"></div>
+    <p>Chargement...</p>
+  </div>
+
+  <!-- Game container -->
+  <div id="game-container" class="hidden">
+    <!-- Canvas principal -->
+    <canvas id="game-canvas" width="1280" height="720"></canvas>
+
+    <!-- HUD overlay -->
+    <div id="hud" class="hud">
+      <!-- Rempli dynamiquement -->
+    </div>
+
+    <!-- Dialog box -->
+    <div id="dialog-box" class="dialog-box hidden">
+      <div class="dialog-box__portrait" id="dialog-portrait"></div>
+      <div class="dialog-box__content">
+        <p class="dialog-box__speaker" id="dialog-speaker"></p>
+        <p class="dialog-box__text" id="dialog-text"></p>
+      </div>
+      <button class="dialog-box__next" id="dialog-next">▶</button>
+    </div>
+  </div>
+
+  <!-- Menus (hors canvas) -->
+  <div id="menus">
+    <!-- Title Screen -->
+    <div id="title-screen" class="menu-screen hidden">
+      <h1 class="title-screen__title">Game 2.5D</h1>
+      <p class="title-screen__subtitle">Une aventure extraordinaire</p>
+      <div class="title-screen__buttons">
+        <button class="btn btn--primary btn--large" data-action="start">
+          Nouvelle Partie
+        </button>
+        <button class="btn btn--secondary" data-action="continue" disabled>
+          Continuer
+        </button>
+        <button class="btn btn--secondary" data-action="options">
+          Options
+        </button>
+      </div>
+    </div>
+
+    <!-- Character Select -->
+    <div id="character-select" class="menu-screen hidden">
+      <h2 class="character-select__title">Choisis ton personnage</h2>
+      <div class="character-select__grid">
+        <button class="character-card" data-character="prince">
+          <div class="character-card__preview" id="preview-prince">
+            <!-- Sprite preview -->
+          </div>
+          <span class="character-card__name">Le Prince</span>
+        </button>
+        <button class="character-card" data-character="princess">
+          <div class="character-card__preview" id="preview-princess">
+            <!-- Sprite preview -->
+          </div>
+          <span class="character-card__name">La Princesse</span>
+        </button>
+      </div>
+      <button class="btn btn--secondary mt-lg" data-action="back">
+        ← Retour
+      </button>
+    </div>
+
+    <!-- Pause Menu -->
+    <div id="pause-menu" class="menu-screen menu-screen--overlay hidden">
+      <div class="pause-menu__content">
+        <h2>Pause</h2>
+        <div class="pause-menu__buttons">
+          <button class="btn btn--primary" data-action="resume">Reprendre</button>
+          <button class="btn btn--secondary" data-action="options">Options</button>
+          <button class="btn btn--danger" data-action="quit">Quitter</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script type="module" src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,105 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - complementary [ref=e3]:
+    - generic [ref=e4]:
+      - heading "BackOffice" [level=1] [ref=e5]
+      - text: v0.1.0
+    - navigation [ref=e6]:
+      - link "📁 Bibliothèque" [ref=e7] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e8]: 📁
+        - text: Bibliothèque
+      - link "📥 Import" [ref=e9] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e10]: 📥
+        - text: Import
+      - link "📤 Export" [ref=e11] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e12]: 📤
+        - text: Export
+    - button "🌙 Thème" [ref=e14] [cursor=pointer]
+  - main [ref=e15]:
+    - generic [ref=e16]:
+      - textbox "Rechercher un asset..." [ref=e18]
+      - generic [ref=e19]:
+        - combobox [ref=e20] [cursor=pointer]:
+          - option "Toutes catégories" [selected]
+          - option "Personnages"
+          - option "Décors"
+          - option "Objets"
+          - option "Effets"
+          - option "UI"
+        - combobox [ref=e21] [cursor=pointer]:
+          - option "Tous thèmes" [selected]
+          - option "Forêt"
+          - option "Château"
+          - option "Caverne"
+          - option "Ciel"
+          - option "Village"
+        - combobox [ref=e22] [cursor=pointer]:
+          - option "Tous modes" [selected]
+          - option "Avancer"
+          - option "Reculer"
+          - option "Monter"
+          - option "Descendre"
+      - generic [ref=e23]:
+        - button "▦" [ref=e24] [cursor=pointer]:
+          - generic [ref=e25]: ▦
+        - button "☰" [ref=e26] [cursor=pointer]:
+          - generic [ref=e27]: ☰
+    - generic [ref=e28]:
+      - generic [ref=e30]:
+        - paragraph [ref=e31]: Aucun asset
+        - paragraph [ref=e32]: Importez des sprites pour commencer
+      - complementary [ref=e33]:
+        - generic [ref=e34]:
+          - heading "Détails" [level=3] [ref=e35]
+          - button "✕" [ref=e36] [cursor=pointer]
+        - generic [ref=e37]:
+          - generic [ref=e39]:
+            - generic [ref=e40]:
+              - generic [ref=e41]: Nom
+              - textbox [ref=e42]
+            - generic [ref=e43]:
+              - generic [ref=e44]: Catégorie
+              - combobox [ref=e45] [cursor=pointer]:
+                - option "Personnage" [selected]
+                - option "Décor"
+                - option "Objet"
+                - option "Effet"
+                - option "UI"
+            - generic [ref=e46]:
+              - generic [ref=e47]: Thème
+              - combobox [ref=e48] [cursor=pointer]:
+                - option "Forêt" [selected]
+                - option "Château"
+                - option "Caverne"
+                - option "Ciel"
+                - option "Village"
+            - generic [ref=e49]:
+              - generic [ref=e50]: Modes
+              - generic [ref=e51]:
+                - generic [ref=e52] [cursor=pointer]:
+                  - checkbox "Avancer" [ref=e53]
+                  - text: Avancer
+                - generic [ref=e54] [cursor=pointer]:
+                  - checkbox "Reculer" [ref=e55]
+                  - text: Reculer
+                - generic [ref=e56] [cursor=pointer]:
+                  - checkbox "Monter" [ref=e57]
+                  - text: Monter
+                - generic [ref=e58] [cursor=pointer]:
+                  - checkbox "Descendre" [ref=e59]
+                  - text: Descendre
+            - generic [ref=e60]:
+              - generic [ref=e61]: Tags
+              - textbox "tag1, tag2, tag3" [ref=e62]
+            - generic [ref=e63]:
+              - generic [ref=e64]: Dimensions
+              - paragraph [ref=e65]: "-"
+          - generic [ref=e66]:
+            - button "Sauvegarder" [ref=e67] [cursor=pointer]
+            - button "Supprimer" [ref=e68] [cursor=pointer]
+```

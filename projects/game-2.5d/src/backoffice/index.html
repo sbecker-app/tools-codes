@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="fr" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BackOffice - Game 2.5D</title>
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/shared/styles/variables.css">
+  <link rel="stylesheet" href="/shared/styles/reset.css">
+  <link rel="stylesheet" href="/shared/styles/utilities.css">
+  <link rel="stylesheet" href="styles/backoffice.css">
+</head>
+<body>
+  <div class="app-layout">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="sidebar__header">
+        <h1 class="sidebar__title">BackOffice</h1>
+        <span class="sidebar__version">v0.1.0</span>
+      </div>
+
+      <nav class="sidebar__nav">
+        <a href="#" class="sidebar__link sidebar__link--active" data-view="library">
+          <span class="sidebar__icon">📁</span>
+          Bibliothèque
+        </a>
+        <a href="#" class="sidebar__link" data-view="import">
+          <span class="sidebar__icon">📥</span>
+          Import
+        </a>
+        <a href="#" class="sidebar__link" data-view="export">
+          <span class="sidebar__icon">📤</span>
+          Export
+        </a>
+      </nav>
+
+      <div class="sidebar__footer">
+        <button class="btn btn--secondary btn--small w-full" id="btn-theme">
+          🌙 Thème
+        </button>
+      </div>
+    </aside>
+
+    <!-- Main content -->
+    <main class="main-content">
+      <!-- Toolbar -->
+      <header class="toolbar">
+        <div class="toolbar__search">
+          <input
+            type="text"
+            class="input"
+            placeholder="Rechercher un asset..."
+            id="search-input"
+          >
+        </div>
+
+        <div class="toolbar__filters">
+          <select class="select" id="filter-category">
+            <option value="">Toutes catégories</option>
+            <option value="character">Personnages</option>
+            <option value="decor">Décors</option>
+            <option value="object">Objets</option>
+            <option value="effect">Effets</option>
+            <option value="ui">UI</option>
+          </select>
+
+          <select class="select" id="filter-theme">
+            <option value="">Tous thèmes</option>
+            <option value="forest">Forêt</option>
+            <option value="castle">Château</option>
+            <option value="cave">Caverne</option>
+            <option value="sky">Ciel</option>
+            <option value="village">Village</option>
+          </select>
+
+          <select class="select" id="filter-mode">
+            <option value="">Tous modes</option>
+            <option value="forward">Avancer</option>
+            <option value="backward">Reculer</option>
+            <option value="up">Monter</option>
+            <option value="down">Descendre</option>
+          </select>
+        </div>
+
+        <div class="toolbar__view">
+          <button class="btn-icon btn-icon--active" data-view-mode="grid" title="Vue grille">
+            <span>▦</span>
+          </button>
+          <button class="btn-icon" data-view-mode="list" title="Vue liste">
+            <span>☰</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- Content area -->
+      <div class="content-area">
+        <!-- Asset grid -->
+        <div class="asset-grid" id="asset-grid">
+          <!-- Rempli dynamiquement -->
+          <div class="asset-grid__empty">
+            <p>Aucun asset</p>
+            <p class="text-muted text-sm">Importez des sprites pour commencer</p>
+          </div>
+        </div>
+
+        <!-- Detail panel -->
+        <aside class="detail-panel" id="detail-panel">
+          <div class="detail-panel__header">
+            <h3>Détails</h3>
+            <button class="btn-icon" id="close-detail">✕</button>
+          </div>
+
+          <div class="detail-panel__content">
+            <div class="detail-panel__preview" id="detail-preview">
+              <!-- Preview image -->
+            </div>
+
+            <div class="detail-panel__info">
+              <div class="form-group">
+                <label>Nom</label>
+                <input type="text" class="input" id="detail-name">
+              </div>
+
+              <div class="form-group">
+                <label>Catégorie</label>
+                <select class="select" id="detail-category">
+                  <option value="character">Personnage</option>
+                  <option value="decor">Décor</option>
+                  <option value="object">Objet</option>
+                  <option value="effect">Effet</option>
+                  <option value="ui">UI</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Thème</label>
+                <select class="select" id="detail-theme">
+                  <option value="forest">Forêt</option>
+                  <option value="castle">Château</option>
+                  <option value="cave">Caverne</option>
+                  <option value="sky">Ciel</option>
+                  <option value="village">Village</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label>Modes</label>
+                <div class="checkbox-group">
+                  <label class="checkbox">
+                    <input type="checkbox" value="forward"> Avancer
+                  </label>
+                  <label class="checkbox">
+                    <input type="checkbox" value="backward"> Reculer
+                  </label>
+                  <label class="checkbox">
+                    <input type="checkbox" value="up"> Monter
+                  </label>
+                  <label class="checkbox">
+                    <input type="checkbox" value="down"> Descendre
+                  </label>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label>Tags</label>
+                <input type="text" class="input" id="detail-tags" placeholder="tag1, tag2, tag3">
+              </div>
+
+              <div class="form-group">
+                <label>Dimensions</label>
+                <p class="text-muted" id="detail-dimensions">-</p>
+              </div>
+            </div>
+
+            <div class="detail-panel__actions">
+              <button class="btn btn--primary" id="btn-save-detail">
+                Sauvegarder
+              </button>
+              <button class="btn btn--danger" id="btn-delete-detail">
+                Supprimer
+              </button>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </main>
+  </div>
+
+  <!-- Import Modal -->
+  <div class="modal hidden" id="import-modal">
+    <div class="modal__overlay"></div>
+    <div class="modal__container">
+      <div class="modal__header">
+        <h2>Importer des assets</h2>
+        <button class="btn-icon modal__close">✕</button>
+      </div>
+      <div class="modal__content">
+        <div class="drop-zone" id="drop-zone">
+          <p>Glissez vos fichiers ici</p>
+          <p class="text-muted text-sm">ou</p>
+          <input type="file" id="file-input" multiple accept="image/*" hidden>
+          <button class="btn btn--secondary" id="btn-browse">
+            Parcourir
+          </button>
+        </div>
+        <div class="import-preview" id="import-preview">
+          <!-- Preview des fichiers à importer -->
+        </div>
+      </div>
+      <div class="modal__footer">
+        <button class="btn btn--secondary modal__close">Annuler</button>
+        <button class="btn btn--primary" id="btn-confirm-import" disabled>
+          Importer
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="main.js"></script>
+</body>
+</html>

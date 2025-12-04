@@ -1,0 +1,111 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - complementary [ref=e3]:
+    - generic [ref=e4]:
+      - heading "BackOffice" [level=1] [ref=e5]
+      - text: v0.1.0
+    - navigation [ref=e6]:
+      - link "📁 Bibliothèque" [ref=e7] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e8]: 📁
+        - text: Bibliothèque
+      - link "📥 Import" [ref=e9] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e10]: 📥
+        - text: Import
+      - link "📤 Export" [ref=e11] [cursor=pointer]:
+        - /url: "#"
+        - generic [ref=e12]: 📤
+        - text: Export
+    - button "🌙 Thème" [ref=e14] [cursor=pointer]
+  - main [ref=e15]:
+    - generic [ref=e16]:
+      - textbox "Rechercher un asset..." [ref=e18]
+      - generic [ref=e19]:
+        - combobox [ref=e20] [cursor=pointer]:
+          - option "Toutes catégories" [selected]
+          - option "Personnages"
+          - option "Décors"
+          - option "Objets"
+          - option "Effets"
+          - option "UI"
+        - combobox [ref=e21] [cursor=pointer]:
+          - option "Tous thèmes" [selected]
+          - option "Forêt"
+          - option "Château"
+          - option "Caverne"
+          - option "Ciel"
+          - option "Village"
+        - combobox [ref=e22] [cursor=pointer]:
+          - option "Tous modes" [selected]
+          - option "Avancer"
+          - option "Reculer"
+          - option "Monter"
+          - option "Descendre"
+      - generic [ref=e23]:
+        - button "▦" [ref=e24] [cursor=pointer]:
+          - generic [ref=e25]: ▦
+        - button "☰" [ref=e26] [cursor=pointer]:
+          - generic [ref=e27]: ☰
+    - generic [ref=e28]:
+      - generic [ref=e30] [cursor=pointer]:
+        - img "Test Sprite" [ref=e32]
+        - generic [ref=e33]:
+          - paragraph [ref=e34]: Test Sprite
+          - paragraph [ref=e35]:
+            - generic [ref=e36]: sprite
+            - generic [ref=e37]: •
+            - generic [ref=e38]: undefined
+      - complementary [ref=e39]:
+        - generic [ref=e40]:
+          - heading "Détails" [level=3] [ref=e41]
+          - button "✕" [ref=e42] [cursor=pointer]
+        - generic [ref=e43]:
+          - img "Test Sprite" [ref=e45]
+          - generic [ref=e46]:
+            - generic [ref=e47]:
+              - generic [ref=e48]: Nom
+              - textbox [ref=e49]: Test Sprite
+            - generic [ref=e50]:
+              - generic [ref=e51]: Catégorie
+              - combobox [ref=e52] [cursor=pointer]:
+                - option "Personnage"
+                - option "Décor"
+                - option "Objet"
+                - option "Effet"
+                - option "UI"
+            - generic [ref=e53]:
+              - generic [ref=e54]: Thème
+              - combobox [ref=e55] [cursor=pointer]:
+                - option "Forêt"
+                - option "Château"
+                - option "Caverne"
+                - option "Ciel"
+                - option "Village"
+            - generic [ref=e56]:
+              - generic [ref=e57]: Modes
+              - generic [ref=e58]:
+                - generic [ref=e59] [cursor=pointer]:
+                  - checkbox "Avancer" [ref=e60]
+                  - text: Avancer
+                - generic [ref=e61] [cursor=pointer]:
+                  - checkbox "Reculer" [ref=e62]
+                  - text: Reculer
+                - generic [ref=e63] [cursor=pointer]:
+                  - checkbox "Monter" [ref=e64]
+                  - text: Monter
+                - generic [ref=e65] [cursor=pointer]:
+                  - checkbox "Descendre" [ref=e66]
+                  - text: Descendre
+            - generic [ref=e67]:
+              - generic [ref=e68]: Tags
+              - textbox "tag1, tag2, tag3" [ref=e69]
+            - generic [ref=e70]:
+              - generic [ref=e71]: Dimensions
+              - paragraph [ref=e72]: 64 × 64 px
+          - generic [ref=e73]:
+            - button "Sauvegarder" [ref=e74] [cursor=pointer]
+            - button "Supprimer" [ref=e75] [cursor=pointer]
+```

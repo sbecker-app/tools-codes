@@ -1,0 +1,226 @@
+/**
+ * Variables CSS globales - Game 2.5D
+ * Utilisées par toutes les applications
+ */
+
+:root {
+  /* ═══════════════════════════════════════════════════════════
+     COULEURS
+     ═══════════════════════════════════════════════════════════ */
+
+  /* Primary */
+  --color-primary: #4a90d9;
+  --color-primary-light: #6ba3e0;
+  --color-primary-dark: #3a7bc8;
+
+  /* Secondary */
+  --color-secondary: #2ecc71;
+  --color-secondary-light: #54d98c;
+  --color-secondary-dark: #27ae60;
+
+  /* Danger */
+  --color-danger: #e74c3c;
+  --color-danger-light: #ec7063;
+  --color-danger-dark: #c0392b;
+
+  /* Warning */
+  --color-warning: #f39c12;
+  --color-warning-light: #f5b041;
+  --color-warning-dark: #d68910;
+
+  /* Info */
+  --color-info: #3498db;
+  --color-info-light: #5dade2;
+  --color-info-dark: #2980b9;
+
+  /* Backgrounds */
+  --bg-dark: #1a1a2e;
+  --bg-medium: #16213e;
+  --bg-light: #0f3460;
+  --bg-lighter: #1f4287;
+
+  /* Surfaces */
+  --surface-1: #1e1e2f;
+  --surface-2: #252538;
+  --surface-3: #2d2d42;
+  --surface-hover: #35354d;
+
+  /* Text */
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --text-muted: #6c6c7e;
+  --text-inverse: #1a1a2e;
+
+  /* Borders */
+  --border-color: #3d3d56;
+  --border-color-light: #4d4d6a;
+
+  /* ═══════════════════════════════════════════════════════════
+     THÈMES DE JEU
+     ═══════════════════════════════════════════════════════════ */
+
+  /* Forest */
+  --theme-forest-primary: #2d5a27;
+  --theme-forest-secondary: #8bc34a;
+  --theme-forest-bg: #1a3a17;
+
+  /* Castle */
+  --theme-castle-primary: #5c6370;
+  --theme-castle-secondary: #ffd700;
+  --theme-castle-bg: #2c3e50;
+
+  /* Cave */
+  --theme-cave-primary: #6a1b9a;
+  --theme-cave-secondary: #00bcd4;
+  --theme-cave-bg: #1a0a2e;
+
+  /* Sky */
+  --theme-sky-primary: #64b5f6;
+  --theme-sky-secondary: #fff59d;
+  --theme-sky-bg: #87ceeb;
+
+  /* ═══════════════════════════════════════════════════════════
+     ESPACEMENT
+     ═══════════════════════════════════════════════════════════ */
+
+  --space-xxs: 2px;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+  --space-xl: 32px;
+  --space-xxl: 48px;
+  --space-xxxl: 64px;
+
+  /* ═══════════════════════════════════════════════════════════
+     TYPOGRAPHIE
+     ═══════════════════════════════════════════════════════════ */
+
+  --font-family-base: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-family-mono: 'Fira Code', 'Consolas', monospace;
+  --font-family-game: 'Press Start 2P', var(--font-family-base);
+
+  --font-size-xs: 0.75rem;    /* 12px */
+  --font-size-sm: 0.875rem;   /* 14px */
+  --font-size-md: 1rem;       /* 16px */
+  --font-size-lg: 1.125rem;   /* 18px */
+  --font-size-xl: 1.25rem;    /* 20px */
+  --font-size-2xl: 1.5rem;    /* 24px */
+  --font-size-3xl: 2rem;      /* 32px */
+  --font-size-4xl: 2.5rem;    /* 40px */
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  --line-height-tight: 1.25;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.75;
+
+  /* ═══════════════════════════════════════════════════════════
+     BORDURES & ARRONDIS
+     ═══════════════════════════════════════════════════════════ */
+
+  --radius-none: 0;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-full: 9999px;
+
+  --border-width-thin: 1px;
+  --border-width-medium: 2px;
+  --border-width-thick: 4px;
+
+  /* ═══════════════════════════════════════════════════════════
+     OMBRES
+     ═══════════════════════════════════════════════════════════ */
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.4);
+  --shadow-xl: 0 20px 25px rgba(0, 0, 0, 0.5);
+  --shadow-inner: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+  --shadow-glow: 0 0 20px rgba(74, 144, 217, 0.4);
+
+  /* ═══════════════════════════════════════════════════════════
+     TRANSITIONS & ANIMATIONS
+     ═══════════════════════════════════════════════════════════ */
+
+  --transition-fast: 150ms ease;
+  --transition-normal: 250ms ease;
+  --transition-slow: 400ms ease;
+  --transition-bounce: 500ms cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  /* ═══════════════════════════════════════════════════════════
+     Z-INDEX
+     ═══════════════════════════════════════════════════════════ */
+
+  --z-base: 0;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-overlay: 300;
+  --z-modal: 400;
+  --z-popover: 500;
+  --z-tooltip: 600;
+  --z-toast: 700;
+
+  /* ═══════════════════════════════════════════════════════════
+     TAILLES DE COMPOSANTS
+     ═══════════════════════════════════════════════════════════ */
+
+  --size-icon-sm: 16px;
+  --size-icon-md: 24px;
+  --size-icon-lg: 32px;
+
+  --size-button-sm: 32px;
+  --size-button-md: 40px;
+  --size-button-lg: 48px;
+
+  --size-input-height: 40px;
+  --size-sidebar-width: 280px;
+  --size-toolbar-height: 48px;
+
+  /* ═══════════════════════════════════════════════════════════
+     GAME SPECIFIC
+     ═══════════════════════════════════════════════════════════ */
+
+  --game-canvas-width: 1280px;
+  --game-canvas-height: 720px;
+  --game-tile-size: 32px;
+  --game-grid-size: 16px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   DARK MODE (défaut)
+   ═══════════════════════════════════════════════════════════════ */
+
+[data-theme="dark"] {
+  /* Déjà les valeurs par défaut */
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   LIGHT MODE (optionnel pour BO/Stage Maker)
+   ═══════════════════════════════════════════════════════════════ */
+
+[data-theme="light"] {
+  --bg-dark: #f5f5f5;
+  --bg-medium: #e8e8e8;
+  --bg-light: #ffffff;
+
+  --surface-1: #ffffff;
+  --surface-2: #f8f8f8;
+  --surface-3: #f0f0f0;
+  --surface-hover: #e8e8e8;
+
+  --text-primary: #1a1a2e;
+  --text-secondary: #4a4a5a;
+  --text-muted: #8c8c9e;
+
+  --border-color: #d0d0d8;
+  --border-color-light: #e0e0e8;
+
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.15);
+}

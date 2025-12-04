@@ -1,0 +1,115 @@
+# Page snapshot
+
+```yaml
+- generic [ref=e2]:
+  - complementary [ref=e3]:
+    - heading "Stage Maker" [level=1] [ref=e5]
+    - generic [ref=e6]:
+      - generic [ref=e7]: Outils
+      - generic [ref=e8]:
+        - button "⬚" [ref=e9] [cursor=pointer]:
+          - generic [ref=e10]: ⬚
+        - button "▢" [ref=e11] [cursor=pointer]:
+          - generic [ref=e12]: ▢
+        - button "↗" [ref=e13] [cursor=pointer]:
+          - generic [ref=e14]: ↗
+        - button "🖼" [ref=e15] [cursor=pointer]:
+          - generic [ref=e16]: 🖼
+        - button "🗑" [ref=e17] [cursor=pointer]:
+          - generic [ref=e18]: 🗑
+    - generic [ref=e19]:
+      - generic [ref=e20]: Blocs de zone
+      - generic [ref=e21]:
+        - generic [ref=e22]:
+          - generic [ref=e23]: →
+          - generic [ref=e24]: Avancer
+        - generic [ref=e25]:
+          - generic [ref=e26]: ←
+          - generic [ref=e27]: Reculer
+        - generic [ref=e28]:
+          - generic [ref=e29]: ↑
+          - generic [ref=e30]: Monter
+        - generic [ref=e31]:
+          - generic [ref=e32]: ↓
+          - generic [ref=e33]: Descendre
+    - generic [ref=e34]:
+      - generic [ref=e35]: Mode actif
+      - generic [ref=e36]:
+        - button "→ Avancer" [ref=e37] [cursor=pointer]
+        - button "← Reculer" [ref=e38] [cursor=pointer]
+        - button "↑ Monter" [ref=e39] [cursor=pointer]
+        - button "↓ Descendre" [ref=e40] [cursor=pointer]
+    - generic [ref=e41]:
+      - generic [ref=e42]: Couche
+      - combobox [ref=e43]:
+        - option "0 - Premier plan"
+        - option "1 - Sol" [selected]
+        - option "2 - Décor proche"
+        - option "3 - Décor milieu"
+        - option "4 - Arrière-plan proche"
+        - option "5 - Arrière-plan lointain"
+    - generic [ref=e44]:
+      - generic [ref=e45]: Grille
+      - generic [ref=e46] [cursor=pointer]:
+        - checkbox "Magnétisme" [checked] [ref=e47]
+        - text: Magnétisme
+      - generic [ref=e48] [cursor=pointer]:
+        - checkbox "Afficher" [checked] [ref=e49]
+        - text: Afficher
+      - generic [ref=e50]:
+        - generic [ref=e51]: "Taille:"
+        - spinbutton [ref=e52]: "32"
+    - generic [ref=e53]:
+      - button "↩ Annuler" [disabled] [ref=e54]
+      - button "↪ Refaire" [disabled] [ref=e55]
+  - main [ref=e56]:
+    - generic [ref=e57]:
+      - generic [ref=e58]:
+        - combobox [ref=e59]:
+          - option "Nouveau niveau..." [selected]
+        - textbox "Nom du niveau" [ref=e60]: Niveau sans titre
+      - generic [ref=e61]:
+        - button "Vue Macro" [ref=e62] [cursor=pointer]
+        - button "Vue Micro" [ref=e63] [cursor=pointer]
+      - generic [ref=e64]:
+        - button "▶ Tester" [ref=e65] [cursor=pointer]
+        - button "💾 Exporter" [ref=e66] [cursor=pointer]
+    - generic [ref=e70]:
+      - generic [ref=e71] [cursor=pointer]:
+        - generic [ref=e72]: →
+        - generic [ref=e73]: Avancer
+        - generic [ref=e74]: "#1764808959937"
+        - generic [ref=e75]: ⋮
+      - generic [ref=e76]: ›
+      - generic [ref=e77] [cursor=pointer]: +
+    - generic [ref=e78]:
+      - generic [ref=e79]: "X: 0, Y: 0"
+      - generic [ref=e80]: "Sélection: zone_1764808959937"
+      - generic [ref=e81]: "Zones: 1"
+  - complementary [ref=e82]:
+    - generic [ref=e83]:
+      - heading "Propriétés de zone" [level=3] [ref=e84] [cursor=pointer]
+      - generic [ref=e85]:
+        - generic [ref=e86]:
+          - generic [ref=e87]: ID
+          - textbox [ref=e88]: zone_1764808959937
+        - generic [ref=e89]:
+          - generic [ref=e90]: Mode
+          - combobox [ref=e91]:
+            - option "Avancer" [selected]
+            - option "Reculer"
+            - option "Monter"
+            - option "Descendre"
+        - generic [ref=e92]:
+          - generic [ref=e93]: Position
+          - generic [ref=e94]:
+            - spinbutton [ref=e95]
+            - spinbutton [ref=e96]
+        - generic [ref=e97]:
+          - generic [ref=e98]: Taille
+          - generic [ref=e99]:
+            - spinbutton [ref=e100]: "100"
+            - spinbutton [ref=e101]
+        - button "Supprimer zone" [ref=e102] [cursor=pointer]
+    - heading "Parallaxe" [level=3] [ref=e104] [cursor=pointer]
+```

@@ -100,7 +100,9 @@
       "Bash(pip install:*)",
       "Bash(uvx:*)",
       "Bash(git remote:*)",
-      "Bash(git symbolic-ref:*)"
+      "Bash(git symbolic-ref:*)",
+      "mcp__filesystem__directory_tree",
+      "Bash(npm init:*)"
     ],
     "deny": [
       "Bash(git commit:*)",
