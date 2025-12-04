@@ -1,0 +1,3087 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadow Drift — Level Creator (Macro Mode)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --bg-dark: #0a0a0f;
+            --bg-panel: #12121a;
+            --bg-hover: #1a1a24;
+            --border: #2a2a3a;
+            --text: #e0e0e0;
+            --text-dim: #666;
+            --accent: #4a9eff;
+            --accent-hover: #6ab0ff;
+            --success: #44dd88;
+            --warning: #ffaa44;
+            --danger: #ff4466;
+            --purple: #aa66ff;
+        }
+        
+        body {
+            background: var(--bg-dark);
+            color: var(--text);
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* LAYOUT                                                          */
+        /* ═══════════════════════════════════════════════════════════════ */
+        
+        .app-container {
+            display: grid;
+            grid-template-rows: 50px 1fr 30px;
+            grid-template-columns: 220px 1fr 280px;
+            grid-template-areas:
+                "header header header"
+                "toolbar canvas properties"
+                "status status status";
+            height: 100vh;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* HEADER                                                          */
+        /* ═══════════════════════════════════════════════════════════════ */
+        
+        .header {
+            grid-area: header;
+            background: var(--bg-panel);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 20px;
+        }
+        
+        .logo {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--accent);
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .mode-badge {
+            background: var(--accent);
+            color: #000;
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .level-name {
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            padding: 6px 12px;
+            border-radius: 4px;
+            color: var(--text);
+            font-size: 13px;
+            width: 200px;
+        }
+        
+        .header-actions {
+            margin-left: auto;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .btn {
+            background: var(--bg-hover);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px 16px;
+            border-radius: 4px;
+            font-size: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.2s;
+        }
+        
+        .btn:hover {
+            background: var(--border);
+        }
+        
+        .btn-primary {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #000;
+        }
+        
+        .btn-primary:hover {
+            background: var(--accent-hover);
+        }
+        
+        .btn-success {
+            background: var(--success);
+            border-color: var(--success);
+            color: #000;
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+            border-color: var(--warning);
+            color: #000;
+        }
+        
+        .btn-warning:hover {
+            background: #ffbb66;
+        }
+        
+        .btn-danger {
+            background: var(--danger);
+            border-color: var(--danger);
+            color: #fff;
+        }
+        
+        .btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* TOOLBAR                                                         */
+        /* ═══════════════════════════════════════════════════════════════ */
+        
+        .toolbar {
+            grid-area: toolbar;
+            background: var(--bg-panel);
+            border-right: 1px solid var(--border);
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .tool-section h3 {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-dim);
+            margin-bottom: 10px;
+        }
+        
+        .tool-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 6px;
+        }
+        
+        .tool-btn {
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 10px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 4px;
+            transition: all 0.2s;
+        }
+        
+        .tool-btn:hover {
+            background: var(--bg-hover);
+            border-color: var(--accent);
+        }
+        
+        .tool-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #000;
+        }
+        
+        .tool-btn .icon {
+            font-size: 20px;
+        }
+        
+        .tool-btn .label {
+            font-size: 9px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .tool-btn .shortcut {
+            font-size: 9px;
+            opacity: 0.5;
+        }
+        
+        /* Navigation Direction Picker */
+        .nav-picker {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+            padding: 10px;
+            background: var(--bg-dark);
+            border-radius: 8px;
+        }
+        
+        .nav-picker .nav-btn {
+            aspect-ratio: 1;
+            background: var(--bg-hover);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            transition: all 0.2s;
+        }
+        
+        .nav-picker .nav-btn:hover {
+            background: var(--border);
+        }
+        
+        .nav-picker .nav-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #000;
+        }
+        
+        .nav-picker .nav-btn.disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+        
+        .nav-picker .nav-btn[data-dir="forward"] { grid-column: 3; grid-row: 2; }
+        .nav-picker .nav-btn[data-dir="backward"] { grid-column: 1; grid-row: 2; }
+        .nav-picker .nav-btn[data-dir="up"] { grid-column: 2; grid-row: 1; }
+        .nav-picker .nav-btn[data-dir="down"] { grid-column: 2; grid-row: 3; }
+        .nav-picker .nav-btn[data-dir="junction"] { grid-column: 2; grid-row: 2; }
+        
+        /* Grid Size */
+        .grid-size-control {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        
+        .grid-size-control input {
+            width: 50px;
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 6px;
+            color: var(--text);
+            text-align: center;
+        }
+        
+        .grid-size-control span {
+            color: var(--text-dim);
+            font-size: 12px;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* CANVAS AREA                                                     */
+        /* ═══════════════════════════════════════════════════════════════ */
+        
+        .canvas-area {
+            grid-area: canvas;
+            background: var(--bg-dark);
+            overflow: auto;
+            padding: 30px;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        
+        .grid-container {
+            background: #080810;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            padding: 10px;
+            display: inline-block;
+        }
+        
+        .macro-grid {
+            display: grid;
+            gap: 2px;
+            background: var(--border);
+        }
+        
+        .grid-cell {
+            width: 80px;
+            height: 60px;
+            background: #0c0c14;
+            border-radius: 4px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            transition: all 0.15s;
+        }
+        
+        .grid-cell:hover {
+            background: #14141f;
+        }
+        
+        .grid-cell.selected {
+            outline: 2px solid var(--accent);
+            outline-offset: -2px;
+        }
+        
+        .grid-cell.has-navigation {
+            background: #1a1a28;
+        }
+        
+        /* Navigation arrows */
+        .grid-cell .nav-arrow {
+            font-size: 24px;
+            color: var(--text);
+            opacity: 0.8;
+        }
+        
+        .grid-cell[data-nav="forward"] .nav-arrow { color: var(--accent); }
+        .grid-cell[data-nav="backward"] .nav-arrow { color: var(--purple); }
+        .grid-cell[data-nav="up"] .nav-arrow { color: var(--success); }
+        .grid-cell[data-nav="down"] .nav-arrow { color: var(--warning); }
+        .grid-cell[data-nav="junction"] .nav-arrow { color: #fff; }
+        
+        /* Special markers */
+        .grid-cell .marker {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+        
+        .grid-cell .marker.spawn {
+            background: var(--success);
+            color: #000;
+        }
+        
+        .grid-cell .marker.exit {
+            background: var(--danger);
+            color: #fff;
+        }
+        
+        .grid-cell .marker.checkpoint {
+            background: var(--warning);
+            color: #000;
+        }
+        
+        .grid-cell .marker.secret {
+            background: var(--purple);
+            color: #fff;
+        }
+        
+        /* Cell coordinates */
+        .grid-cell .coords {
+            position: absolute;
+            bottom: 2px;
+            left: 4px;
+            font-size: 8px;
+            color: var(--text-dim);
+            opacity: 0.5;
+        }
+        
+        /* Has micro content indicator */
+        .grid-cell .micro-indicator {
+            position: absolute;
+            bottom: 2px;
+            right: 4px;
+            width: 6px;
+            height: 6px;
+            background: var(--accent);
+            border-radius: 50%;
+        }
+        
+        /* Connection lines (visual) */
+        .grid-cell::before {
+            content: '';
+            position: absolute;
+            background: var(--accent);
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        
+        .grid-cell.connected-right::after {
+            content: '';
+            position: absolute;
+            right: -4px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 2px;
+            background: var(--accent);
+            opacity: 0.5;
+        }
+        
+        .grid-cell.connected-down::before {
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 6px;
+            opacity: 0.5;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* PROPERTIES PANEL                                                */
+        /* ═══════════════════════════════════════════════════════════════ */
+        
+        .properties {
+            grid-area: properties;
+            background: var(--bg-panel);
+            border-left: 1px solid var(--border);
+            padding: 15px;
+            overflow-y: auto;
+        }
+        
+        .properties h2 {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--accent);
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .property-group {
+            margin-bottom: 20px;
+        }
+        
+        .property-group h3 {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-dim);
+            margin-bottom: 10px;
+        }
+        
+        .property-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #1a1a24;
+        }
+        
+        .property-row label {
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+        
+        .property-row .value {
+            font-size: 12px;
+            color: var(--text);
+            font-weight: 500;
+        }
+        
+        .property-row input[type="text"],
+        .property-row select {
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 4px 8px;
+            color: var(--text);
+            font-size: 12px;
+            width: 120px;
+        }
+        
+        .property-row input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            accent-color: var(--accent);
+        }
+        
+        /* Flags */
+        .flags-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+        }
+        
+        .flag-btn {
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 11px;
+            color: var(--text-dim);
+            transition: all 0.2s;
+        }
+        
+        .flag-btn:hover {
+            background: var(--bg-hover);
+        }
+        
+        .flag-btn.active {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: #000;
+        }
+        
+        .flag-btn .flag-icon {
+            font-size: 14px;
+        }
+        
+        /* Validation */
+        .validation-panel {
+            background: var(--bg-dark);
+            border-radius: 8px;
+            padding: 12px;
+        }
+        
+        .validation-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 0;
+            font-size: 11px;
+        }
+        
+        .validation-item .status {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .validation-item .status.valid { background: var(--success); }
+        .validation-item .status.invalid { background: var(--danger); }
+        .validation-item .status.warning { background: var(--warning); }
+        
+        /* No selection */
+        .no-selection {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-dim);
+        }
+        
+        .no-selection .icon {
+            font-size: 48px;
+            opacity: 0.3;
+            margin-bottom: 15px;
+        }
+        
+        .no-selection p {
+            font-size: 12px;
+            line-height: 1.6;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* STATUS BAR                                                      */
+        /* ═══════════════════════════════════════════════════════════════ */
+        
+        .status-bar {
+            grid-area: status;
+            background: var(--bg-panel);
+            border-top: 1px solid var(--border);
+            padding: 0 15px;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            font-size: 11px;
+            color: var(--text-dim);
+        }
+        
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .status-item .label {
+            opacity: 0.6;
+        }
+        
+        .status-item .value {
+            color: var(--text);
+        }
+        
+        .status-item.active .value {
+            color: var(--accent);
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* MODAL                                                           */
+        /* ═══════════════════════════════════════════════════════════════ */
+        
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+        
+        .modal-overlay.active {
+            display: flex;
+        }
+        
+        .modal {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 24px;
+            min-width: 400px;
+        }
+        
+        .modal h2 {
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+        
+        .modal-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .form-row {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        
+        .form-row label {
+            font-size: 12px;
+            color: var(--text-dim);
+        }
+        
+        .form-row input,
+        .form-row select {
+            background: var(--bg-dark);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 10px;
+            color: var(--text);
+            font-size: 13px;
+        }
+        
+        .modal-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* CONTEXT MENU                                                    */
+        /* ═══════════════════════════════════════════════════════════════ */
+        
+        .context-menu {
+            position: fixed;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 6px;
+            min-width: 180px;
+            z-index: 1000;
+            display: none;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+        }
+        
+        .context-menu.active {
+            display: block;
+        }
+        
+        .context-menu-item {
+            padding: 10px 12px;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .context-menu-item:hover {
+            background: var(--bg-hover);
+        }
+        
+        .context-menu-item .icon {
+            width: 20px;
+            text-align: center;
+        }
+        
+        .context-menu-item .shortcut {
+            margin-left: auto;
+            opacity: 0.5;
+            font-size: 10px;
+        }
+        
+        .context-menu-separator {
+            height: 1px;
+            background: var(--border);
+            margin: 6px 0;
+        }
+        
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* TOAST NOTIFICATIONS                                             */
+        /* ═══════════════════════════════════════════════════════════════ */
+        
+        .toast-container {
+            position: fixed;
+            bottom: 50px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            z-index: 1000;
+        }
+        
+        .toast {
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 12px 16px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 12px;
+            animation: slideIn 0.3s ease;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .toast.success { border-left: 3px solid var(--success); }
+        .toast.error { border-left: 3px solid var(--danger); }
+        .toast.warning { border-left: 3px solid var(--warning); }
+        .toast.info { border-left: 3px solid var(--accent); }
+        
+        /* ═══════════════════════════════════════════════════════════════ */
+        /* TEST MODE OVERLAY                                               */
+        /* ═══════════════════════════════════════════════════════════════ */
+        
+        .test-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 2000;
+            display: none;
+        }
+        
+        .test-overlay.active {
+            display: block;
+        }
+        
+        .test-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background: rgba(18, 18, 26, 0.9);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            gap: 20px;
+            z-index: 10;
+        }
+        
+        .test-header .title {
+            color: var(--success);
+            font-weight: 600;
+            font-size: 14px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .test-header .level-info {
+            color: var(--text-dim);
+            font-size: 12px;
+        }
+        
+        .test-header .controls-hint {
+            color: var(--text-dim);
+            font-size: 11px;
+            margin-left: auto;
+        }
+        
+        .test-header .controls-hint kbd {
+            background: var(--bg-dark);
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin: 0 2px;
+            font-family: monospace;
+        }
+        
+        .test-canvas {
+            width: 100%;
+            height: 100%;
+        }
+        
+        .test-hud {
+            position: absolute;
+            top: 60px;
+            left: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            z-index: 10;
+        }
+        
+        .hud-item {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 11px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .hud-item .label {
+            color: var(--text-dim);
+        }
+        
+        .hud-item .value {
+            color: var(--text);
+            font-weight: 600;
+        }
+        
+        .hud-bar {
+            width: 80px;
+            height: 6px;
+            background: var(--bg-dark);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .hud-bar-fill {
+            height: 100%;
+            transition: width 0.1s;
+        }
+        
+        .hud-bar-fill.fuel { background: var(--warning); }
+        .hud-bar-fill.glide { background: var(--accent); }
+        
+        .victory-screen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(18, 18, 26, 0.95);
+            border: 2px solid var(--success);
+            border-radius: 16px;
+            padding: 40px 60px;
+            text-align: center;
+            z-index: 20;
+            display: none;
+        }
+        
+        .victory-screen.active {
+            display: block;
+            animation: popIn 0.3s ease;
+        }
+        
+        @keyframes popIn {
+            from {
+                transform: translate(-50%, -50%) scale(0.8);
+                opacity: 0;
+            }
+            to {
+                transform: translate(-50%, -50%) scale(1);
+                opacity: 1;
+            }
+        }
+        
+        .victory-screen h2 {
+            color: var(--success);
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        
+        .victory-screen p {
+            color: var(--text-dim);
+            margin-bottom: 20px;
+        }
+        
+        .victory-screen .stats {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            margin-bottom: 25px;
+        }
+        
+        .victory-screen .stat {
+            text-align: center;
+        }
+        
+        .victory-screen .stat-value {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--text);
+        }
+        
+        .victory-screen .stat-label {
+            font-size: 11px;
+            color: var(--text-dim);
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- HEADER -->
+        <header class="header">
+            <div class="logo">Shadow Drift</div>
+            <div class="mode-badge">Macro Mode</div>
+            <input type="text" class="level-name" id="levelName" value="level_001_cavern" placeholder="Nom du niveau">
+            <div class="header-actions">
+                <button class="btn" onclick="undo()" id="btnUndo" title="Ctrl+Z">
+                    <span>↩️</span> Undo
+                </button>
+                <button class="btn btn-warning" onclick="rollback()" id="btnRollback" title="Rollback last modification">
+                    <span>⏪</span> Rollback
+                </button>
+                <button class="btn" onclick="showGridSettings()">
+                    <span>⚙️</span> Grid
+                </button>
+                <button class="btn" onclick="validateLevel()">
+                    <span>✓</span> Valider
+                </button>
+                <button class="btn" onclick="exportLevel()">
+                    <span>📤</span> Export
+                </button>
+                <button class="btn btn-success" onclick="testLevel()">
+                    <span>▶️</span> Test
+                </button>
+            </div>
+        </header>
+        
+        <!-- TOOLBAR -->
+        <aside class="toolbar">
+            <div class="tool-section">
+                <h3>Outils</h3>
+                <div class="tool-grid">
+                    <button class="tool-btn active" data-tool="select" onclick="setTool('select')">
+                        <span class="icon">🔲</span>
+                        <span class="label">Select</span>
+                        <span class="shortcut">V</span>
+                    </button>
+                    <button class="tool-btn" data-tool="navigate" onclick="setTool('navigate')">
+                        <span class="icon">➡️</span>
+                        <span class="label">Navigate</span>
+                        <span class="shortcut">N</span>
+                    </button>
+                    <button class="tool-btn" data-tool="erase" onclick="setTool('erase')">
+                        <span class="icon">🗑️</span>
+                        <span class="label">Erase</span>
+                        <span class="shortcut">X</span>
+                    </button>
+                    <button class="tool-btn" data-tool="fill" onclick="setTool('fill')">
+                        <span class="icon">🪣</span>
+                        <span class="label">Fill</span>
+                        <span class="shortcut">F</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="tool-section">
+                <h3>Direction</h3>
+                <div class="nav-picker">
+                    <button class="nav-btn" data-dir="up" onclick="setDirection('up')">↑</button>
+                    <button class="nav-btn" data-dir="backward" onclick="setDirection('backward')">←</button>
+                    <button class="nav-btn active" data-dir="forward" onclick="setDirection('forward')">→</button>
+                    <button class="nav-btn" data-dir="junction" onclick="setDirection('junction')">✚</button>
+                    <button class="nav-btn" data-dir="down" onclick="setDirection('down')">↓</button>
+                </div>
+            </div>
+            
+            <div class="tool-section">
+                <h3>Marqueurs</h3>
+                <div class="tool-grid">
+                    <button class="tool-btn" data-tool="spawn" onclick="setTool('spawn')">
+                        <span class="icon">🚩</span>
+                        <span class="label">Spawn</span>
+                        <span class="shortcut">S</span>
+                    </button>
+                    <button class="tool-btn" data-tool="exit" onclick="setTool('exit')">
+                        <span class="icon">🚪</span>
+                        <span class="label">Exit</span>
+                        <span class="shortcut">E</span>
+                    </button>
+                    <button class="tool-btn" data-tool="checkpoint" onclick="setTool('checkpoint')">
+                        <span class="icon">💾</span>
+                        <span class="label">Check</span>
+                        <span class="shortcut">K</span>
+                    </button>
+                    <button class="tool-btn" data-tool="secret" onclick="setTool('secret')">
+                        <span class="icon">🔮</span>
+                        <span class="label">Secret</span>
+                        <span class="shortcut">H</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="tool-section">
+                <h3>Taille grille</h3>
+                <div class="grid-size-control">
+                    <input type="number" id="gridWidth" value="10" min="3" max="20" onchange="resizeGrid()">
+                    <span>×</span>
+                    <input type="number" id="gridHeight" value="6" min="3" max="15" onchange="resizeGrid()">
+                </div>
+            </div>
+            
+            <div class="tool-section" style="margin-top: auto;">
+                <button class="btn btn-primary" style="width: 100%;" onclick="enterMicroMode()">
+                    <span>📝</span> Mode Micro (Enter)
+                </button>
+            </div>
+        </aside>
+        
+        <!-- CANVAS AREA -->
+        <main class="canvas-area">
+            <div class="grid-container">
+                <div class="macro-grid" id="macroGrid">
+                    <!-- Grid cells generated by JS -->
+                </div>
+            </div>
+        </main>
+        
+        <!-- PROPERTIES PANEL -->
+        <aside class="properties">
+            <h2>Propriétés</h2>
+            
+            <div id="propertiesContent">
+                <!-- Dynamic content -->
+            </div>
+            
+            <div class="property-group">
+                <h3>Validation</h3>
+                <div class="validation-panel" id="validationPanel">
+                    <div class="validation-item">
+                        <div class="status" id="validSpawn"></div>
+                        <span>Point de spawn défini</span>
+                    </div>
+                    <div class="validation-item">
+                        <div class="status" id="validExit"></div>
+                        <span>Sortie définie</span>
+                    </div>
+                    <div class="validation-item">
+                        <div class="status" id="validPath"></div>
+                        <span>Chemin spawn → exit valide</span>
+                    </div>
+                    <div class="validation-item">
+                        <div class="status" id="validConnections"></div>
+                        <span>Connexions cohérentes</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- STATUS BAR -->
+        <footer class="status-bar">
+            <div class="status-item">
+                <span class="label">Mode:</span>
+                <span class="value">Macro</span>
+            </div>
+            <div class="status-item">
+                <span class="label">Grid:</span>
+                <span class="value" id="statusGrid">10 × 6</span>
+            </div>
+            <div class="status-item">
+                <span class="label">Block:</span>
+                <span class="value">320 × 180 px</span>
+            </div>
+            <div class="status-item">
+                <span class="label">Tool:</span>
+                <span class="value" id="statusTool">Select</span>
+            </div>
+            <div class="status-item active">
+                <span class="label">Selection:</span>
+                <span class="value" id="statusSelection">None</span>
+            </div>
+        </footer>
+    </div>
+    
+    <!-- CONTEXT MENU -->
+    <div class="context-menu" id="contextMenu">
+        <div class="context-menu-item" onclick="contextAction('setSpawn')">
+            <span class="icon">🚩</span>
+            <span>Set as Spawn</span>
+            <span class="shortcut">S</span>
+        </div>
+        <div class="context-menu-item" onclick="contextAction('setExit')">
+            <span class="icon">🚪</span>
+            <span>Set as Exit</span>
+            <span class="shortcut">E</span>
+        </div>
+        <div class="context-menu-item" onclick="contextAction('setCheckpoint')">
+            <span class="icon">💾</span>
+            <span>Set as Checkpoint</span>
+            <span class="shortcut">K</span>
+        </div>
+        <div class="context-menu-separator"></div>
+        <div class="context-menu-item" onclick="contextAction('editMicro')">
+            <span class="icon">📝</span>
+            <span>Edit Block (Micro)</span>
+            <span class="shortcut">Enter</span>
+        </div>
+        <div class="context-menu-separator"></div>
+        <div class="context-menu-item" onclick="contextAction('clear')">
+            <span class="icon">🗑️</span>
+            <span>Clear Block</span>
+            <span class="shortcut">Del</span>
+        </div>
+    </div>
+    
+    <!-- TOAST CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+    
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal" id="modalContent">
+            <!-- Dynamic modal content -->
+        </div>
+    </div>
+    
+    <!-- TEST MODE OVERLAY -->
+    <div class="test-overlay" id="testOverlay">
+        <div class="test-header">
+            <span class="title">▶ Test Mode</span>
+            <span class="level-info" id="testLevelInfo">Level Test</span>
+            <span class="controls-hint">
+                <kbd>←</kbd><kbd>→</kbd> Move
+                <kbd>SPACE</kbd> Jump
+                <kbd>SHIFT</kbd> Parachute
+                <kbd>E</kbd> Jetpack
+                <kbd>ESC</kbd> Exit
+            </span>
+            <button class="btn btn-danger" onclick="exitTestMode()" style="margin-left: 20px;">
+                ✕ Exit Test
+            </button>
+        </div>
+        
+        <canvas class="test-canvas" id="testCanvas"></canvas>
+        
+        <div class="test-hud">
+            <div class="hud-item">
+                <span class="label">State:</span>
+                <span class="value" id="hudState">IDLE</span>
+            </div>
+            <div class="hud-item">
+                <span class="label">Fuel:</span>
+                <div class="hud-bar">
+                    <div class="hud-bar-fill fuel" id="hudFuel" style="width: 100%"></div>
+                </div>
+            </div>
+            <div class="hud-item">
+                <span class="label">Glide:</span>
+                <div class="hud-bar">
+                    <div class="hud-bar-fill glide" id="hudGlide" style="width: 100%"></div>
+                </div>
+            </div>
+            <div class="hud-item">
+                <span class="label">Position:</span>
+                <span class="value" id="hudPosition">0, 0</span>
+            </div>
+            <div class="hud-item">
+                <span class="label">Block:</span>
+                <span class="value" id="hudBlock">0, 0</span>
+            </div>
+        </div>
+        
+        <div class="victory-screen" id="victoryScreen">
+            <h2>🎉 Level Complete!</h2>
+            <p>You reached the exit!</p>
+            <div class="stats">
+                <div class="stat">
+                    <div class="stat-value" id="statTime">0:00</div>
+                    <div class="stat-label">Time</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="statJumps">0</div>
+                    <div class="stat-label">Jumps</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-value" id="statDeaths">0</div>
+                    <div class="stat-label">Deaths</div>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="restartTest()">↻ Restart</button>
+            <button class="btn" onclick="exitTestMode()" style="margin-left: 10px;">Exit to Editor</button>
+        </div>
+    </div>
+
+    <script>
+    // ═══════════════════════════════════════════════════════════════════
+    // STATE
+    // ═══════════════════════════════════════════════════════════════════
+    
+    const State = {
+        // Grid
+        gridWidth: 10,
+        gridHeight: 6,
+        blockWidth: 320,
+        blockHeight: 180,
+        
+        // Blocks data
+        blocks: [], // 2D array
+        
+        // Selection
+        selectedCells: [],
+        
+        // Tools
+        currentTool: 'select',
+        currentDirection: 'forward',
+        
+        // Special markers
+        spawnBlock: null,
+        exitBlock: null,
+        checkpoints: [],
+        
+        // Drag
+        isDragging: false,
+        dragStart: null,
+        
+        // History
+        history: [],
+        historyIndex: -1,
+    };
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // INITIALIZATION
+    // ═══════════════════════════════════════════════════════════════════
+    
+    function init() {
+        initGrid();
+        renderGrid();
+        updateValidation();
+        setupEventListeners();
+    }
+    
+    function initGrid() {
+        State.blocks = [];
+        for (let y = 0; y < State.gridHeight; y++) {
+            State.blocks[y] = [];
+            for (let x = 0; x < State.gridWidth; x++) {
+                State.blocks[y][x] = {
+                    x: x,
+                    y: y,
+                    navigation: 'none',
+                    isSpawn: false,
+                    isExit: false,
+                    isCheckpoint: false,
+                    isSecret: false,
+                    hasMicroContent: false,
+                    name: '',
+                };
+            }
+        }
+    }
+    
+    function renderGrid() {
+        const grid = document.getElementById('macroGrid');
+        grid.style.gridTemplateColumns = `repeat(${State.gridWidth}, 80px)`;
+        grid.innerHTML = '';
+        
+        for (let y = 0; y < State.gridHeight; y++) {
+            for (let x = 0; x < State.gridWidth; x++) {
+                const block = State.blocks[y][x];
+                const cell = document.createElement('div');
+                cell.className = 'grid-cell';
+                cell.dataset.x = x;
+                cell.dataset.y = y;
+                
+                // Navigation
+                if (block.navigation !== 'none') {
+                    cell.classList.add('has-navigation');
+                    cell.dataset.nav = block.navigation;
+                    
+                    const arrow = document.createElement('span');
+                    arrow.className = 'nav-arrow';
+                    arrow.textContent = getArrowForDirection(block.navigation);
+                    cell.appendChild(arrow);
+                }
+                
+                // Markers
+                if (block.isSpawn) {
+                    const marker = document.createElement('div');
+                    marker.className = 'marker spawn';
+                    marker.textContent = 'S';
+                    cell.appendChild(marker);
+                }
+                if (block.isExit) {
+                    const marker = document.createElement('div');
+                    marker.className = 'marker exit';
+                    marker.textContent = 'E';
+                    cell.appendChild(marker);
+                }
+                if (block.isCheckpoint) {
+                    const marker = document.createElement('div');
+                    marker.className = 'marker checkpoint';
+                    marker.textContent = '✓';
+                    cell.appendChild(marker);
+                }
+                if (block.isSecret) {
+                    const marker = document.createElement('div');
+                    marker.className = 'marker secret';
+                    marker.textContent = '?';
+                    cell.appendChild(marker);
+                }
+                
+                // Coordinates
+                const coords = document.createElement('span');
+                coords.className = 'coords';
+                coords.textContent = `${x},${y}`;
+                cell.appendChild(coords);
+                
+                // Micro content indicator
+                if (block.hasMicroContent) {
+                    const indicator = document.createElement('div');
+                    indicator.className = 'micro-indicator';
+                    cell.appendChild(indicator);
+                }
+                
+                // Selection
+                if (State.selectedCells.some(s => s.x === x && s.y === y)) {
+                    cell.classList.add('selected');
+                }
+                
+                // Connection lines
+                if (block.navigation === 'forward' || block.navigation === 'junction') {
+                    if (x < State.gridWidth - 1) {
+                        const rightBlock = State.blocks[y][x + 1];
+                        if (rightBlock.navigation !== 'none') {
+                            cell.classList.add('connected-right');
+                        }
+                    }
+                }
+                if (block.navigation === 'down' || block.navigation === 'junction') {
+                    if (y < State.gridHeight - 1) {
+                        const downBlock = State.blocks[y + 1][x];
+                        if (downBlock.navigation !== 'none') {
+                            cell.classList.add('connected-down');
+                        }
+                    }
+                }
+                
+                // Events
+                cell.addEventListener('click', (e) => handleCellClick(x, y, e));
+                cell.addEventListener('contextmenu', (e) => handleCellRightClick(x, y, e));
+                cell.addEventListener('dblclick', () => enterMicroMode(x, y));
+                cell.addEventListener('mousedown', (e) => handleMouseDown(x, y, e));
+                cell.addEventListener('mouseenter', () => handleMouseEnter(x, y));
+                
+                grid.appendChild(cell);
+            }
+        }
+        
+        document.getElementById('statusGrid').textContent = `${State.gridWidth} × ${State.gridHeight}`;
+    }
+    
+    function getArrowForDirection(dir) {
+        const arrows = {
+            'forward': '→',
+            'backward': '←',
+            'up': '↑',
+            'down': '↓',
+            'junction': '✚',
+            'none': ''
+        };
+        return arrows[dir] || '';
+    }
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // TOOLS
+    // ═══════════════════════════════════════════════════════════════════
+    
+    function setTool(tool) {
+        State.currentTool = tool;
+        
+        // Update UI
+        document.querySelectorAll('.tool-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.tool === tool);
+        });
+        
+        document.getElementById('statusTool').textContent = tool.charAt(0).toUpperCase() + tool.slice(1);
+    }
+    
+    function setDirection(dir) {
+        State.currentDirection = dir;
+        
+        document.querySelectorAll('.nav-btn').forEach(btn => {
+            btn.classList.toggle('active', btn.dataset.dir === dir);
+        });
+    }
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // CELL INTERACTIONS
+    // ═══════════════════════════════════════════════════════════════════
+    
+    function handleCellClick(x, y, event) {
+        hideContextMenu();
+        
+        const block = State.blocks[y][x];
+        
+        switch (State.currentTool) {
+            case 'select':
+                if (event.shiftKey) {
+                    // Add to selection
+                    toggleSelection(x, y);
+                } else {
+                    // Single selection
+                    State.selectedCells = [{ x, y }];
+                }
+                break;
+                
+            case 'navigate':
+                saveHistory('set navigation');
+                block.navigation = State.currentDirection;
+                break;
+                
+            case 'erase':
+                saveHistory('erase block');
+                block.navigation = 'none';
+                block.isSpawn = false;
+                block.isExit = false;
+                block.isCheckpoint = false;
+                block.isSecret = false;
+                updateSpawnExit();
+                break;
+                
+            case 'fill':
+                saveHistory('fill area');
+                fillFromCell(x, y, State.currentDirection);
+                break;
+                
+            case 'spawn':
+                saveHistory('set spawn');
+                clearAllSpawns();
+                block.isSpawn = true;
+                block.navigation = block.navigation === 'none' ? 'forward' : block.navigation;
+                State.spawnBlock = { x, y };
+                break;
+                
+            case 'exit':
+                saveHistory('set exit');
+                clearAllExits();
+                block.isExit = true;
+                block.navigation = block.navigation === 'none' ? 'forward' : block.navigation;
+                State.exitBlock = { x, y };
+                break;
+                
+            case 'checkpoint':
+                saveHistory('toggle checkpoint');
+                block.isCheckpoint = !block.isCheckpoint;
+                updateCheckpoints();
+                break;
+                
+            case 'secret':
+                saveHistory('toggle secret');
+                block.isSecret = !block.isSecret;
+                break;
+        }
+        
+        renderGrid();
+        updateProperties();
+        updateValidation();
+    }
+    
+    function handleCellRightClick(x, y, event) {
+        event.preventDefault();
+        
+        // Select the cell
+        State.selectedCells = [{ x, y }];
+        renderGrid();
+        updateProperties();
+        
+        // Show context menu
+        showContextMenu(event.clientX, event.clientY);
+    }
+    
+    function handleMouseDown(x, y, event) {
+        if (event.button === 0 && (State.currentTool === 'navigate' || State.currentTool === 'erase')) {
+            State.isDragging = true;
+            State.dragStart = { x, y };
+        }
+    }
+    
+    function handleMouseEnter(x, y) {
+        if (State.isDragging) {
+            const block = State.blocks[y][x];
+            
+            if (State.currentTool === 'navigate') {
+                block.navigation = State.currentDirection;
+            } else if (State.currentTool === 'erase') {
+                block.navigation = 'none';
+            }
+            
+            renderGrid();
+            updateValidation();
+        }
+    }
+    
+    function toggleSelection(x, y) {
+        const index = State.selectedCells.findIndex(s => s.x === x && s.y === y);
+        if (index >= 0) {
+            State.selectedCells.splice(index, 1);
+        } else {
+            State.selectedCells.push({ x, y });
+        }
+    }
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // OPERATIONS
+    // ═══════════════════════════════════════════════════════════════════
+    
+    function clearAllSpawns() {
+        for (let y = 0; y < State.gridHeight; y++) {
+            for (let x = 0; x < State.gridWidth; x++) {
+                State.blocks[y][x].isSpawn = false;
+            }
+        }
+        State.spawnBlock = null;
+    }
+    
+    function clearAllExits() {
+        for (let y = 0; y < State.gridHeight; y++) {
+            for (let x = 0; x < State.gridWidth; x++) {
+                State.blocks[y][x].isExit = false;
+            }
+        }
+        State.exitBlock = null;
+    }
+    
+    function updateSpawnExit() {
+        State.spawnBlock = null;
+        State.exitBlock = null;
+        
+        for (let y = 0; y < State.gridHeight; y++) {
+            for (let x = 0; x < State.gridWidth; x++) {
+                if (State.blocks[y][x].isSpawn) State.spawnBlock = { x, y };
+                if (State.blocks[y][x].isExit) State.exitBlock = { x, y };
+            }
+        }
+    }
+    
+    function updateCheckpoints() {
+        State.checkpoints = [];
+        for (let y = 0; y < State.gridHeight; y++) {
+            for (let x = 0; x < State.gridWidth; x++) {
+                if (State.blocks[y][x].isCheckpoint) {
+                    State.checkpoints.push({ x, y });
+                }
+            }
+        }
+    }
+    
+    function fillFromCell(startX, startY, direction) {
+        const visited = new Set();
+        const queue = [{ x: startX, y: startY }];
+        
+        while (queue.length > 0) {
+            const { x, y } = queue.shift();
+            const key = `${x},${y}`;
+            
+            if (visited.has(key)) continue;
+            if (x < 0 || x >= State.gridWidth || y < 0 || y >= State.gridHeight) continue;
+            if (State.blocks[y][x].navigation !== 'none') continue;
+            
+            visited.add(key);
+            State.blocks[y][x].navigation = direction;
+            
+            queue.push({ x: x + 1, y });
+            queue.push({ x: x - 1, y });
+            queue.push({ x, y: y + 1 });
+            queue.push({ x, y: y - 1 });
+        }
+    }
+    
+    function resizeGrid() {
+        const newWidth = parseInt(document.getElementById('gridWidth').value) || 10;
+        const newHeight = parseInt(document.getElementById('gridHeight').value) || 6;
+        
+        saveHistory('resize grid');
+        
+        // Resize blocks array
+        const newBlocks = [];
+        for (let y = 0; y < newHeight; y++) {
+            newBlocks[y] = [];
+            for (let x = 0; x < newWidth; x++) {
+                if (y < State.gridHeight && x < State.gridWidth) {
+                    newBlocks[y][x] = State.blocks[y][x];
+                } else {
+                    newBlocks[y][x] = {
+                        x: x,
+                        y: y,
+                        navigation: 'none',
+                        isSpawn: false,
+                        isExit: false,
+                        isCheckpoint: false,
+                        isSecret: false,
+                        hasMicroContent: false,
+                        name: '',
+                    };
+                }
+            }
+        }
+        
+        State.gridWidth = newWidth;
+        State.gridHeight = newHeight;
+        State.blocks = newBlocks;
+        State.selectedCells = [];
+        
+        updateSpawnExit();
+        updateCheckpoints();
+        renderGrid();
+        updateValidation();
+        
+        showToast('Grid resized to ' + newWidth + ' × ' + newHeight, 'info');
+    }
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // PROPERTIES PANEL
+    // ═══════════════════════════════════════════════════════════════════
+    
+    function updateProperties() {
+        const container = document.getElementById('propertiesContent');
+        
+        if (State.selectedCells.length === 0) {
+            container.innerHTML = `
+                <div class="no-selection">
+                    <div class="icon">🔲</div>
+                    <p>Sélectionnez un bloc pour voir ses propriétés.</p>
+                    <p style="margin-top: 10px; font-size: 11px;">Double-clic pour éditer en mode Micro.</p>
+                </div>
+            `;
+            document.getElementById('statusSelection').textContent = 'None';
+            return;
+        }
+        
+        const { x, y } = State.selectedCells[0];
+        const block = State.blocks[y][x];
+        
+        document.getElementById('statusSelection').textContent = `(${x}, ${y})`;
+        
+        container.innerHTML = `
+            <div class="property-group">
+                <h3>Position</h3>
+                <div class="property-row">
+                    <label>Coordonnées</label>
+                    <span class="value">(${x}, ${y})</span>
+                </div>
+                <div class="property-row">
+                    <label>Pixels</label>
+                    <span class="value">${x * State.blockWidth}, ${y * State.blockHeight}</span>
+                </div>
+            </div>
+            
+            <div class="property-group">
+                <h3>Navigation</h3>
+                <div class="property-row">
+                    <label>Direction</label>
+                    <select onchange="setBlockNavigation(${x}, ${y}, this.value)">
+                        <option value="none" ${block.navigation === 'none' ? 'selected' : ''}>Aucune</option>
+                        <option value="forward" ${block.navigation === 'forward' ? 'selected' : ''}>→ Avancer</option>
+                        <option value="backward" ${block.navigation === 'backward' ? 'selected' : ''}>← Reculer</option>
+                        <option value="up" ${block.navigation === 'up' ? 'selected' : ''}>↑ Monter</option>
+                        <option value="down" ${block.navigation === 'down' ? 'selected' : ''}>↓ Descendre</option>
+                        <option value="junction" ${block.navigation === 'junction' ? 'selected' : ''}>✚ Croisement</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="property-group">
+                <h3>Marqueurs</h3>
+                <div class="flags-grid">
+                    <button class="flag-btn ${block.isSpawn ? 'active' : ''}" onclick="toggleFlag(${x}, ${y}, 'isSpawn')">
+                        <span class="flag-icon">🚩</span>
+                        <span>Spawn</span>
+                    </button>
+                    <button class="flag-btn ${block.isExit ? 'active' : ''}" onclick="toggleFlag(${x}, ${y}, 'isExit')">
+                        <span class="flag-icon">🚪</span>
+                        <span>Exit</span>
+                    </button>
+                    <button class="flag-btn ${block.isCheckpoint ? 'active' : ''}" onclick="toggleFlag(${x}, ${y}, 'isCheckpoint')">
+                        <span class="flag-icon">💾</span>
+                        <span>Checkpoint</span>
+                    </button>
+                    <button class="flag-btn ${block.isSecret ? 'active' : ''}" onclick="toggleFlag(${x}, ${y}, 'isSecret')">
+                        <span class="flag-icon">🔮</span>
+                        <span>Secret</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="property-group">
+                <h3>Caméra</h3>
+                <div class="property-row">
+                    <label>Lock X</label>
+                    <input type="checkbox" ${block.cameraLockX ? 'checked' : ''} onchange="setCameraLock(${x}, ${y}, 'x', this.checked)">
+                </div>
+                <div class="property-row">
+                    <label>Lock Y</label>
+                    <input type="checkbox" ${block.cameraLockY ? 'checked' : ''} onchange="setCameraLock(${x}, ${y}, 'y', this.checked)">
+                </div>
+            </div>
+            
+            <div class="property-group">
+                <h3>Nom (optionnel)</h3>
+                <div class="property-row">
+                    <input type="text" value="${block.name || ''}" placeholder="Ex: Entrée caverne" 
+                           style="width: 100%;" onchange="setBlockName(${x}, ${y}, this.value)">
+                </div>
+            </div>
+            
+            <div class="property-group">
+                <h3>Contenu Micro</h3>
+                <div class="property-row">
+                    <label>A du contenu</label>
+                    <span class="value">${block.hasMicroContent ? 'Oui ✓' : 'Non'}</span>
+                </div>
+                <button class="btn btn-primary" style="width: 100%; margin-top: 10px;" onclick="enterMicroMode(${x}, ${y})">
+                    Éditer en mode Micro →
+                </button>
+            </div>
+        `;
+    }
+    
+    function setBlockNavigation(x, y, nav) {
+        saveHistory('change navigation');
+        State.blocks[y][x].navigation = nav;
+        renderGrid();
+        updateValidation();
+    }
+    
+    function toggleFlag(x, y, flag) {
+        saveHistory('toggle ' + flag.replace('is', '').toLowerCase());
+        const block = State.blocks[y][x];
+        
+        if (flag === 'isSpawn') {
+            if (!block.isSpawn) {
+                clearAllSpawns();
+                block.isSpawn = true;
+                block.navigation = block.navigation === 'none' ? 'forward' : block.navigation;
+                State.spawnBlock = { x, y };
+            } else {
+                block.isSpawn = false;
+                State.spawnBlock = null;
+            }
+        } else if (flag === 'isExit') {
+            if (!block.isExit) {
+                clearAllExits();
+                block.isExit = true;
+                block.navigation = block.navigation === 'none' ? 'forward' : block.navigation;
+                State.exitBlock = { x, y };
+            } else {
+                block.isExit = false;
+                State.exitBlock = null;
+            }
+        } else {
+            block[flag] = !block[flag];
+            if (flag === 'isCheckpoint') updateCheckpoints();
+        }
+        
+        renderGrid();
+        updateProperties();
+        updateValidation();
+    }
+    
+    function setCameraLock(x, y, axis, locked) {
+        const block = State.blocks[y][x];
+        if (axis === 'x') block.cameraLockX = locked;
+        if (axis === 'y') block.cameraLockY = locked;
+    }
+    
+    function setBlockName(x, y, name) {
+        State.blocks[y][x].name = name;
+    }
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // VALIDATION
+    // ═══════════════════════════════════════════════════════════════════
+    
+    function updateValidation() {
+        const hasSpawn = State.spawnBlock !== null;
+        const hasExit = State.exitBlock !== null;
+        const hasValidPath = hasSpawn && hasExit && checkPath();
+        const hasValidConnections = checkConnections();
+        
+        setValidationStatus('validSpawn', hasSpawn);
+        setValidationStatus('validExit', hasExit);
+        setValidationStatus('validPath', hasValidPath);
+        setValidationStatus('validConnections', hasValidConnections);
+    }
+    
+    function setValidationStatus(id, valid) {
+        const el = document.getElementById(id);
+        el.className = 'status ' + (valid ? 'valid' : 'invalid');
+    }
+    
+    function checkPath() {
+        if (!State.spawnBlock || !State.exitBlock) return false;
+        
+        // BFS to find path - any adjacent blocks with navigation are connected
+        const visited = new Set();
+        const queue = [State.spawnBlock];
+        
+        while (queue.length > 0) {
+            const { x, y } = queue.shift();
+            const key = `${x},${y}`;
+            
+            if (visited.has(key)) continue;
+            visited.add(key);
+            
+            // Found exit!
+            if (x === State.exitBlock.x && y === State.exitBlock.y) {
+                return true;
+            }
+            
+            const block = State.blocks[y][x];
+            if (block.navigation === 'none') continue;
+            
+            // Check ALL 4 adjacent neighbors - if they have navigation, they're connected
+            const directions = [
+                { dx: 1, dy: 0 },   // right
+                { dx: -1, dy: 0 },  // left
+                { dx: 0, dy: -1 },  // up
+                { dx: 0, dy: 1 }    // down
+            ];
+            
+            for (const { dx, dy } of directions) {
+                const nx = x + dx;
+                const ny = y + dy;
+                
+                // Check bounds
+                if (nx < 0 || nx >= State.gridWidth || ny < 0 || ny >= State.gridHeight) continue;
+                
+                const neighbor = State.blocks[ny][nx];
+                
+                // If neighbor has any navigation, it's reachable
+                if (neighbor.navigation !== 'none' && !visited.has(`${nx},${ny}`)) {
+                    queue.push({ x: nx, y: ny });
+                }
+            }
+        }
+        
+        return false;
+    }
+    
+    function checkConnections() {
+        // Disabled - directions are just visual hints for camera flow
+        // The path validation already ensures spawn→exit connectivity
+        return true;
+    }
+    
+    function validateLevel() {
+        const issues = [];
+        
+        if (!State.spawnBlock) issues.push('❌ Pas de point de spawn');
+        if (!State.exitBlock) issues.push('❌ Pas de sortie');
+        if (!checkPath()) issues.push('❌ Pas de chemin valide spawn → exit');
+        if (!checkConnections()) issues.push('⚠️ Certaines connexions mènent hors limites');
+        
+        if (issues.length === 0) {
+            showToast('✓ Niveau valide!', 'success');
+        } else {
+            showToast(issues.join('\n'), 'error');
+        }
+    }
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // CONTEXT MENU
+    // ═══════════════════════════════════════════════════════════════════
+    
+    function showContextMenu(x, y) {
+        const menu = document.getElementById('contextMenu');
+        menu.style.left = x + 'px';
+        menu.style.top = y + 'px';
+        menu.classList.add('active');
+    }
+    
+    function hideContextMenu() {
+        document.getElementById('contextMenu').classList.remove('active');
+    }
+    
+    function contextAction(action) {
+        hideContextMenu();
+        
+        if (State.selectedCells.length === 0) return;
+        const { x, y } = State.selectedCells[0];
+        
+        switch (action) {
+            case 'setSpawn':
+                setTool('spawn');
+                handleCellClick(x, y, {});
+                setTool('select');
+                break;
+            case 'setExit':
+                setTool('exit');
+                handleCellClick(x, y, {});
+                setTool('select');
+                break;
+            case 'setCheckpoint':
+                toggleFlag(x, y, 'isCheckpoint');
+                break;
+            case 'editMicro':
+                enterMicroMode(x, y);
+                break;
+            case 'clear':
+                saveHistory('clear block');
+                const block = State.blocks[y][x];
+                block.navigation = 'none';
+                block.isSpawn = false;
+                block.isExit = false;
+                block.isCheckpoint = false;
+                block.isSecret = false;
+                updateSpawnExit();
+                renderGrid();
+                updateProperties();
+                updateValidation();
+                break;
+        }
+    }
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // HISTORY & ROLLBACK
+    // ═══════════════════════════════════════════════════════════════════
+    
+    function saveHistory(actionName = 'modification') {
+        const snapshot = {
+            blocks: JSON.stringify(State.blocks),
+            timestamp: Date.now(),
+            action: actionName
+        };
+        
+        State.history = State.history.slice(0, State.historyIndex + 1);
+        State.history.push(snapshot);
+        State.historyIndex = State.history.length - 1;
+        
+        // Limit history size
+        if (State.history.length > 50) {
+            State.history.shift();
+            State.historyIndex--;
+        }
+        
+        updateHistoryButtons();
+    }
+    
+    function undo() {
+        if (State.historyIndex > 0) {
+            State.historyIndex--;
+            restoreSnapshot(State.history[State.historyIndex]);
+            showToast('↩️ Undo: ' + (State.history[State.historyIndex + 1]?.action || 'modification'), 'info');
+        } else {
+            showToast('Nothing to undo', 'warning');
+        }
+        updateHistoryButtons();
+    }
+    
+    function redo() {
+        if (State.historyIndex < State.history.length - 1) {
+            State.historyIndex++;
+            restoreSnapshot(State.history[State.historyIndex]);
+            showToast('↪️ Redo: ' + (State.history[State.historyIndex]?.action || 'modification'), 'info');
+        } else {
+            showToast('Nothing to redo', 'warning');
+        }
+        updateHistoryButtons();
+    }
+    
+    function rollback() {
+        // Rollback to the state BEFORE the last modification session
+        // This is more aggressive than undo - it reverts all recent changes
+        
+        if (State.history.length <= 1) {
+            showToast('Nothing to rollback', 'warning');
+            return;
+        }
+        
+        // Find the last significant change point (skip consecutive similar actions)
+        let targetIndex = State.historyIndex - 1;
+        const currentAction = State.history[State.historyIndex]?.action;
+        
+        // Group similar consecutive actions
+        while (targetIndex > 0 && State.history[targetIndex]?.action === currentAction) {
+            targetIndex--;
+        }
+        
+        // If we're still at the same spot, just go back one more
+        if (targetIndex === State.historyIndex - 1 && targetIndex > 0) {
+            targetIndex = 0; // Go to initial state for full rollback
+        }
+        
+        const rolledBackActions = State.historyIndex - targetIndex;
+        State.historyIndex = targetIndex;
+        restoreSnapshot(State.history[State.historyIndex]);
+        
+        showToast(`⏪ Rollback: ${rolledBackActions} action(s) reverted`, 'warning');
+        updateHistoryButtons();
+    }
+    
+    function restoreSnapshot(snapshot) {
+        State.blocks = JSON.parse(snapshot.blocks);
+        updateSpawnExit();
+        updateCheckpoints();
+        renderGrid();
+        updateProperties();
+        updateValidation();
+    }
+    
+    function updateHistoryButtons() {
+        const undoBtn = document.getElementById('btnUndo');
+        const rollbackBtn = document.getElementById('btnRollback');
+        
+        if (undoBtn) {
+            undoBtn.disabled = State.historyIndex <= 0;
+        }
+        if (rollbackBtn) {
+            rollbackBtn.disabled = State.historyIndex <= 0;
+        }
+    }
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // EXPORT
+    // ═══════════════════════════════════════════════════════════════════
+    
+    function exportLevel() {
+        const levelData = {
+            metadata: {
+                id: document.getElementById('levelName').value,
+                version: '1.0.0',
+                dimensions: {
+                    width: State.gridWidth * State.blockWidth,
+                    height: State.gridHeight * State.blockHeight
+                },
+                gridInfo: {
+                    columns: State.gridWidth,
+                    rows: State.gridHeight,
+                    blockWidth: State.blockWidth,
+                    blockHeight: State.blockHeight
+                },
+                spawn: State.spawnBlock ? {
+                    blockX: State.spawnBlock.x,
+                    blockY: State.spawnBlock.y,
+                    x: State.spawnBlock.x * State.blockWidth + State.blockWidth / 2,
+                    y: State.spawnBlock.y * State.blockHeight + State.blockHeight / 2
+                } : null,
+                exit: State.exitBlock ? {
+                    blockX: State.exitBlock.x,
+                    blockY: State.exitBlock.y,
+                    x: State.exitBlock.x * State.blockWidth + State.blockWidth / 2,
+                    y: State.exitBlock.y * State.blockHeight + State.blockHeight / 2
+                } : null,
+                checkpoints: State.checkpoints.map(cp => ({
+                    blockX: cp.x,
+                    blockY: cp.y,
+                    x: cp.x * State.blockWidth + State.blockWidth / 2,
+                    y: cp.y * State.blockHeight + State.blockHeight / 2
+                }))
+            },
+            navigationGrid: State.blocks.map(row => row.map(b => b.navigation)),
+            blocks: {}
+        };
+        
+        // Add block details
+        for (let y = 0; y < State.gridHeight; y++) {
+            for (let x = 0; x < State.gridWidth; x++) {
+                const block = State.blocks[y][x];
+                if (block.navigation !== 'none' || block.hasMicroContent) {
+                    levelData.blocks[`${x},${y}`] = {
+                        navigation: block.navigation,
+                        isSpawn: block.isSpawn,
+                        isExit: block.isExit,
+                        isCheckpoint: block.isCheckpoint,
+                        isSecret: block.isSecret,
+                        name: block.name,
+                        cameraLockX: block.cameraLockX,
+                        cameraLockY: block.cameraLockY,
+                        hasMicroContent: block.hasMicroContent
+                    };
+                }
+            }
+        }
+        
+        const json = JSON.stringify(levelData, null, 2);
+        const blob = new Blob([json], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = levelData.metadata.id + '.level.json';
+        a.click();
+        
+        URL.revokeObjectURL(url);
+        showToast('Level exported!', 'success');
+    }
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // MICRO MODE
+    // ═══════════════════════════════════════════════════════════════════
+    
+    function enterMicroMode(x, y) {
+        if (x === undefined && State.selectedCells.length > 0) {
+            x = State.selectedCells[0].x;
+            y = State.selectedCells[0].y;
+        }
+        
+        if (x === undefined) {
+            showToast('Sélectionnez d\'abord un bloc', 'warning');
+            return;
+        }
+        
+        // In a real app, this would switch to Micro mode
+        showToast(`Mode Micro → Block (${x}, ${y})`, 'info');
+        
+        // Mark as having content (simulation)
+        State.blocks[y][x].hasMicroContent = true;
+        renderGrid();
+    }
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // UTILITIES
+    // ═══════════════════════════════════════════════════════════════════
+    
+    function showToast(message, type = 'info') {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.innerHTML = message.replace(/\n/g, '<br>');
+        container.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.remove();
+        }, 3000);
+    }
+    
+    function showGridSettings() {
+        showToast('Grid settings: ' + State.gridWidth + ' × ' + State.gridHeight, 'info');
+    }
+    
+    function testLevel() {
+        if (!State.spawnBlock || !State.exitBlock) {
+            showToast('Définissez spawn et exit avant de tester', 'warning');
+            return;
+        }
+        
+        showToast('Lancement du test...', 'success');
+        
+        // Initialize test mode
+        initTestMode();
+    }
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // TEST MODE - GAME ENGINE
+    // ═══════════════════════════════════════════════════════════════════
+    
+    const TestGame = {
+        active: false,
+        canvas: null,
+        ctx: null,
+        animationFrame: null,
+        
+        // Level data
+        level: {
+            width: 0,
+            height: 0,
+            blockWidth: 320,
+            blockHeight: 180,
+            platforms: [],
+            spawn: { x: 0, y: 0 },
+            exit: { x: 0, y: 0 },
+            checkpoints: []
+        },
+        
+        // Player
+        player: {
+            x: 0,
+            y: 0,
+            vx: 0,
+            vy: 0,
+            width: 24,
+            height: 40,
+            onGround: false,
+            jumpCount: 0,
+            maxJumps: 2,
+            state: 'IDLE',
+            facing: 1,
+            
+            // Resources
+            fuel: 100,
+            maxFuel: 100,
+            glideEnergy: 100,
+            maxGlideEnergy: 100
+        },
+        
+        // Physics
+        physics: {
+            gravity: 0.6,
+            maxFallSpeed: 12,
+            moveSpeed: 5,
+            jumpForce: 12,
+            doubleJumpForce: 10,
+            friction: 0.85,
+            airFriction: 0.95,
+            
+            // Glide
+            glideGravity: 0.15,
+            glideMaxFall: 2,
+            glideConsumption: 0.5,
+            glideRegen: 0.3,
+            
+            // Parachute
+            parachuteGravity: 0.1,
+            parachuteMaxFall: 1.5,
+            
+            // Jetpack
+            jetpackThrust: 0.8,
+            jetpackConsumption: 0.8,
+            jetpackRegen: 0.2
+        },
+        
+        // Input
+        keys: {},
+        
+        // Camera
+        camera: {
+            x: 0,
+            y: 0,
+            smoothing: 0.1
+        },
+        
+        // Stats
+        stats: {
+            startTime: 0,
+            jumps: 0,
+            deaths: 0
+        },
+        
+        // Particles
+        particles: []
+    };
+    
+    function initTestMode() {
+        TestGame.active = true;
+        TestGame.canvas = document.getElementById('testCanvas');
+        TestGame.ctx = TestGame.canvas.getContext('2d');
+        
+        // Resize canvas
+        TestGame.canvas.width = window.innerWidth;
+        TestGame.canvas.height = window.innerHeight;
+        
+        // Build level from macro grid
+        buildTestLevel();
+        
+        // Reset player
+        resetPlayer();
+        
+        // Reset stats
+        TestGame.stats.startTime = Date.now();
+        TestGame.stats.jumps = 0;
+        TestGame.stats.deaths = 0;
+        
+        // Show overlay
+        document.getElementById('testOverlay').classList.add('active');
+        document.getElementById('victoryScreen').classList.remove('active');
+        document.getElementById('testLevelInfo').textContent = document.getElementById('levelName').value;
+        
+        // Setup input
+        setupTestInput();
+        
+        // Start game loop
+        gameLoop();
+    }
+    
+    function buildTestLevel() {
+        const blockW = State.blockWidth;
+        const blockH = State.blockHeight;
+        
+        TestGame.level.width = State.gridWidth * blockW;
+        TestGame.level.height = State.gridHeight * blockH;
+        TestGame.level.blockWidth = blockW;
+        TestGame.level.blockHeight = blockH;
+        TestGame.level.platforms = [];
+        TestGame.level.checkpoints = [];
+        
+        // First pass: identify which blocks have navigation
+        const hasNav = [];
+        for (let y = 0; y < State.gridHeight; y++) {
+            hasNav[y] = [];
+            for (let x = 0; x < State.gridWidth; x++) {
+                hasNav[y][x] = State.blocks[y][x].navigation !== 'none';
+            }
+        }
+        
+        // Second pass: create floors with gaps where needed for vertical movement
+        for (let y = 0; y < State.gridHeight; y++) {
+            for (let x = 0; x < State.gridWidth; x++) {
+                const block = State.blocks[y][x];
+                
+                if (block.navigation !== 'none') {
+                    // Check if block below has navigation (need gap to go down)
+                    const hasBlockBelow = y < State.gridHeight - 1 && hasNav[y + 1][x];
+                    // Check if block above has navigation (need platforms to go up)
+                    const hasBlockAbove = y > 0 && hasNav[y - 1][x];
+                    
+                    if (hasBlockBelow) {
+                        // Create floor with gap in the middle to allow falling through
+                        // Left part of floor
+                        TestGame.level.platforms.push({
+                            x: x * blockW,
+                            y: (y + 1) * blockH - 20,
+                            width: blockW * 0.35,
+                            height: 20,
+                            type: 'ground'
+                        });
+                        // Right part of floor
+                        TestGame.level.platforms.push({
+                            x: x * blockW + blockW * 0.65,
+                            y: (y + 1) * blockH - 20,
+                            width: blockW * 0.35,
+                            height: 20,
+                            type: 'ground'
+                        });
+                    } else {
+                        // Full floor
+                        TestGame.level.platforms.push({
+                            x: x * blockW,
+                            y: (y + 1) * blockH - 20,
+                            width: blockW,
+                            height: 20,
+                            type: 'ground'
+                        });
+                    }
+                    
+                    // Add stepping platforms if need to go UP
+                    if (hasBlockAbove) {
+                        // Platform on left side
+                        TestGame.level.platforms.push({
+                            x: x * blockW + 30,
+                            y: y * blockH + blockH * 0.65,
+                            width: 90,
+                            height: 12,
+                            type: 'platform'
+                        });
+                        // Platform on right side, higher
+                        TestGame.level.platforms.push({
+                            x: x * blockW + blockW - 120,
+                            y: y * blockH + blockH * 0.35,
+                            width: 90,
+                            height: 12,
+                            type: 'platform'
+                        });
+                    }
+                    
+                    // Checkpoint
+                    if (block.isCheckpoint) {
+                        TestGame.level.checkpoints.push({
+                            x: x * blockW + blockW / 2,
+                            y: (y + 1) * blockH - 60,
+                            activated: false
+                        });
+                    }
+                }
+            }
+        }
+        
+        // Set spawn and exit
+        TestGame.level.spawn = {
+            x: State.spawnBlock.x * blockW + blockW / 2,
+            y: State.spawnBlock.y * blockH + blockH - 60
+        };
+        
+        TestGame.level.exit = {
+            x: State.exitBlock.x * blockW + blockW / 2,
+            y: State.exitBlock.y * blockH + blockH - 60,
+            width: 50,
+            height: 60
+        };
+    }
+    
+    function resetPlayer() {
+        TestGame.player.x = TestGame.level.spawn.x;
+        TestGame.player.y = TestGame.level.spawn.y;
+        TestGame.player.vx = 0;
+        TestGame.player.vy = 0;
+        TestGame.player.onGround = false;
+        TestGame.player.jumpCount = 0;
+        TestGame.player.state = 'IDLE';
+        TestGame.player.fuel = TestGame.player.maxFuel;
+        TestGame.player.glideEnergy = TestGame.player.maxGlideEnergy;
+        
+        // Center camera on player
+        TestGame.camera.x = TestGame.player.x - TestGame.canvas.width / 2;
+        TestGame.camera.y = TestGame.player.y - TestGame.canvas.height / 2;
+    }
+    
+    function setupTestInput() {
+        TestGame.keys = {};
+        
+        window.testKeyDown = (e) => {
+            TestGame.keys[e.code] = true;
+            
+            if (e.code === 'Escape') {
+                exitTestMode();
+            }
+            
+            // Jump on press
+            if (e.code === 'Space' && !e.repeat) {
+                tryJump();
+            }
+        };
+        
+        window.testKeyUp = (e) => {
+            TestGame.keys[e.code] = false;
+        };
+        
+        document.addEventListener('keydown', window.testKeyDown);
+        document.addEventListener('keyup', window.testKeyUp);
+    }
+    
+    function tryJump() {
+        const p = TestGame.player;
+        const ph = TestGame.physics;
+        
+        if (p.onGround) {
+            p.vy = -ph.jumpForce;
+            p.jumpCount = 1;
+            p.onGround = false;
+            TestGame.stats.jumps++;
+            spawnParticles(p.x, p.y + p.height / 2, 5, '#4a9eff');
+        } else if (p.jumpCount < p.maxJumps) {
+            p.vy = -ph.doubleJumpForce;
+            p.jumpCount++;
+            TestGame.stats.jumps++;
+            spawnParticles(p.x, p.y, 8, '#aa66ff');
+        }
+    }
+    
+    function gameLoop() {
+        if (!TestGame.active) return;
+        
+        update();
+        render();
+        updateHUD();
+        
+        TestGame.animationFrame = requestAnimationFrame(gameLoop);
+    }
+    
+    function update() {
+        const p = TestGame.player;
+        const ph = TestGame.physics;
+        const keys = TestGame.keys;
+        
+        // Horizontal movement
+        if (keys['ArrowLeft'] || keys['KeyA']) {
+            p.vx -= ph.moveSpeed * 0.3;
+            p.facing = -1;
+        }
+        if (keys['ArrowRight'] || keys['KeyD']) {
+            p.vx += ph.moveSpeed * 0.3;
+            p.facing = 1;
+        }
+        
+        // Clamp horizontal velocity
+        p.vx = Math.max(-ph.moveSpeed, Math.min(ph.moveSpeed, p.vx));
+        
+        // Determine state and apply physics
+        let gravity = ph.gravity;
+        let maxFall = ph.maxFallSpeed;
+        
+        // Jetpack (E key)
+        if (keys['KeyE'] && p.fuel > 0 && !p.onGround) {
+            p.state = 'JETPACK';
+            p.vy -= ph.jetpackThrust;
+            p.fuel -= ph.jetpackConsumption;
+            gravity = ph.gravity * 0.5;
+            
+            // Jetpack particles
+            if (Math.random() > 0.5) {
+                spawnParticles(p.x, p.y + p.height / 2, 1, '#ffaa44');
+            }
+        }
+        // Parachute (Shift key)
+        else if (keys['ShiftLeft'] || keys['ShiftRight']) {
+            if (p.vy > 0 && !p.onGround) {
+                p.state = 'PARACHUTE';
+                gravity = ph.parachuteGravity;
+                maxFall = ph.parachuteMaxFall;
+            }
+        }
+        // Glide (hold Space after double jump)
+        else if (keys['Space'] && p.jumpCount >= p.maxJumps && p.vy > 0 && p.glideEnergy > 0) {
+            p.state = 'GLIDING';
+            gravity = ph.glideGravity;
+            maxFall = ph.glideMaxFall;
+            p.glideEnergy -= ph.glideConsumption;
+        }
+        // Normal states
+        else if (p.onGround) {
+            p.state = Math.abs(p.vx) > 0.5 ? 'WALKING' : 'IDLE';
+        } else if (p.vy < 0) {
+            p.state = p.jumpCount > 1 ? 'DOUBLE_JUMP' : 'JUMPING';
+        } else {
+            p.state = 'FALLING';
+        }
+        
+        // Apply gravity
+        p.vy += gravity;
+        p.vy = Math.min(p.vy, maxFall);
+        
+        // Apply friction
+        if (p.onGround) {
+            p.vx *= ph.friction;
+        } else {
+            p.vx *= ph.airFriction;
+        }
+        
+        // Regenerate resources
+        if (p.state !== 'JETPACK') {
+            p.fuel = Math.min(p.maxFuel, p.fuel + ph.jetpackRegen);
+        }
+        if (p.state !== 'GLIDING' && p.onGround) {
+            p.glideEnergy = Math.min(p.maxGlideEnergy, p.glideEnergy + ph.glideRegen * 2);
+        }
+        
+        // Move and collide
+        p.x += p.vx;
+        collideHorizontal();
+        
+        p.y += p.vy;
+        collideVertical();
+        
+        // Check exit
+        checkExit();
+        
+        // Check death (fall out of level)
+        if (p.y > TestGame.level.height + 100) {
+            die();
+        }
+        
+        // Update camera
+        updateCamera();
+        
+        // Update particles
+        updateParticles();
+    }
+    
+    function collideHorizontal() {
+        const p = TestGame.player;
+        const hw = p.width / 2;
+        
+        for (const plat of TestGame.level.platforms) {
+            if (p.y + p.height > plat.y + 4 && p.y < plat.y + plat.height) {
+                // Check left collision
+                if (p.vx < 0 && p.x - hw < plat.x + plat.width && p.x - hw > plat.x) {
+                    p.x = plat.x + plat.width + hw;
+                    p.vx = 0;
+                }
+                // Check right collision
+                if (p.vx > 0 && p.x + hw > plat.x && p.x + hw < plat.x + plat.width) {
+                    p.x = plat.x - hw;
+                    p.vx = 0;
+                }
+            }
+        }
+        
+        // Level bounds
+        if (p.x - hw < 0) {
+            p.x = hw;
+            p.vx = 0;
+        }
+        if (p.x + hw > TestGame.level.width) {
+            p.x = TestGame.level.width - hw;
+            p.vx = 0;
+        }
+    }
+    
+    function collideVertical() {
+        const p = TestGame.player;
+        const hw = p.width / 2;
+        
+        p.onGround = false;
+        
+        for (const plat of TestGame.level.platforms) {
+            if (p.x + hw > plat.x && p.x - hw < plat.x + plat.width) {
+                // Landing on top
+                if (p.vy >= 0 && p.y + p.height >= plat.y && p.y + p.height <= plat.y + plat.height + p.vy) {
+                    p.y = plat.y - p.height;
+                    p.vy = 0;
+                    p.onGround = true;
+                    p.jumpCount = 0;
+                }
+                // Hitting from below (only for ground type)
+                else if (plat.type === 'ground' && p.vy < 0 && p.y <= plat.y + plat.height && p.y >= plat.y) {
+                    p.y = plat.y + plat.height;
+                    p.vy = 0;
+                }
+            }
+        }
+    }
+    
+    function checkExit() {
+        const p = TestGame.player;
+        const e = TestGame.level.exit;
+        
+        const dx = Math.abs(p.x - e.x);
+        const dy = Math.abs(p.y - e.y);
+        
+        if (dx < e.width / 2 + p.width / 2 && dy < e.height / 2 + p.height / 2) {
+            victory();
+        }
+    }
+    
+    function die() {
+        TestGame.stats.deaths++;
+        
+        // Find last checkpoint or spawn
+        let respawnPoint = TestGame.level.spawn;
+        for (const cp of TestGame.level.checkpoints) {
+            if (cp.activated) {
+                respawnPoint = cp;
+            }
+        }
+        
+        TestGame.player.x = respawnPoint.x;
+        TestGame.player.y = respawnPoint.y;
+        TestGame.player.vx = 0;
+        TestGame.player.vy = 0;
+        TestGame.player.fuel = TestGame.player.maxFuel;
+        TestGame.player.glideEnergy = TestGame.player.maxGlideEnergy;
+        
+        spawnParticles(TestGame.player.x, TestGame.player.y, 20, '#ff4466');
+    }
+    
+    function victory() {
+        TestGame.active = false;
+        
+        const elapsed = Math.floor((Date.now() - TestGame.stats.startTime) / 1000);
+        const mins = Math.floor(elapsed / 60);
+        const secs = elapsed % 60;
+        
+        document.getElementById('statTime').textContent = `${mins}:${secs.toString().padStart(2, '0')}`;
+        document.getElementById('statJumps').textContent = TestGame.stats.jumps;
+        document.getElementById('statDeaths').textContent = TestGame.stats.deaths;
+        
+        document.getElementById('victoryScreen').classList.add('active');
+        
+        if (TestGame.animationFrame) {
+            cancelAnimationFrame(TestGame.animationFrame);
+        }
+    }
+    
+    function updateCamera() {
+        const p = TestGame.player;
+        const cam = TestGame.camera;
+        const canvas = TestGame.canvas;
+        
+        const targetX = p.x - canvas.width / 2;
+        const targetY = p.y - canvas.height / 2;
+        
+        cam.x += (targetX - cam.x) * cam.smoothing;
+        cam.y += (targetY - cam.y) * cam.smoothing;
+        
+        // Clamp to level bounds
+        cam.x = Math.max(0, Math.min(TestGame.level.width - canvas.width, cam.x));
+        cam.y = Math.max(0, Math.min(TestGame.level.height - canvas.height, cam.y));
+    }
+    
+    function spawnParticles(x, y, count, color) {
+        for (let i = 0; i < count; i++) {
+            TestGame.particles.push({
+                x: x,
+                y: y,
+                vx: (Math.random() - 0.5) * 6,
+                vy: (Math.random() - 0.5) * 6,
+                life: 1,
+                color: color,
+                size: Math.random() * 4 + 2
+            });
+        }
+    }
+    
+    function updateParticles() {
+        for (let i = TestGame.particles.length - 1; i >= 0; i--) {
+            const part = TestGame.particles[i];
+            part.x += part.vx;
+            part.y += part.vy;
+            part.vy += 0.1;
+            part.life -= 0.03;
+            
+            if (part.life <= 0) {
+                TestGame.particles.splice(i, 1);
+            }
+        }
+    }
+    
+    function render() {
+        const ctx = TestGame.ctx;
+        const canvas = TestGame.canvas;
+        const cam = TestGame.camera;
+        
+        // Clear
+        ctx.fillStyle = '#0a0a10';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        ctx.save();
+        ctx.translate(-cam.x, -cam.y);
+        
+        // Draw grid background
+        drawGrid(ctx);
+        
+        // Draw platforms
+        drawPlatforms(ctx);
+        
+        // Draw checkpoints
+        drawCheckpoints(ctx);
+        
+        // Draw exit
+        drawExit(ctx);
+        
+        // Draw particles
+        drawParticles(ctx);
+        
+        // Draw player
+        drawPlayer(ctx);
+        
+        // Draw block boundaries (debug)
+        drawBlockBoundaries(ctx);
+        
+        ctx.restore();
+        
+        // Draw vignette
+        drawVignette(ctx);
+    }
+    
+    function drawGrid(ctx) {
+        ctx.strokeStyle = '#1a1a24';
+        ctx.lineWidth = 1;
+        
+        const blockW = TestGame.level.blockWidth;
+        const blockH = TestGame.level.blockHeight;
+        
+        for (let x = 0; x <= TestGame.level.width; x += blockW) {
+            ctx.beginPath();
+            ctx.moveTo(x, 0);
+            ctx.lineTo(x, TestGame.level.height);
+            ctx.stroke();
+        }
+        
+        for (let y = 0; y <= TestGame.level.height; y += blockH) {
+            ctx.beginPath();
+            ctx.moveTo(0, y);
+            ctx.lineTo(TestGame.level.width, y);
+            ctx.stroke();
+        }
+    }
+    
+    function drawBlockBoundaries(ctx) {
+        const blockW = TestGame.level.blockWidth;
+        const blockH = TestGame.level.blockHeight;
+        
+        ctx.font = '10px monospace';
+        ctx.fillStyle = '#333';
+        
+        for (let y = 0; y < State.gridHeight; y++) {
+            for (let x = 0; x < State.gridWidth; x++) {
+                const block = State.blocks[y][x];
+                if (block.navigation !== 'none') {
+                    // Draw navigation arrow
+                    ctx.fillStyle = '#333';
+                    ctx.font = '24px sans-serif';
+                    const arrows = { forward: '→', backward: '←', up: '↑', down: '↓', junction: '✚' };
+                    ctx.fillText(arrows[block.navigation] || '', x * blockW + blockW/2 - 10, y * blockH + blockH/2 + 8);
+                }
+            }
+        }
+    }
+    
+    function drawPlatforms(ctx) {
+        for (const plat of TestGame.level.platforms) {
+            if (plat.type === 'ground') {
+                // Ground - solid
+                ctx.fillStyle = '#2a2a3a';
+                ctx.fillRect(plat.x, plat.y, plat.width, plat.height);
+                
+                // Top edge highlight
+                ctx.fillStyle = '#3a3a4a';
+                ctx.fillRect(plat.x, plat.y, plat.width, 3);
+            } else {
+                // Platform - one-way
+                ctx.fillStyle = '#1a3a4a';
+                ctx.fillRect(plat.x, plat.y, plat.width, plat.height);
+                
+                ctx.fillStyle = '#2a5a6a';
+                ctx.fillRect(plat.x, plat.y, plat.width, 3);
+            }
+        }
+    }
+    
+    function drawCheckpoints(ctx) {
+        for (const cp of TestGame.level.checkpoints) {
+            ctx.fillStyle = cp.activated ? '#44dd88' : '#666';
+            ctx.beginPath();
+            ctx.arc(cp.x, cp.y, 15, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.fillStyle = cp.activated ? '#88ffaa' : '#888';
+            ctx.font = '16px sans-serif';
+            ctx.fillText('💾', cp.x - 8, cp.y + 6);
+        }
+    }
+    
+    function drawExit(ctx) {
+        const e = TestGame.level.exit;
+        
+        // Glow
+        const gradient = ctx.createRadialGradient(e.x, e.y, 0, e.x, e.y, 60);
+        gradient.addColorStop(0, 'rgba(68, 221, 136, 0.3)');
+        gradient.addColorStop(1, 'rgba(68, 221, 136, 0)');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(e.x - 60, e.y - 60, 120, 120);
+        
+        // Door
+        ctx.fillStyle = '#44dd88';
+        ctx.fillRect(e.x - e.width/2, e.y - e.height/2, e.width, e.height);
+        
+        // Icon
+        ctx.fillStyle = '#000';
+        ctx.font = '24px sans-serif';
+        ctx.fillText('🚪', e.x - 12, e.y + 8);
+    }
+    
+    function drawParticles(ctx) {
+        for (const part of TestGame.particles) {
+            ctx.globalAlpha = part.life;
+            ctx.fillStyle = part.color;
+            ctx.beginPath();
+            ctx.arc(part.x, part.y, part.size, 0, Math.PI * 2);
+            ctx.fill();
+        }
+        ctx.globalAlpha = 1;
+    }
+    
+    function drawPlayer(ctx) {
+        const p = TestGame.player;
+        
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        
+        // Shadow
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+        ctx.beginPath();
+        ctx.ellipse(0, p.height / 2 + 5, p.width / 2, 6, 0, 0, Math.PI * 2);
+        ctx.fill();
+        
+        // Body
+        ctx.fillStyle = '#1a1a2e';
+        ctx.fillRect(-p.width / 2, -p.height / 2, p.width, p.height);
+        
+        // Cloak effect based on state
+        if (p.state === 'GLIDING') {
+            ctx.fillStyle = '#4a9eff';
+            ctx.beginPath();
+            ctx.moveTo(-p.width / 2, 0);
+            ctx.lineTo(-p.width - 10, p.height / 2 + 10);
+            ctx.lineTo(p.width + 10, p.height / 2 + 10);
+            ctx.lineTo(p.width / 2, 0);
+            ctx.fill();
+        }
+        
+        if (p.state === 'PARACHUTE') {
+            ctx.fillStyle = '#aa66ff';
+            ctx.beginPath();
+            ctx.moveTo(-30, -p.height / 2 - 20);
+            ctx.quadraticCurveTo(0, -p.height / 2 - 50, 30, -p.height / 2 - 20);
+            ctx.lineTo(p.width / 2, -p.height / 2);
+            ctx.lineTo(-p.width / 2, -p.height / 2);
+            ctx.fill();
+        }
+        
+        if (p.state === 'JETPACK') {
+            // Flame
+            ctx.fillStyle = '#ffaa44';
+            ctx.beginPath();
+            ctx.moveTo(-6, p.height / 2);
+            ctx.lineTo(0, p.height / 2 + 15 + Math.random() * 10);
+            ctx.lineTo(6, p.height / 2);
+            ctx.fill();
+        }
+        
+        // Eyes
+        ctx.fillStyle = '#4a9eff';
+        ctx.fillRect(-8, -p.height / 2 + 10, 6, 8);
+        ctx.fillRect(2, -p.height / 2 + 10, 6, 8);
+        
+        // Direction indicator
+        ctx.fillStyle = '#4a9eff';
+        ctx.fillRect(p.facing * 8, -p.height / 2 + 12, 4, 4);
+        
+        ctx.restore();
+    }
+    
+    function drawVignette(ctx) {
+        const canvas = TestGame.canvas;
+        const gradient = ctx.createRadialGradient(
+            canvas.width / 2, canvas.height / 2, canvas.height * 0.3,
+            canvas.width / 2, canvas.height / 2, canvas.height
+        );
+        gradient.addColorStop(0, 'rgba(0, 0, 0, 0)');
+        gradient.addColorStop(1, 'rgba(0, 0, 0, 0.5)');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+    }
+    
+    function updateHUD() {
+        const p = TestGame.player;
+        
+        document.getElementById('hudState').textContent = p.state;
+        document.getElementById('hudFuel').style.width = (p.fuel / p.maxFuel * 100) + '%';
+        document.getElementById('hudGlide').style.width = (p.glideEnergy / p.maxGlideEnergy * 100) + '%';
+        document.getElementById('hudPosition').textContent = `${Math.round(p.x)}, ${Math.round(p.y)}`;
+        
+        const blockX = Math.floor(p.x / TestGame.level.blockWidth);
+        const blockY = Math.floor(p.y / TestGame.level.blockHeight);
+        document.getElementById('hudBlock').textContent = `${blockX}, ${blockY}`;
+    }
+    
+    function exitTestMode() {
+        TestGame.active = false;
+        
+        if (TestGame.animationFrame) {
+            cancelAnimationFrame(TestGame.animationFrame);
+        }
+        
+        // Remove input listeners
+        document.removeEventListener('keydown', window.testKeyDown);
+        document.removeEventListener('keyup', window.testKeyUp);
+        
+        // Hide overlay
+        document.getElementById('testOverlay').classList.remove('active');
+        document.getElementById('victoryScreen').classList.remove('active');
+    }
+    
+    function restartTest() {
+        document.getElementById('victoryScreen').classList.remove('active');
+        TestGame.stats.startTime = Date.now();
+        TestGame.stats.jumps = 0;
+        TestGame.stats.deaths = 0;
+        resetPlayer();
+        TestGame.active = true;
+        gameLoop();
+    }
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // EVENT LISTENERS
+    // ═══════════════════════════════════════════════════════════════════
+    
+    function setupEventListeners() {
+        // Global mouse up
+        document.addEventListener('mouseup', () => {
+            if (State.isDragging) {
+                State.isDragging = false;
+                saveHistory('paint navigation');
+            }
+        });
+        
+        // Click outside context menu
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.context-menu')) {
+                hideContextMenu();
+            }
+        });
+        
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Don't trigger if typing in input
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            
+            switch (e.key.toLowerCase()) {
+                case 'v': setTool('select'); break;
+                case 'n': setTool('navigate'); break;
+                case 'x': setTool('erase'); break;
+                case 'f': setTool('fill'); break;
+                case 's': 
+                    if (!e.ctrlKey) setTool('spawn'); 
+                    else { e.preventDefault(); exportLevel(); }
+                    break;
+                case 'e': setTool('exit'); break;
+                case 'k': setTool('checkpoint'); break;
+                case 'h': setTool('secret'); break;
+                case 'enter': enterMicroMode(); break;
+                case 'delete':
+                case 'backspace':
+                    if (State.selectedCells.length > 0) {
+                        contextAction('clear');
+                    }
+                    break;
+                case 'z':
+                    if (e.ctrlKey || e.metaKey) {
+                        e.preventDefault();
+                        if (e.shiftKey) redo();
+                        else undo();
+                    }
+                    break;
+                case 'y':
+                    if (e.ctrlKey || e.metaKey) {
+                        e.preventDefault();
+                        redo();
+                    }
+                    break;
+                case 'r':
+                    if (e.ctrlKey || e.metaKey) {
+                        e.preventDefault();
+                        rollback();
+                    }
+                    break;
+                case 'arrowup': setDirection('up'); break;
+                case 'arrowdown': setDirection('down'); break;
+                case 'arrowleft': setDirection('backward'); break;
+                case 'arrowright': setDirection('forward'); break;
+            }
+        });
+    }
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // INIT
+    // ═══════════════════════════════════════════════════════════════════
+    
+    init();
+    
+    // Save initial state
+    saveHistory('initial state');
+    updateHistoryButtons();
+    
+    </script>
+</body>
+</html>

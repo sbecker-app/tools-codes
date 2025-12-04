@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadow Drift — Level 01: The Forgotten Cavern</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #000;
+            overflow: hidden;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+        
+        #game-container {
+            width: 100vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        #game-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        
+        /* HUD */
+        #hud {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            z-index: 100;
+            color: #fff;
+            font-size: 12px;
+            opacity: 0.7;
+        }
+        
+        #hud .stat {
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        #hud .bar {
+            width: 100px;
+            height: 6px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        #hud .bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.2s;
+        }
+        
+        #hud .bar-fill.fuel {
+            background: linear-gradient(90deg, #ff6b35, #ffaa00);
+        }
+        
+        #hud .bar-fill.glide {
+            background: linear-gradient(90deg, #35a0ff, #00ddff);
+        }
+        
+        #controls-help {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 100;
+            color: #fff;
+            font-size: 11px;
+            opacity: 0.5;
+            line-height: 1.8;
+        }
+        
+        #controls-help kbd {
+            background: rgba(255,255,255,0.15);
+            padding: 2px 6px;
+            border-radius: 3px;
+            margin-right: 4px;
+        }
+        
+        #state-display {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 100;
+            color: #4a9eff;
+            font-size: 14px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        /* Room transition overlay */
+        #transition-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 200;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.5s;
+        }
+        
+        #transition-overlay.active {
+            opacity: 1;
+        }
+        
+        /* Room name display */
+        #room-name {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #fff;
+            font-size: 24px;
+            font-weight: 300;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            opacity: 0;
+            z-index: 201;
+            transition: opacity 0.5s;
+        }
+        
+        #room-name.show {
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="game-canvas"></canvas>
+    </div>
+    
+    <div id="hud">
+        <div class="stat">
+            <span>JETPACK</span>
+            <div class="bar"><div class="bar-fill fuel" id="fuel-bar" style="width: 100%"></div></div>
+        </div>
+        <div class="stat">
+            <span>GLIDE</span>
+            <div class="bar"><div class="bar-fill glide" id="glide-bar" style="width: 100%"></div></div>
+        </div>
+    </div>
+    
+    <div id="state-display">IDLE</div>
+    
+    <div id="controls-help">
+        <kbd>←</kbd><kbd>→</kbd> Move<br>
+        <kbd>SPACE</kbd> Jump / Double Jump<br>
+        <kbd>SPACE</kbd> (hold) Glide<br>
+        <kbd>SHIFT</kbd> Parachute<br>
+        <kbd>E</kbd> Jetpack
+    </div>
+    
+    <div id="transition-overlay"></div>
+    <div id="room-name"></div>
+
+    <script>
+    // ═══════════════════════════════════════════════════════════════════
+    // GAME ENGINE
+    // ═══════════════════════════════════════════════════════════════════
+    
+    const canvas = document.getElementById('game-canvas');
+    const ctx = canvas.getContext('2d');
+    
+    // Resize canvas
+    function resize() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // CONFIGURATION
+    // ═══════════════════════════════════════════════════════════════════
+    
+    const CONFIG = {
+        // Physics
+        gravity: 0.6,
+        maxFallSpeed: 15,
+        
+        // Movement
+        moveSpeed: 5,
+        acceleration: 0.8,
+        friction: 0.85,
+        airControl: 0.7,
+        
+        // Jump
+        jumpForce: 13,
+        doubleJumpForce: 11,
+        coyoteTime: 100,
+        jumpBuffer: 120,
+        
+        // Glide
+        glideGravity: 0.15,
+        glideMaxFall: 2,
+        glideMaxDuration: 3000,
+        glideRechargeRate: 1500,
+        
+        // Parachute
+        parachuteGravity: 0.08,
+        parachuteMaxFall: 1.5,
+        parachuteDrift: 1.3,
+        
+        // Jetpack
+        jetpackThrust: 1.2,
+        jetpackMaxFuel: 100,
+        jetpackConsumption: 0.6,
+        jetpackRegen: 0.4,
+        
+        // Camera
+        cameraSmoothing: 0.08,
+        cameraBoundsX: 200,
+        cameraBoundsY: 150,
+    };
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // INPUT MANAGER
+    // ═══════════════════════════════════════════════════════════════════
+    
+    const Input = {
+        keys: {},
+        justPressed: {},
+        
+        init() {
+            window.addEventListener('keydown', (e) => {
+                if (!this.keys[e.code]) {
+                    this.justPressed[e.code] = true;
+                }
+                this.keys[e.code] = true;
+            });
+            
+            window.addEventListener('keyup', (e) => {
+                this.keys[e.code] = false;
+            });
+        },
+        
+        update() {
+            this.justPressed = {};
+        },
+        
+        isDown(key) {
+            const keys = Array.isArray(key) ? key : [key];
+            return keys.some(k => this.keys[k]);
+        },
+        
+        wasPressed(key) {
+            const keys = Array.isArray(key) ? key : [key];
+            return keys.some(k => this.justPressed[k]);
+        }
+    };
+    
+    Input.init();
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // LEVEL DATA
+    // ═══════════════════════════════════════════════════════════════════
+    
+    const LEVELS = {
+        'cavern_entrance': {
+            name: 'The Forgotten Cavern',
+            width: 3200,
+            height: 900,
+            spawn: { x: 150, y: 600 },
+            backgroundColor: '#08080c',
+            
+            // Parallax layers (far to near)
+            parallaxLayers: [
+                {
+                    depth: 0.1,
+                    elements: [
+                        { type: 'stars', y: 0 }
+                    ]
+                },
+                {
+                    depth: 0.2,
+                    elements: [
+                        { type: 'mountains', y: 200 }
+                    ]
+                },
+                {
+                    depth: 0.4,
+                    elements: [
+                        { type: 'deadForest', y: 300 }
+                    ]
+                },
+                {
+                    depth: 0.6,
+                    elements: [
+                        { type: 'cavePillars', y: 0 }
+                    ]
+                }
+            ],
+            
+            // Terrain platforms
+            platforms: [
+                // Ground sections
+                { x: 0, y: 750, w: 600, h: 150, type: 'ground' },
+                { x: 700, y: 800, w: 300, h: 100, type: 'ground' },
+                { x: 1100, y: 750, w: 500, h: 150, type: 'ground' },
+                { x: 1700, y: 700, w: 200, h: 200, type: 'ground' },
+                { x: 2000, y: 750, w: 400, h: 150, type: 'ground' },
+                { x: 2500, y: 700, w: 300, h: 200, type: 'ground' },
+                { x: 2900, y: 750, w: 300, h: 150, type: 'ground' },
+                
+                // Floating platforms
+                { x: 300, y: 580, w: 150, h: 30, type: 'platform' },
+                { x: 550, y: 480, w: 120, h: 25, type: 'platform' },
+                { x: 750, y: 550, w: 100, h: 25, type: 'platform' },
+                { x: 950, y: 450, w: 130, h: 25, type: 'platform' },
+                { x: 1200, y: 550, w: 150, h: 30, type: 'platform' },
+                { x: 1400, y: 450, w: 100, h: 25, type: 'platform' },
+                { x: 1550, y: 350, w: 120, h: 25, type: 'platform' },
+                { x: 1750, y: 500, w: 100, h: 25, type: 'platform' },
+                { x: 1900, y: 400, w: 150, h: 30, type: 'platform' },
+                { x: 2100, y: 520, w: 120, h: 25, type: 'platform' },
+                { x: 2300, y: 420, w: 100, h: 25, type: 'platform' },
+                { x: 2500, y: 500, w: 130, h: 25, type: 'platform' },
+                { x: 2700, y: 380, w: 100, h: 25, type: 'platform' },
+                
+                // High platforms (need jetpack/glide)
+                { x: 400, y: 300, w: 100, h: 25, type: 'platform' },
+                { x: 1000, y: 280, w: 120, h: 25, type: 'platform' },
+                { x: 1800, y: 250, w: 100, h: 25, type: 'platform' },
+                { x: 2400, y: 280, w: 150, h: 25, type: 'platform' },
+                
+                // Walls
+                { x: 600, y: 600, w: 40, h: 200, type: 'wall' },
+                { x: 1600, y: 500, w: 40, h: 250, type: 'wall' },
+                { x: 2480, y: 450, w: 40, h: 260, type: 'wall' },
+            ],
+            
+            // Decorative elements
+            decorations: [
+                // Crystals
+                { type: 'crystal', x: 350, y: 540, color: '#4a9eff' },
+                { type: 'crystal', x: 980, y: 410, color: '#9a4aff' },
+                { type: 'crystal', x: 1850, y: 210, color: '#4affaa' },
+                { type: 'crystal', x: 2450, y: 240, color: '#ff4a9e' },
+                
+                // Lanterns
+                { type: 'lantern', x: 200, y: 650 },
+                { type: 'lantern', x: 1250, y: 650 },
+                { type: 'lantern', x: 2050, y: 650 },
+                { type: 'lantern', x: 2750, y: 650 },
+                
+                // Mushrooms
+                { type: 'mushroom', x: 100, y: 730 },
+                { type: 'mushroom', x: 450, y: 730 },
+                { type: 'mushroom', x: 1150, y: 730 },
+                { type: 'mushroom', x: 2100, y: 730 },
+                { type: 'mushroom', x: 2600, y: 680 },
+                
+                // Chains (from top)
+                { type: 'chain', x: 500, y: 0, length: 300 },
+                { type: 'chain', x: 1100, y: 0, length: 250 },
+                { type: 'chain', x: 1700, y: 0, length: 200 },
+                { type: 'chain', x: 2300, y: 0, length: 350 },
+                { type: 'chain', x: 2900, y: 0, length: 280 },
+            ],
+            
+            // Ambient particles
+            particles: {
+                dust: 30,
+                fireflies: 15
+            },
+            
+            // Exit door
+            exit: { x: 3050, y: 650, targetLevel: 'cavern_depths' }
+        }
+    };
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // PLAYER
+    // ═══════════════════════════════════════════════════════════════════
+    
+    const Player = {
+        x: 150,
+        y: 600,
+        vx: 0,
+        vy: 0,
+        width: 30,
+        height: 50,
+        
+        // States
+        state: 'idle',
+        facingRight: true,
+        isGrounded: false,
+        canDoubleJump: true,
+        
+        // Timers
+        coyoteTimer: 0,
+        jumpBufferTimer: 0,
+        lastGroundedTime: 0,
+        
+        // Resources
+        jetpackFuel: CONFIG.jetpackMaxFuel,
+        glideEnergy: CONFIG.glideMaxDuration,
+        glideUsed: 0,
+        
+        // Animation
+        animFrame: 0,
+        animTimer: 0,
+        
+        init(x, y) {
+            this.x = x;
+            this.y = y;
+            this.vx = 0;
+            this.vy = 0;
+            this.state = 'idle';
+            this.isGrounded = false;
+            this.canDoubleJump = true;
+            this.jetpackFuel = CONFIG.jetpackMaxFuel;
+            this.glideEnergy = CONFIG.glideMaxDuration;
+        },
+        
+        update(dt, platforms) {
+            const wasGrounded = this.isGrounded;
+            
+            // ─────────────────────────────────────────────────
+            // INPUT
+            // ─────────────────────────────────────────────────
+            
+            let moveX = 0;
+            if (Input.isDown(['ArrowLeft', 'KeyA', 'KeyQ'])) moveX = -1;
+            if (Input.isDown(['ArrowRight', 'KeyD'])) moveX = 1;
+            
+            const jumpPressed = Input.wasPressed(['Space', 'KeyW', 'KeyZ', 'ArrowUp']);
+            const jumpHeld = Input.isDown(['Space', 'KeyW', 'KeyZ', 'ArrowUp']);
+            const parachuteHeld = Input.isDown(['ShiftLeft', 'ShiftRight']);
+            const jetpackHeld = Input.isDown(['KeyE']);
+            
+            // ─────────────────────────────────────────────────
+            // HORIZONTAL MOVEMENT
+            // ─────────────────────────────────────────────────
+            
+            const accel = this.isGrounded ? CONFIG.acceleration : CONFIG.acceleration * CONFIG.airControl;
+            const targetSpeed = moveX * CONFIG.moveSpeed;
+            
+            if (moveX !== 0) {
+                this.vx += (targetSpeed - this.vx) * accel;
+                this.facingRight = moveX > 0;
+            } else {
+                this.vx *= CONFIG.friction;
+            }
+            
+            // ─────────────────────────────────────────────────
+            // JUMP BUFFER & COYOTE TIME
+            // ─────────────────────────────────────────────────
+            
+            if (jumpPressed) {
+                this.jumpBufferTimer = CONFIG.jumpBuffer;
+            }
+            if (this.jumpBufferTimer > 0) {
+                this.jumpBufferTimer -= dt;
+            }
+            
+            if (this.isGrounded) {
+                this.coyoteTimer = CONFIG.coyoteTime;
+                this.canDoubleJump = true;
+                this.lastGroundedTime = Date.now();
+            } else {
+                this.coyoteTimer -= dt;
+            }
+            
+            // ─────────────────────────────────────────────────
+            // STATE MACHINE
+            // ─────────────────────────────────────────────────
+            
+            let gravity = CONFIG.gravity;
+            let maxFall = CONFIG.maxFallSpeed;
+            
+            // Jetpack
+            if (jetpackHeld && this.jetpackFuel > 0 && !this.isGrounded) {
+                this.state = 'jetpack';
+                this.vy -= CONFIG.jetpackThrust;
+                this.jetpackFuel -= CONFIG.jetpackConsumption;
+                if (this.vy < -8) this.vy = -8;
+            }
+            // Parachute
+            else if (parachuteHeld && !this.isGrounded && this.vy > 0) {
+                this.state = 'parachute';
+                gravity = CONFIG.parachuteGravity;
+                maxFall = CONFIG.parachuteMaxFall;
+                if (moveX !== 0) {
+                    this.vx += moveX * 0.3;
+                }
+            }
+            // Glide (hold jump after double jump)
+            else if (jumpHeld && !this.isGrounded && this.vy > 0 && !this.canDoubleJump && this.glideEnergy > 0) {
+                this.state = 'gliding';
+                gravity = CONFIG.glideGravity;
+                maxFall = CONFIG.glideMaxFall;
+                this.glideUsed += dt;
+                this.glideEnergy -= dt;
+            }
+            // Grounded states
+            else if (this.isGrounded) {
+                if (Math.abs(this.vx) > 0.5) {
+                    this.state = 'walking';
+                } else {
+                    this.state = 'idle';
+                }
+            }
+            // Airborne
+            else {
+                if (this.vy < 0) {
+                    this.state = this.canDoubleJump ? 'jumping' : 'doubleJump';
+                } else {
+                    this.state = 'falling';
+                }
+            }
+            
+            // ─────────────────────────────────────────────────
+            // JUMP LOGIC
+            // ─────────────────────────────────────────────────
+            
+            if (this.jumpBufferTimer > 0) {
+                // Grounded jump (or coyote)
+                if (this.coyoteTimer > 0) {
+                    this.vy = -CONFIG.jumpForce;
+                    this.jumpBufferTimer = 0;
+                    this.coyoteTimer = 0;
+                    this.isGrounded = false;
+                    this.state = 'jumping';
+                }
+                // Double jump
+                else if (this.canDoubleJump && !this.isGrounded) {
+                    this.vy = -CONFIG.doubleJumpForce;
+                    this.canDoubleJump = false;
+                    this.jumpBufferTimer = 0;
+                    this.state = 'doubleJump';
+                }
+            }
+            
+            // ─────────────────────────────────────────────────
+            // PHYSICS
+            // ─────────────────────────────────────────────────
+            
+            this.vy += gravity;
+            if (this.vy > maxFall) this.vy = maxFall;
+            
+            // Apply velocity
+            this.x += this.vx;
+            this.y += this.vy;
+            
+            // ─────────────────────────────────────────────────
+            // COLLISION
+            // ─────────────────────────────────────────────────
+            
+            this.isGrounded = false;
+            
+            for (const plat of platforms) {
+                if (this.collidesWith(plat)) {
+                    const overlapX = this.getOverlapX(plat);
+                    const overlapY = this.getOverlapY(plat);
+                    
+                    if (Math.abs(overlapX) < Math.abs(overlapY)) {
+                        // Horizontal collision
+                        this.x -= overlapX;
+                        this.vx = 0;
+                    } else {
+                        // Vertical collision
+                        if (this.vy > 0 && this.y < plat.y + plat.h / 2) {
+                            // Landing
+                            this.y = plat.y - this.height;
+                            this.vy = 0;
+                            this.isGrounded = true;
+                        } else if (this.vy < 0) {
+                            // Ceiling
+                            this.y = plat.y + plat.h;
+                            this.vy = 0;
+                        }
+                    }
+                }
+            }
+            
+            // ─────────────────────────────────────────────────
+            // RESOURCE REGEN
+            // ─────────────────────────────────────────────────
+            
+            if (this.isGrounded) {
+                this.jetpackFuel = Math.min(CONFIG.jetpackMaxFuel, this.jetpackFuel + CONFIG.jetpackRegen);
+                this.glideEnergy = Math.min(CONFIG.glideMaxDuration, this.glideEnergy + CONFIG.glideRechargeRate * (dt / 1000));
+            }
+            
+            // ─────────────────────────────────────────────────
+            // ANIMATION
+            // ─────────────────────────────────────────────────
+            
+            this.animTimer += dt;
+            if (this.animTimer > 100) {
+                this.animTimer = 0;
+                this.animFrame = (this.animFrame + 1) % 4;
+            }
+            
+            // Update HUD
+            document.getElementById('fuel-bar').style.width = (this.jetpackFuel / CONFIG.jetpackMaxFuel * 100) + '%';
+            document.getElementById('glide-bar').style.width = (this.glideEnergy / CONFIG.glideMaxDuration * 100) + '%';
+            document.getElementById('state-display').textContent = this.state.toUpperCase();
+        },
+        
+        collidesWith(rect) {
+            return this.x < rect.x + rect.w &&
+                   this.x + this.width > rect.x &&
+                   this.y < rect.y + rect.h &&
+                   this.y + this.height > rect.y;
+        },
+        
+        getOverlapX(rect) {
+            const centerX = this.x + this.width / 2;
+            const rectCenterX = rect.x + rect.w / 2;
+            if (centerX < rectCenterX) {
+                return (this.x + this.width) - rect.x;
+            } else {
+                return this.x - (rect.x + rect.w);
+            }
+        },
+        
+        getOverlapY(rect) {
+            const centerY = this.y + this.height / 2;
+            const rectCenterY = rect.y + rect.h / 2;
+            if (centerY < rectCenterY) {
+                return (this.y + this.height) - rect.y;
+            } else {
+                return this.y - (rect.y + rect.h);
+            }
+        },
+        
+        render(ctx, camera) {
+            const screenX = this.x - camera.x;
+            const screenY = this.y - camera.y;
+            
+            ctx.save();
+            ctx.translate(screenX + this.width / 2, screenY + this.height / 2);
+            
+            // Flip if facing left
+            if (!this.facingRight) {
+                ctx.scale(-1, 1);
+            }
+            
+            // ─────────────────────────────────────────────────
+            // DRAW PLAYER
+            // ─────────────────────────────────────────────────
+            
+            // Shadow/glow based on state
+            if (this.state === 'jetpack') {
+                ctx.shadowColor = '#ff6600';
+                ctx.shadowBlur = 20;
+            } else if (this.state === 'gliding') {
+                ctx.shadowColor = '#00aaff';
+                ctx.shadowBlur = 15;
+            }
+            
+            // Body (silhouette style)
+            ctx.fillStyle = '#0a0a0f';
+            ctx.beginPath();
+            
+            // Head
+            ctx.ellipse(0, -this.height/2 + 10, 10, 12, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Body
+            ctx.beginPath();
+            ctx.moveTo(-8, -this.height/2 + 20);
+            ctx.lineTo(-10, 5);
+            ctx.lineTo(-6, this.height/2 - 5);
+            ctx.lineTo(6, this.height/2 - 5);
+            ctx.lineTo(10, 5);
+            ctx.lineTo(8, -this.height/2 + 20);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Cape / parachute
+            if (this.state === 'gliding' || this.state === 'parachute') {
+                ctx.fillStyle = this.state === 'parachute' ? '#1a3050' : '#102030';
+                ctx.beginPath();
+                if (this.state === 'parachute') {
+                    // Parachute dome
+                    ctx.ellipse(0, -this.height/2 - 20, 35, 25, 0, Math.PI, 0);
+                    ctx.lineTo(-8, -this.height/2 + 15);
+                    ctx.lineTo(8, -this.height/2 + 15);
+                } else {
+                    // Cape
+                    ctx.moveTo(-8, -this.height/2 + 20);
+                    ctx.quadraticCurveTo(-25, 10, -20, this.height/2 + 10);
+                    ctx.lineTo(0, this.height/2);
+                    ctx.quadraticCurveTo(-5, 0, -8, -this.height/2 + 20);
+                }
+                ctx.fill();
+            }
+            
+            // Jetpack flame
+            if (this.state === 'jetpack') {
+                ctx.fillStyle = '#ff4400';
+                ctx.beginPath();
+                const flameHeight = 15 + Math.sin(Date.now() / 50) * 8;
+                ctx.moveTo(-6, this.height/2 - 5);
+                ctx.lineTo(0, this.height/2 + flameHeight);
+                ctx.lineTo(6, this.height/2 - 5);
+                ctx.fill();
+                
+                ctx.fillStyle = '#ffaa00';
+                ctx.beginPath();
+                ctx.moveTo(-4, this.height/2 - 5);
+                ctx.lineTo(0, this.height/2 + flameHeight * 0.6);
+                ctx.lineTo(4, this.height/2 - 5);
+                ctx.fill();
+            }
+            
+            // Eyes (always visible)
+            ctx.fillStyle = '#ffffff';
+            ctx.beginPath();
+            ctx.ellipse(-4, -this.height/2 + 8, 3, 2.5, 0, 0, Math.PI * 2);
+            ctx.ellipse(4, -this.height/2 + 8, 3, 2.5, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Eye pupils
+            ctx.fillStyle = '#4af';
+            ctx.beginPath();
+            ctx.arc(-3.5, -this.height/2 + 8, 1.5, 0, Math.PI * 2);
+            ctx.arc(4.5, -this.height/2 + 8, 1.5, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.restore();
+        }
+    };
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // CAMERA
+    // ═══════════════════════════════════════════════════════════════════
+    
+    const Camera = {
+        x: 0,
+        y: 0,
+        targetX: 0,
+        targetY: 0,
+        
+        update(target, levelWidth, levelHeight) {
+            // Target position (centered on player)
+            this.targetX = target.x + target.width / 2 - canvas.width / 2;
+            this.targetY = target.y + target.height / 2 - canvas.height / 2;
+            
+            // Smooth follow
+            this.x += (this.targetX - this.x) * CONFIG.cameraSmoothing;
+            this.y += (this.targetY - this.y) * CONFIG.cameraSmoothing;
+            
+            // Clamp to level bounds
+            this.x = Math.max(0, Math.min(levelWidth - canvas.width, this.x));
+            this.y = Math.max(0, Math.min(levelHeight - canvas.height, this.y));
+        }
+    };
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // PARTICLES
+    // ═══════════════════════════════════════════════════════════════════
+    
+    const Particles = {
+        dust: [],
+        fireflies: [],
+        
+        init(config, levelWidth, levelHeight) {
+            this.dust = [];
+            this.fireflies = [];
+            
+            // Create dust particles
+            for (let i = 0; i < config.dust; i++) {
+                this.dust.push({
+                    x: Math.random() * levelWidth,
+                    y: Math.random() * levelHeight,
+                    size: 1 + Math.random() * 2,
+                    speedX: -0.2 + Math.random() * 0.4,
+                    speedY: -0.1 + Math.random() * 0.2,
+                    opacity: 0.1 + Math.random() * 0.3
+                });
+            }
+            
+            // Create fireflies
+            for (let i = 0; i < config.fireflies; i++) {
+                this.fireflies.push({
+                    x: Math.random() * levelWidth,
+                    y: 200 + Math.random() * (levelHeight - 400),
+                    baseX: 0,
+                    baseY: 0,
+                    size: 2 + Math.random() * 3,
+                    phase: Math.random() * Math.PI * 2,
+                    speed: 0.5 + Math.random() * 1,
+                    glowPhase: Math.random() * Math.PI * 2
+                });
+                this.fireflies[i].baseX = this.fireflies[i].x;
+                this.fireflies[i].baseY = this.fireflies[i].y;
+            }
+        },
+        
+        update(dt, levelWidth, levelHeight) {
+            // Update dust
+            for (const p of this.dust) {
+                p.x += p.speedX;
+                p.y += p.speedY;
+                
+                if (p.x < 0) p.x = levelWidth;
+                if (p.x > levelWidth) p.x = 0;
+                if (p.y < 0) p.y = levelHeight;
+                if (p.y > levelHeight) p.y = 0;
+            }
+            
+            // Update fireflies
+            const time = Date.now() / 1000;
+            for (const f of this.fireflies) {
+                f.x = f.baseX + Math.sin(time * f.speed + f.phase) * 30;
+                f.y = f.baseY + Math.cos(time * f.speed * 0.7 + f.phase) * 20;
+                f.glowPhase += 0.05;
+            }
+        },
+        
+        render(ctx, camera) {
+            // Render dust
+            ctx.fillStyle = '#ffffff';
+            for (const p of this.dust) {
+                const screenX = p.x - camera.x;
+                const screenY = p.y - camera.y;
+                
+                if (screenX > -10 && screenX < canvas.width + 10 &&
+                    screenY > -10 && screenY < canvas.height + 10) {
+                    ctx.globalAlpha = p.opacity;
+                    ctx.beginPath();
+                    ctx.arc(screenX, screenY, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            
+            // Render fireflies
+            for (const f of this.fireflies) {
+                const screenX = f.x - camera.x;
+                const screenY = f.y - camera.y;
+                
+                if (screenX > -20 && screenX < canvas.width + 20 &&
+                    screenY > -20 && screenY < canvas.height + 20) {
+                    
+                    const glow = 0.3 + Math.sin(f.glowPhase) * 0.4;
+                    
+                    // Outer glow
+                    ctx.globalAlpha = glow * 0.3;
+                    ctx.fillStyle = '#aaffaa';
+                    ctx.beginPath();
+                    ctx.arc(screenX, screenY, f.size * 4, 0, Math.PI * 2);
+                    ctx.fill();
+                    
+                    // Core
+                    ctx.globalAlpha = glow + 0.3;
+                    ctx.fillStyle = '#ddffdd';
+                    ctx.beginPath();
+                    ctx.arc(screenX, screenY, f.size, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            
+            ctx.globalAlpha = 1;
+        }
+    };
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // RENDERER
+    // ═══════════════════════════════════════════════════════════════════
+    
+    const Renderer = {
+        
+        renderParallaxLayer(ctx, camera, layer, levelWidth, levelHeight) {
+            const offsetX = camera.x * layer.depth;
+            const offsetY = camera.y * layer.depth * 0.5;
+            
+            ctx.save();
+            ctx.translate(-offsetX, -offsetY);
+            
+            for (const elem of layer.elements) {
+                switch (elem.type) {
+                    case 'stars':
+                        this.renderStars(ctx, levelWidth);
+                        break;
+                    case 'mountains':
+                        this.renderMountains(ctx, elem.y, levelWidth);
+                        break;
+                    case 'deadForest':
+                        this.renderDeadForest(ctx, elem.y, levelWidth);
+                        break;
+                    case 'cavePillars':
+                        this.renderCavePillars(ctx, levelWidth, levelHeight);
+                        break;
+                }
+            }
+            
+            ctx.restore();
+        },
+        
+        renderStars(ctx, width) {
+            ctx.fillStyle = '#ffffff';
+            const starCount = Math.floor(width / 50);
+            for (let i = 0; i < starCount; i++) {
+                const x = (i * 137) % width;
+                const y = (i * 89) % 300;
+                const size = 0.5 + (i % 3) * 0.5;
+                const opacity = 0.3 + (i % 5) * 0.15;
+                ctx.globalAlpha = opacity;
+                ctx.beginPath();
+                ctx.arc(x, y, size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+            ctx.globalAlpha = 1;
+        },
+        
+        renderMountains(ctx, y, width) {
+            // Far mountains
+            ctx.fillStyle = '#0d0d15';
+            ctx.globalAlpha = 0.6;
+            ctx.beginPath();
+            ctx.moveTo(0, y + 300);
+            for (let x = 0; x <= width; x += 100) {
+                const h = 50 + Math.sin(x * 0.01) * 80 + Math.sin(x * 0.023) * 40;
+                ctx.lineTo(x, y + 150 - h);
+            }
+            ctx.lineTo(width, y + 300);
+            ctx.fill();
+            
+            // Near mountains
+            ctx.fillStyle = '#0f0f18';
+            ctx.globalAlpha = 0.8;
+            ctx.beginPath();
+            ctx.moveTo(0, y + 300);
+            for (let x = 0; x <= width; x += 80) {
+                const h = 30 + Math.sin(x * 0.015 + 1) * 60 + Math.sin(x * 0.031) * 30;
+                ctx.lineTo(x, y + 200 - h);
+            }
+            ctx.lineTo(width, y + 300);
+            ctx.fill();
+            
+            ctx.globalAlpha = 1;
+        },
+        
+        renderDeadForest(ctx, y, width) {
+            ctx.fillStyle = '#0a0a12';
+            
+            for (let x = 30; x < width; x += 60 + Math.sin(x) * 20) {
+                const height = 150 + Math.sin(x * 0.1) * 80;
+                const trunkWidth = 4 + (x % 5);
+                
+                // Trunk
+                ctx.fillRect(x - trunkWidth/2, y + 200 - height, trunkWidth, height);
+                
+                // Branches
+                const branchCount = 2 + (x % 3);
+                for (let b = 0; b < branchCount; b++) {
+                    const by = y + 200 - height + 30 + b * 40;
+                    const blen = 15 + (b % 2) * 20;
+                    const dir = (b % 2) * 2 - 1;
+                    
+                    ctx.beginPath();
+                    ctx.moveTo(x, by);
+                    ctx.lineTo(x + blen * dir, by - 20);
+                    ctx.lineTo(x + blen * dir, by - 18);
+                    ctx.lineTo(x, by + 2);
+                    ctx.fill();
+                }
+            }
+        },
+        
+        renderCavePillars(ctx, width, height) {
+            ctx.fillStyle = '#141420';
+            
+            // Stalactites
+            for (let x = 80; x < width; x += 150 + Math.sin(x * 0.1) * 50) {
+                const len = 60 + Math.sin(x * 0.2) * 40;
+                const w = 15 + (x % 10);
+                
+                ctx.beginPath();
+                ctx.moveTo(x - w/2, 0);
+                ctx.lineTo(x + w/2, 0);
+                ctx.lineTo(x + w/4, len * 0.7);
+                ctx.lineTo(x, len);
+                ctx.lineTo(x - w/4, len * 0.7);
+                ctx.closePath();
+                ctx.fill();
+            }
+            
+            // Stalagmites
+            ctx.fillStyle = '#161622';
+            for (let x = 50; x < width; x += 120 + Math.sin(x * 0.15) * 40) {
+                const len = 40 + Math.sin(x * 0.25) * 30;
+                const w = 20 + (x % 15);
+                
+                ctx.beginPath();
+                ctx.moveTo(x - w/2, height);
+                ctx.lineTo(x + w/2, height);
+                ctx.lineTo(x + w/4, height - len * 0.7);
+                ctx.lineTo(x, height - len);
+                ctx.lineTo(x - w/4, height - len * 0.7);
+                ctx.closePath();
+                ctx.fill();
+            }
+        },
+        
+        renderPlatform(ctx, plat, camera) {
+            const x = plat.x - camera.x;
+            const y = plat.y - camera.y;
+            
+            if (x > canvas.width + 100 || x + plat.w < -100 ||
+                y > canvas.height + 100 || y + plat.h < -100) {
+                return;
+            }
+            
+            if (plat.type === 'ground') {
+                // Ground with texture
+                const gradient = ctx.createLinearGradient(x, y, x, y + plat.h);
+                gradient.addColorStop(0, '#1a1a24');
+                gradient.addColorStop(0.1, '#14141c');
+                gradient.addColorStop(1, '#0a0a10');
+                ctx.fillStyle = gradient;
+                ctx.fillRect(x, y, plat.w, plat.h);
+                
+                // Top edge highlight
+                ctx.fillStyle = '#2a2a34';
+                ctx.fillRect(x, y, plat.w, 3);
+                
+                // Grass/moss tufts
+                ctx.fillStyle = '#1a3020';
+                for (let gx = x + 10; gx < x + plat.w - 10; gx += 20 + Math.random() * 15) {
+                    const gh = 4 + Math.random() * 6;
+                    ctx.beginPath();
+                    ctx.moveTo(gx, y);
+                    ctx.lineTo(gx - 3, y - gh);
+                    ctx.lineTo(gx, y - gh + 2);
+                    ctx.lineTo(gx + 3, y - gh);
+                    ctx.lineTo(gx, y);
+                    ctx.fill();
+                }
+                
+            } else if (plat.type === 'platform') {
+                // Floating platform
+                ctx.fillStyle = '#1c1c26';
+                ctx.beginPath();
+                ctx.roundRect(x, y, plat.w, plat.h, 4);
+                ctx.fill();
+                
+                // Highlight
+                ctx.fillStyle = '#2a2a36';
+                ctx.fillRect(x + 2, y + 2, plat.w - 4, 3);
+                
+                // Shadow underneath
+                ctx.fillStyle = 'rgba(0,0,0,0.3)';
+                ctx.beginPath();
+                ctx.ellipse(x + plat.w/2, y + plat.h + 10, plat.w/2 - 5, 8, 0, 0, Math.PI * 2);
+                ctx.fill();
+                
+            } else if (plat.type === 'wall') {
+                // Wall
+                ctx.fillStyle = '#16161e';
+                ctx.fillRect(x, y, plat.w, plat.h);
+                
+                // Brick pattern
+                ctx.strokeStyle = '#101018';
+                ctx.lineWidth = 1;
+                for (let by = y; by < y + plat.h; by += 20) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, by);
+                    ctx.lineTo(x + plat.w, by);
+                    ctx.stroke();
+                    
+                    const offset = ((by - y) / 20) % 2 === 0 ? 0 : plat.w / 2;
+                    ctx.beginPath();
+                    ctx.moveTo(x + offset, by);
+                    ctx.lineTo(x + offset, by + 20);
+                    ctx.stroke();
+                }
+            }
+        },
+        
+        renderDecoration(ctx, deco, camera) {
+            const x = deco.x - camera.x;
+            const y = deco.y - camera.y;
+            
+            if (x < -100 || x > canvas.width + 100 || y < -100 || y > canvas.height + 100) {
+                return;
+            }
+            
+            switch (deco.type) {
+                case 'crystal':
+                    this.renderCrystal(ctx, x, y, deco.color);
+                    break;
+                case 'lantern':
+                    this.renderLantern(ctx, x, y);
+                    break;
+                case 'mushroom':
+                    this.renderMushroom(ctx, x, y);
+                    break;
+                case 'chain':
+                    this.renderChain(ctx, x, y, deco.length);
+                    break;
+            }
+        },
+        
+        renderCrystal(ctx, x, y, color) {
+            // Glow
+            ctx.shadowColor = color;
+            ctx.shadowBlur = 20;
+            ctx.fillStyle = color;
+            ctx.globalAlpha = 0.3;
+            ctx.beginPath();
+            ctx.arc(x, y, 25, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Crystal shape
+            ctx.globalAlpha = 0.8;
+            ctx.beginPath();
+            ctx.moveTo(x, y - 30);
+            ctx.lineTo(x + 12, y);
+            ctx.lineTo(x + 8, y + 20);
+            ctx.lineTo(x - 8, y + 20);
+            ctx.lineTo(x - 12, y);
+            ctx.closePath();
+            ctx.fill();
+            
+            // Highlight
+            ctx.fillStyle = '#ffffff';
+            ctx.globalAlpha = 0.4;
+            ctx.beginPath();
+            ctx.moveTo(x - 2, y - 20);
+            ctx.lineTo(x + 4, y - 5);
+            ctx.lineTo(x, y);
+            ctx.closePath();
+            ctx.fill();
+            
+            ctx.shadowBlur = 0;
+            ctx.globalAlpha = 1;
+        },
+        
+        renderLantern(ctx, x, y) {
+            const flicker = 0.8 + Math.sin(Date.now() / 100) * 0.2;
+            
+            // Light radius
+            const gradient = ctx.createRadialGradient(x, y, 0, x, y, 80);
+            gradient.addColorStop(0, `rgba(255, 170, 50, ${0.3 * flicker})`);
+            gradient.addColorStop(1, 'rgba(255, 170, 50, 0)');
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(x, y, 80, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Chain
+            ctx.strokeStyle = '#2a2a30';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(x, y - 60);
+            ctx.lineTo(x, y - 25);
+            ctx.stroke();
+            
+            // Lantern body
+            ctx.fillStyle = '#3a3a40';
+            ctx.fillRect(x - 12, y - 25, 24, 6);
+            ctx.fillStyle = '#2a2a30';
+            ctx.fillRect(x - 10, y - 19, 20, 35);
+            
+            // Flame
+            ctx.fillStyle = `rgba(255, 200, 100, ${flicker})`;
+            ctx.beginPath();
+            ctx.ellipse(x, y - 5, 6, 10, 0, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Bottom cap
+            ctx.fillStyle = '#3a3a40';
+            ctx.fillRect(x - 12, y + 16, 24, 5);
+        },
+        
+        renderMushroom(ctx, x, y) {
+            const glow = 0.5 + Math.sin(Date.now() / 500 + x) * 0.3;
+            
+            // Glow
+            ctx.shadowColor = '#4aaaaa';
+            ctx.shadowBlur = 15;
+            
+            // Stem
+            ctx.fillStyle = '#1a3a2a';
+            ctx.fillRect(x - 4, y, 8, 20);
+            
+            // Cap
+            ctx.fillStyle = '#2a6a5a';
+            ctx.beginPath();
+            ctx.ellipse(x, y - 5, 18, 14, 0, Math.PI, 0);
+            ctx.fill();
+            
+            // Spots
+            ctx.fillStyle = `rgba(100, 200, 180, ${glow})`;
+            ctx.beginPath();
+            ctx.arc(x - 6, y - 10, 4, 0, Math.PI * 2);
+            ctx.arc(x + 8, y - 8, 3, 0, Math.PI * 2);
+            ctx.fill();
+            
+            ctx.shadowBlur = 0;
+        },
+        
+        renderChain(ctx, x, y, length) {
+            ctx.strokeStyle = '#1a1a24';
+            ctx.lineWidth = 4;
+            
+            const linkHeight = 15;
+            const links = Math.floor(length / linkHeight);
+            
+            for (let i = 0; i < links; i++) {
+                const ly = y + i * linkHeight;
+                ctx.beginPath();
+                ctx.ellipse(x, ly + linkHeight/2, 5, linkHeight/2, 0, 0, Math.PI * 2);
+                ctx.stroke();
+            }
+        },
+        
+        renderExit(ctx, exit, camera) {
+            const x = exit.x - camera.x;
+            const y = exit.y - camera.y;
+            
+            const pulse = 0.5 + Math.sin(Date.now() / 300) * 0.3;
+            
+            // Portal glow
+            const gradient = ctx.createRadialGradient(x + 30, y + 50, 0, x + 30, y + 50, 80);
+            gradient.addColorStop(0, `rgba(100, 150, 255, ${pulse * 0.4})`);
+            gradient.addColorStop(1, 'rgba(100, 150, 255, 0)');
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(x + 30, y + 50, 80, 0, Math.PI * 2);
+            ctx.fill();
+            
+            // Door frame
+            ctx.fillStyle = '#1a1a24';
+            ctx.fillRect(x, y, 60, 100);
+            
+            // Inner portal
+            ctx.fillStyle = `rgba(50, 100, 200, ${pulse})`;
+            ctx.fillRect(x + 8, y + 8, 44, 84);
+            
+            // Highlight
+            ctx.strokeStyle = '#4a8aff';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x + 4, y + 4, 52, 92);
+        },
+        
+        renderVignette(ctx) {
+            const gradient = ctx.createRadialGradient(
+                canvas.width / 2, canvas.height / 2, canvas.height * 0.3,
+                canvas.width / 2, canvas.height / 2, canvas.height
+            );
+            gradient.addColorStop(0, 'rgba(0,0,0,0)');
+            gradient.addColorStop(1, 'rgba(0,0,0,0.7)');
+            ctx.fillStyle = gradient;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+        }
+    };
+    
+    // ═══════════════════════════════════════════════════════════════════
+    // GAME MANAGER
+    // ═══════════════════════════════════════════════════════════════════
+    
+    const Game = {
+        currentLevel: null,
+        levelData: null,
+        lastTime: 0,
+        
+        init() {
+            this.loadLevel('cavern_entrance');
+            this.lastTime = performance.now();
+            requestAnimationFrame((t) => this.loop(t));
+        },
+        
+        loadLevel(levelId) {
+            const data = LEVELS[levelId];
+            if (!data) return;
+            
+            this.levelData = data;
+            this.currentLevel = levelId;
+            
+            // Initialize player
+            Player.init(data.spawn.x, data.spawn.y);
+            
+            // Initialize camera
+            Camera.x = data.spawn.x - canvas.width / 2;
+            Camera.y = data.spawn.y - canvas.height / 2;
+            
+            // Initialize particles
+            Particles.init(data.particles, data.width, data.height);
+            
+            // Show room name
+            this.showRoomName(data.name);
+        },
+        
+        showRoomName(name) {
+            const overlay = document.getElementById('transition-overlay');
+            const roomName = document.getElementById('room-name');
+            
+            overlay.classList.add('active');
+            roomName.textContent = name;
+            roomName.classList.add('show');
+            
+            setTimeout(() => {
+                overlay.classList.remove('active');
+                setTimeout(() => {
+                    roomName.classList.remove('show');
+                }, 500);
+            }, 1500);
+        },
+        
+        loop(time) {
+            const dt = Math.min(time - this.lastTime, 50);
+            this.lastTime = time;
+            
+            this.update(dt);
+            this.render();
+            
+            Input.update();
+            requestAnimationFrame((t) => this.loop(t));
+        },
+        
+        update(dt) {
+            if (!this.levelData) return;
+            
+            // Update player
+            Player.update(dt, this.levelData.platforms);
+            
+            // Update camera
+            Camera.update(Player, this.levelData.width, this.levelData.height);
+            
+            // Update particles
+            Particles.update(dt, this.levelData.width, this.levelData.height);
+            
+            // Check exit
+            if (this.levelData.exit) {
+                const exit = this.levelData.exit;
+                if (Player.x > exit.x && Player.x < exit.x + 60 &&
+                    Player.y > exit.y && Player.y < exit.y + 100) {
+                    // Would load next level here
+                    console.log('Exit reached! Target:', exit.targetLevel);
+                }
+            }
+            
+            // Respawn if fallen
+            if (Player.y > this.levelData.height + 100) {
+                Player.init(this.levelData.spawn.x, this.levelData.spawn.y);
+            }
+        },
+        
+        render() {
+            if (!this.levelData) return;
+            
+            const data = this.levelData;
+            
+            // Clear
+            ctx.fillStyle = data.backgroundColor;
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            
+            // Render parallax layers
+            for (const layer of data.parallaxLayers) {
+                Renderer.renderParallaxLayer(ctx, Camera, layer, data.width, data.height);
+            }
+            
+            // Render decorations (behind terrain)
+            for (const deco of data.decorations) {
+                if (deco.type === 'chain') {
+                    Renderer.renderDecoration(ctx, deco, Camera);
+                }
+            }
+            
+            // Render platforms
+            for (const plat of data.platforms) {
+                Renderer.renderPlatform(ctx, plat, Camera);
+            }
+            
+            // Render decorations (in front of terrain)
+            for (const deco of data.decorations) {
+                if (deco.type !== 'chain') {
+                    Renderer.renderDecoration(ctx, deco, Camera);
+                }
+            }
+            
+            // Render exit
+            if (data.exit) {
+                Renderer.renderExit(ctx, data.exit, Camera);
+            }
+            
+            // Render player
+            Player.render(ctx, Camera);
+            
+            // Render particles
+            Particles.render(ctx, Camera);
+            
+            // Render vignette
+            Renderer.renderVignette(ctx);
+        }
+    };
+    
+    // Start game
+    Game.init();
+    
+    </script>
+</body>
+</html>

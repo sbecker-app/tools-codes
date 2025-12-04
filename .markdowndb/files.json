@@ -318,6 +318,257 @@
     ]
   },
   {
+    "_id": "019fd3082550212254aaaefa06e004c91745ca68",
+    "file_path": "docs/PROD-28230.md",
+    "extension": "md",
+    "url_path": "PROD-28230",
+    "filetype": null,
+    "metadata": {
+      "ticket": "PROD-28230",
+      "title": "Mises en demeure non envoyees copropriétaires",
+      "status": "en_cours",
+      "domain": "gl",
+      "team": "amarillo",
+      "tags": [
+        "litigation",
+        "recovery",
+        "copro",
+        "mise-en-demeure",
+        "N2",
+        "snowflake",
+        "datadog",
+        "writeConflict"
+      ],
+      "assignee": "FRX33355",
+      "created": "2025-12-03T00:00:00.000Z",
+      "updated": "2025-12-03T00:00:00.000Z",
+      "tasks": [
+        {
+          "description": "Corriger manuellement les 7 dossiers bloques (PData ou intervention manuelle)",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Traiter le dossier MORIEUX/HOARAU (orphelin depuis >1 an)",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "FIX BUG  : Modifier  send-reminder.ts  pour rendre les mutations sequentielles ✅ Fichier :  service-litigation/worker/src/recovery-file/activities/send-reminder.ts Commit :  b216319b49d  (03/12/2025 - sebastien.becker.externe)",
+          "checked": true,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Investiguer les cas  isExcluded: true  sans raison (ACCOT, BONIER)",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Verifier si d'autres dossiers sont dans le meme cas (requete Snowflake)",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Ajouter une alerte pour detecter les dossiers avec event REMINDER mais level non incremente",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Ajouter un check pour les dossiers avec  next_reminder  > 30 jours dans le passe",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Ameliorer le logging des raisons d'exclusion (toujours expliciter  exclusionReason )",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        }
+      ]
+    },
+    "tags": [
+      "litigation",
+      "recovery",
+      "copro",
+      "mise-en-demeure",
+      "N2",
+      "snowflake",
+      "datadog",
+      "writeConflict"
+    ],
+    "links": [
+      {
+        "from": "PROD-28230.md",
+        "to": "https://foncia-stark.datadoghq.eu/logs",
+        "toRaw": "https://foncia-stark.datadoghq.eu/logs",
+        "text": "https://foncia-stark.datadoghq.eu/logs",
+        "embed": false,
+        "internal": false
+      },
+      {
+        "from": "PROD-28230.md",
+        "to": "../millenium/applications/service-litigation/worker/src/recovery-file/adapters/send-co-owner-reminder.ts",
+        "toRaw": "../millenium/applications/service-litigation/worker/src/recovery-file/adapters/send-co-owner-reminder.ts",
+        "text": "send-co-owner-reminder.ts",
+        "embed": false,
+        "internal": true
+      },
+      {
+        "from": "PROD-28230.md",
+        "to": "../millenium/applications/service-litigation/worker/src/recovery-file/activities/send-reminder.ts",
+        "toRaw": "../millenium/applications/service-litigation/worker/src/recovery-file/activities/send-reminder.ts",
+        "text": "send-reminder.ts",
+        "embed": false,
+        "internal": true
+      },
+      {
+        "from": "PROD-28230.md",
+        "to": "../millenium/applications/plato/src/routes/accounting/recovery/recovery.process/dunningReminders-ts/coOwnership/index.ts",
+        "toRaw": "../millenium/applications/plato/src/routes/accounting/recovery/recovery.process/dunningReminders-ts/coOwnership/index.ts",
+        "text": "coOwnership/index.ts",
+        "embed": false,
+        "internal": true
+      },
+      {
+        "from": "PROD-28230.md",
+        "to": "../scripts/snowflake_prod28230.py",
+        "toRaw": "../scripts/snowflake_prod28230.py",
+        "text": "Script investigation Snowflake",
+        "embed": false,
+        "internal": true
+      },
+      {
+        "from": "PROD-28230.md",
+        "to": "https://fonciamillenium.atlassian.net/browse/PROD-28230",
+        "toRaw": "https://fonciamillenium.atlassian.net/browse/PROD-28230",
+        "text": "Ticket Jira PROD-28230",
+        "embed": false,
+        "internal": false
+      }
+    ],
+    "tasks": [
+      {
+        "description": "Corriger manuellement les 7 dossiers bloques (PData ou intervention manuelle)",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Traiter le dossier MORIEUX/HOARAU (orphelin depuis >1 an)",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "FIX BUG  : Modifier  send-reminder.ts  pour rendre les mutations sequentielles ✅ Fichier :  service-litigation/worker/src/recovery-file/activities/send-reminder.ts Commit :  b216319b49d  (03/12/2025 - sebastien.becker.externe)",
+        "checked": true,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Investiguer les cas  isExcluded: true  sans raison (ACCOT, BONIER)",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Verifier si d'autres dossiers sont dans le meme cas (requete Snowflake)",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Ajouter une alerte pour detecter les dossiers avec event REMINDER mais level non incremente",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Ajouter un check pour les dossiers avec  next_reminder  > 30 jours dans le passe",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Ameliorer le logging des raisons d'exclusion (toujours expliciter  exclusionReason )",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      }
+    ]
+  },
+  {
     "_id": "205882f1ad7a8c9b10f64f2d326c7208d97ac172",
     "file_path": "docs/PROD-28299.md",
     "extension": "md",
@@ -920,33 +1171,6 @@
     ]
   },
   {
-    "_id": "0710b2fe2fe606d08a8247f0fbf4d48daa6d397c",
-    "file_path": "docs/RULES_testing.md",
-    "extension": "md",
-    "url_path": "RULES_testing",
-    "filetype": "rules",
-    "metadata": {
-      "type": "rules",
-      "title": "Règles de Testing",
-      "tags": [
-        "testing",
-        "jest",
-        "vitest",
-        "best-practices"
-      ],
-      "created": "2025-12-02T00:00:00.000Z",
-      "tasks": []
-    },
-    "tags": [
-      "testing",
-      "jest",
-      "vitest",
-      "best-practices"
-    ],
-    "links": [],
-    "tasks": []
-  },
-  {
     "_id": "915f7636a15141f4387d919fcc243c04e8b6bf27",
     "file_path": "docs/snowflake-connection.md",
     "extension": "md",
@@ -983,10 +1207,532 @@
     "filetype": null,
     "metadata": {
       "tags": [],
-      "tasks": []
+      "tasks": [
+        {
+          "description": "Structure projet et build system",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Game loop avec delta time",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Système de rendu SVG",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Input Manager (clavier + manette)",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Player basique (mouvement, saut)",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Système physique complet",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Collision AABB et one-way platforms",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Double-saut, plané, parachute",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Jetpack (module)",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Chargement de salles JSON",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Système de zones",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Parallaxe multi-layer",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Transitions entre salles",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Interface Macro View",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Création/édition de zones",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Interface Micro View",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Tile palette et placement",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Layer management",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Dashboard",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Room Manager",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "TileSet Manager",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Sauvegarde/chargement",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Animations joueur",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Effets visuels et particules",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Audio system",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Niveaux de démonstration",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        }
+      ]
     },
     "tags": [],
     "links": [],
-    "tasks": []
+    "tasks": [
+      {
+        "description": "Structure projet et build system",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Game loop avec delta time",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Système de rendu SVG",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Input Manager (clavier + manette)",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Player basique (mouvement, saut)",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Système physique complet",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Collision AABB et one-way platforms",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Double-saut, plané, parachute",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Jetpack (module)",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Chargement de salles JSON",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Système de zones",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Parallaxe multi-layer",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Transitions entre salles",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Interface Macro View",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Création/édition de zones",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Interface Micro View",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Tile palette et placement",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Layer management",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Dashboard",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Room Manager",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "TileSet Manager",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Sauvegarde/chargement",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Animations joueur",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Effets visuels et particules",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Audio system",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Niveaux de démonstration",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      }
+    ]
   }
 ]
