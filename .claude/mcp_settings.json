@@ -1,20 +1,8 @@
 {
   "mcpServers": {
-    "context7": {
-      "command": "npx",
-      "args": ["-y", "@upstash/context7-mcp", "--transport", "stdio"]
-    },
-    "github": {
-      "command": "pnpm",
-      "args": ["exec", "github-mcp-server-mcp"]
-    },
     "filesystem": {
       "command": "npx",
       "args": ["-y", "@modelcontextprotocol/server-filesystem", "."]
-    },
-    "playwright": {
-      "command": "npx",
-      "args": ["-y", "@playwright/mcp@latest", "--extension"]
     },
     "shell": {
       "command": "node",

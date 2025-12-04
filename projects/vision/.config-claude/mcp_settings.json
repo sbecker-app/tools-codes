@@ -1,9 +1,5 @@
 {
   "mcpServers": {
-    "Atlassian-Remote": {
-      "command": "npx",
-      "args": ["-y", "mcp-remote@latest", "https://mcp.atlassian.com/v1/sse"]
-    },
     "context7": {
       "command": "npx",
       "args": ["-y", "@upstash/context7-mcp", "--transport", "stdio"]
@@ -12,16 +8,12 @@
       "command": "pnpm",
       "args": ["exec", "github-mcp-server-mcp"]
     },
-    "mongodb": {
-      "command": "npx",
-      "args": ["-y", "mongodb-mcp-server"]
-    },
     "filesystem": {
       "command": "npx",
       "args": [
         "-y",
         "@modelcontextprotocol/server-filesystem",
-        "/Users/frx33355/Documents/dev/millenium"
+        "/Users/sbecker/Documents/sbecker/tools-codes/src/sb"
       ]
     },
     "shell": {

@@ -9,7 +9,8 @@ Tu ne dois télécharger ou récupérer de la documentation externe **que dans l
 
 ## 2. Vérification locale avant téléchargement
 Avant de récupérer quoi que ce soit :
-- Vérifie via le MCP `fs` si la doc de cet outil **à la bonne version** est déjà dans le dossier `docs/` (`$DOCS_DIR` ou `/Users/frx33355/Documents/dev/mcp/docs`).
+- Vérifie via le MCP `fs` si la doc de cet outil **à la bonne version** est déjà dans le dossier `docs/` du projet actif.
+- **Agent SB (Vision)**: `/Users/frx33355/Documents/dev/mcp/projects/vision/docs`
 - Si elle existe → ne pas re-télécharger.
 - Si elle n'existe pas → la récupérer et l'enregistrer dans le dossier.
 
@@ -24,19 +25,17 @@ Toujours tenir compte de la **version réelle de l’outil** utilisée dans le p
 - Si la source n’est pas fiable ou accessible.
 
 ## 5. Emplacement cible
-Enregistrer toute documentation récupérée dans `docs/` (`$DOCS_DIR` ou `/Users/frx33355/Documents/dev/mcp/docs`).
+Enregistrer toute documentation récupérée dans le dossier `docs/` du projet actif:
+- **Agent SB (Vision)**: `/Users/frx33355/Documents/dev/mcp/projects/vision/docs`
+- **Agent ML**: `/Users/frx33355/Documents/dev/mcp/projects/ml/docs`
 
 ### 7. Exemple de comportement attendu
 
 **Question utilisateur :**
-> “Pourquoi mon `expo build` plante sur SDK 53 avec Metro ?”
 
 **Comportement attendu :**
 - Détecter que c'est une question de dev.
-- Identifier Expo SDK 53 via `package.json`.
-- Vérifier s'il existe `docs/expo_53.0.0.md`.
-    - Si oui → lire depuis le fichier et répondre.
-    - Si non → récupérer depuis GitHub `expo/expo@53.0.0` ou context7, puis stocker et répondre.
+- Identifierles version depuis `package.json`.
 
 ---
 

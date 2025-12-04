@@ -1,0 +1,538 @@
+[
+  {
+    "_id": "1b65f0f4d5f662492ed649f1ae045afa316642dd",
+    "file_path": "docs/vision-plus.md",
+    "extension": "md",
+    "url_path": "vision-plus",
+    "filetype": null,
+    "metadata": {
+      "tags": [],
+      "tasks": [
+        {
+          "description": "Structure projet et build system",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Game loop avec delta time",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Système de rendu SVG",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Input Manager (clavier + manette)",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Player basique (mouvement, saut)",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Système physique complet",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Collision AABB et one-way platforms",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Double-saut, plané, parachute",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Jetpack (module)",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Chargement de salles JSON",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Système de zones",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Parallaxe multi-layer",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Transitions entre salles",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Interface Macro View",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Création/édition de zones",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Interface Micro View",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Tile palette et placement",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Layer management",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Dashboard",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Room Manager",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "TileSet Manager",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Sauvegarde/chargement",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Animations joueur",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Effets visuels et particules",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Audio system",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        },
+        {
+          "description": "Niveaux de démonstration",
+          "checked": false,
+          "created": null,
+          "due": null,
+          "completion": null,
+          "scheduled": null,
+          "start": null,
+          "metadata": {}
+        }
+      ]
+    },
+    "tags": [],
+    "links": [],
+    "tasks": [
+      {
+        "description": "Structure projet et build system",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Game loop avec delta time",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Système de rendu SVG",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Input Manager (clavier + manette)",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Player basique (mouvement, saut)",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Système physique complet",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Collision AABB et one-way platforms",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Double-saut, plané, parachute",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Jetpack (module)",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Chargement de salles JSON",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Système de zones",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Parallaxe multi-layer",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Transitions entre salles",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Interface Macro View",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Création/édition de zones",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Interface Micro View",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Tile palette et placement",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Layer management",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Dashboard",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Room Manager",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "TileSet Manager",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Sauvegarde/chargement",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Animations joueur",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Effets visuels et particules",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Audio system",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      },
+      {
+        "description": "Niveaux de démonstration",
+        "checked": false,
+        "created": null,
+        "due": null,
+        "completion": null,
+        "scheduled": null,
+        "start": null,
+        "metadata": {}
+      }
+    ]
+  }
+]

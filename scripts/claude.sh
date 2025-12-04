@@ -32,17 +32,16 @@ if [ "${#args[@]}" -gt 0 ]; then
       PROFILE="ml"
       args=("${args[@]:1}")  # retire le profil des arguments
       ;;
-    # Ajouter d'autres profils ici si besoin
-    # autre-profil)
-    #   PROFILE="autre-profil"
-    #   args=("${args[@]:1}")
-    #   ;;
+    vision)
+      PROFILE="vision"
+      args=("${args[@]:1}")
+      ;;
   esac
 fi
 
 # Configuration selon le profil
 if [ -n "$PROFILE" ]; then
-  PROFILE_DIR="$CLAUDE_CONFIG_DIR/profiles/$PROFILE"
+  PROFILE_DIR="$PROJECT_DIR/projects/$PROFILE/.config-claude"
 
   # Vérifie si le profil existe
   if [ -d "$PROFILE_DIR" ]; then

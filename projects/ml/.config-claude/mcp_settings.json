@@ -12,12 +12,16 @@
       "command": "pnpm",
       "args": ["exec", "github-mcp-server-mcp"]
     },
+    "mongodb": {
+      "command": "npx",
+      "args": ["-y", "mongodb-mcp-server"]
+    },
     "filesystem": {
       "command": "npx",
       "args": [
         "-y",
         "@modelcontextprotocol/server-filesystem",
-        "/Users/sbecker/Documents/sbecker/tools-codes/src/sb"
+        "/Users/frx33355/Documents/dev/millenium"
       ]
     },
     "shell": {
@@ -27,6 +31,18 @@
     "playwright": {
       "command": "npx",
       "args": ["-y", "@playwright/mcp@latest"]
+    },
+    "snowflake": {
+      "type": "stdio",
+      "command": "uvx",
+      "args": [
+        "snowflake-labs-mcp",
+        "--service-config-file",
+        "/Users/frx33355/.config/snowflake/tools_config.yaml",
+        "--connection-name",
+        "ml_prod"
+      ],
+      "env": {}
     }
   }
 }

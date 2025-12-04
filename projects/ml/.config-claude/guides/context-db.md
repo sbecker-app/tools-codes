@@ -1,22 +1,25 @@
 # 🗄️ Gestion du contexte via SQLite (MarkdownDB)
 
-## Base de données
+## Chemins
 
-**Chemin** : `/Users/frx33355/Documents/dev/mcp/data/markdown.db`
+| Ressource | Chemin |
+|-----------|--------|
+| **Base SQLite** | `/Users/frx33355/Documents/dev/mcp/projects/ml/data/markdown.db` |
+| **Source docs** | `/Users/frx33355/Documents/dev/mcp/projects/ml/docs/` |
 
 ## Workflow pour les tickets PROD
 
 ### 1. Lister les tickets (TOUJOURS commencer par ça)
 
 ```bash
-sqlite3 /Users/frx33355/Documents/dev/mcp/data/markdown.db \
+sqlite3 /Users/frx33355/Documents/dev/mcp/projects/ml/data/markdown.db \
   "SELECT json_extract(metadata, '$.ticket') as ticket, json_extract(metadata, '$.title') as title, json_extract(metadata, '$.status') as status FROM files WHERE json_extract(metadata, '$.ticket') IS NOT NULL"
 ```
 
 ### 2. Chercher par tag
 
 ```bash
-sqlite3 /Users/frx33355/Documents/dev/mcp/data/markdown.db \
+sqlite3 /Users/frx33355/Documents/dev/mcp/projects/ml/data/markdown.db \
   "SELECT file_path FROM files WHERE metadata LIKE '%pdata%'"
 ```
 
@@ -24,7 +27,7 @@ sqlite3 /Users/frx33355/Documents/dev/mcp/data/markdown.db \
 
 ```bash
 # Uniquement après avoir identifié le bon fichier via SQLite
-cat /Users/frx33355/Documents/dev/mcp/docs/PROD-XXXXX.md
+cat /Users/frx33355/Documents/dev/mcp/projects/ml/prods/PROD-XXXXX.md
 ```
 
 ## Règles d'utilisation
@@ -56,7 +59,7 @@ WHERE json_extract(metadata, '$.status') = 'en_cours';
 Après modification d'un fichier markdown :
 
 ```bash
-cd /Users/frx33355/Documents/dev/mcp && npx mddb ./docs && mv markdown.db data/
+cd /Users/frx33355/Documents/dev/mcp/projects/ml && npx mddb ./prods && mv markdown.db data/
 ```
 
 ## Structure frontmatter attendue
