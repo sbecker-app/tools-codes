@@ -1,0 +1,115 @@
+{
+  "version": "1.1",
+  "id": "level_parcours_montagne",
+  "meta": {
+    "name": "Parcours Montagne",
+    "description": "Avancer → Monter → Avancer → Descendre → Avancer",
+    "createdAt": "2025-12-04T14:39:58.151Z"
+  },
+  "sequence": [
+    {
+      "id": "zone_001",
+      "order": 0,
+      "mode": "FORWARD",
+      "length": 100,
+      "cameraPath": {
+        "start": { "x": 0, "y": 100 },
+        "end": { "x": 100, "y": 100 },
+        "controlPoints": []
+      },
+      "characterPath": {
+        "start": { "x": 0, "y": 120 },
+        "end": { "x": 100, "y": 120 },
+        "controlPoints": [],
+        "bounds": { "minY": 80, "maxY": 160 }
+      },
+      "parallax": { "layers": [] },
+      "sprites": [],
+      "transitions": []
+    },
+    {
+      "id": "zone_002",
+      "order": 1,
+      "mode": "UP",
+      "length": 100,
+      "cameraPath": {
+        "start": { "x": 150, "y": 100 },
+        "end": { "x": 250, "y": 50 },
+        "controlPoints": []
+      },
+      "characterPath": {
+        "start": { "x": 150, "y": 120 },
+        "end": { "x": 250, "y": 70 },
+        "controlPoints": [],
+        "bounds": { "minY": 30, "maxY": 160 }
+      },
+      "parallax": { "layers": [] },
+      "sprites": [],
+      "transitions": []
+    },
+    {
+      "id": "zone_003",
+      "order": 2,
+      "mode": "FORWARD",
+      "length": 100,
+      "cameraPath": {
+        "start": { "x": 300, "y": 50 },
+        "end": { "x": 400, "y": 50 },
+        "controlPoints": []
+      },
+      "characterPath": {
+        "start": { "x": 300, "y": 70 },
+        "end": { "x": 400, "y": 70 },
+        "controlPoints": [],
+        "bounds": { "minY": 30, "maxY": 110 }
+      },
+      "parallax": { "layers": [] },
+      "sprites": [],
+      "transitions": []
+    },
+    {
+      "id": "zone_004",
+      "order": 3,
+      "mode": "DOWN",
+      "length": 100,
+      "cameraPath": {
+        "start": { "x": 450, "y": 50 },
+        "end": { "x": 550, "y": 100 },
+        "controlPoints": []
+      },
+      "characterPath": {
+        "start": { "x": 450, "y": 70 },
+        "end": { "x": 550, "y": 120 },
+        "controlPoints": [],
+        "bounds": { "minY": 30, "maxY": 160 }
+      },
+      "parallax": { "layers": [] },
+      "sprites": [],
+      "transitions": []
+    },
+    {
+      "id": "zone_005",
+      "order": 4,
+      "mode": "FORWARD",
+      "length": 100,
+      "cameraPath": {
+        "start": { "x": 600, "y": 100 },
+        "end": { "x": 700, "y": 100 },
+        "controlPoints": []
+      },
+      "characterPath": {
+        "start": { "x": 600, "y": 120 },
+        "end": { "x": 700, "y": 120 },
+        "controlPoints": [],
+        "bounds": { "minY": 80, "maxY": 160 }
+      },
+      "parallax": { "layers": [] },
+      "sprites": [],
+      "transitions": []
+    }
+  ],
+  "spawn": {
+    "zoneId": "zone_001",
+    "position": { "x": 50, "y": 120 }
+  }
+}

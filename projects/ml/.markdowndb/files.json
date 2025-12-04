@@ -522,7 +522,7 @@
     "metadata": {
       "ticket": "PROD-28299",
       "title": "Contrôle sur la date de perte du mandat",
-      "status": "implementation_complete",
+      "status": "committed",
       "domain": "gl",
       "team": "amarillo",
       "tags": [
@@ -530,10 +530,13 @@
         "mandat",
         "plato",
         "smarties",
-        "frontend-blocking"
+        "frontend-blocking",
+        "performance"
       ],
       "created": "2025-11-20T00:00:00.000Z",
-      "updated": "2025-12-03T00:00:00.000Z",
+      "updated": "2025-12-04T00:00:00.000Z",
+      "commit": "99161b8d36b",
+      "branch": "revert-34b6d3ca",
       "tasks": [
         {
           "description": "Lecture du contexte du ticket",
@@ -662,7 +665,8 @@
       "mandat",
       "plato",
       "smarties",
-      "frontend-blocking"
+      "frontend-blocking",
+      "performance"
     ],
     "links": [
       {
@@ -1114,5 +1118,34 @@
         "metadata": {}
       }
     ]
+  },
+  {
+    "_id": "b9449866fd6d8e40af6a52b004f9be5ca70b4513",
+    "file_path": "prods/PROD-28497.md",
+    "extension": "md",
+    "url_path": "PROD-28497",
+    "filetype": null,
+    "metadata": {
+      "ticket": "PROD-28497",
+      "status": "fixed",
+      "date": "2025-12-04T00:00:00.000Z",
+      "cabinet": "AD Immobilier (0580)",
+      "building": "501270043 (LES BASTIDES DES PLANS)",
+      "tags": [
+        "RCL",
+        "INDEX",
+        "PData",
+        "duplication"
+      ],
+      "tasks": []
+    },
+    "tags": [
+      "RCL",
+      "INDEX",
+      "PData",
+      "duplication"
+    ],
+    "links": [],
+    "tasks": []
   }
 ]

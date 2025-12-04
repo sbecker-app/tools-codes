@@ -386,3 +386,168 @@ function loadAssetsFromBackOffice() {
 - Nom obligatoire
 - ID généré automatiquement si absent
 - Spawn point défini sur la première zone par défaut
+
+---
+
+## 14. Système de Parcours (Camera & Character Path)
+
+### 14.1 Concept
+
+Le système de parcours permet de visualiser et éditer deux trajectoires distinctes :
+- **Ligne Caméra** : Le chemin suivi par le viewport
+- **Ligne Personnage** : Le chemin de déplacement du joueur avec sa zone de liberté
+
+### 14.2 Vue Path Preview
+
+Affichée sous la timeline en Vue Macro, cette vue montre une représentation 2D du niveau.
+
+```
+┌────────────────────────────────────────────────────────────────┐
+│  Timeline                                                       │
+│  [Zone 1] ───────► [Zone 2] ───────► [Zone 3]                  │
+├────────────────────────────────────────────────────────────────┤
+│  Path Preview                                                   │
+│                                                                 │
+│     ════ Ligne Caméra (blanche)                                │
+│     ──── Ligne Personnage (jaune)                              │
+│     ░░░░ Zone de déplacement (semi-transparent)                │
+│                                                                 │
+│         ┌─────────┐                                            │
+│    ●════╪═════════╪════●════╗                                  │
+│    ○────┤ Zone 1  ├────○────╫──┐  ┌─────────┐                  │
+│         └─────────┘         ╚══╪══╪═════════╪════●             │
+│                                └──┤ Zone 2  ├────○             │
+│                                   └─────────┘                  │
+└────────────────────────────────────────────────────────────────┘
+
+● = Point de contrôle caméra
+○ = Point de contrôle personnage
+```
+
+### 14.3 Éléments visuels
+
+| Élément | Couleur | Style | Description |
+|---------|---------|-------|-------------|
+| Ligne Caméra | `#ffffff` | Trait épais 3px | Trajet du viewport |
+| Ligne Personnage | `#f1c40f` | Trait 2px pointillé | Trajet du joueur |
+| Zone de déplacement | `rgba(241, 196, 15, 0.1)` | Remplissage | Limites verticales du personnage |
+| Point caméra | `#ffffff` | Cercle plein 8px | Ancrage caméra |
+| Point personnage | `#f1c40f` | Cercle vide 8px | Ancrage personnage |
+
+### 14.4 Interactions
+
+| Action | Comportement |
+|--------|--------------|
+| Clic sur point | Sélectionne le point de contrôle |
+| Drag point caméra | Déplace l'ancrage caméra |
+| Drag point personnage | Déplace l'ancrage personnage |
+| Drag zone de déplacement | Ajuste les limites Y du personnage |
+| Double-clic sur ligne | Ajoute un point de contrôle intermédiaire |
+
+### 14.5 Structure de données
+
+```javascript
+zone = {
+  id: 'zone_1234567890',
+  mode: 'forward',
+  length: 100,
+
+  // Parcours caméra
+  cameraPath: {
+    start: { x: 0, y: 0 },
+    end: { x: 100, y: 0 },
+    controlPoints: []  // Points intermédiaires optionnels
+  },
+
+  // Parcours personnage
+  characterPath: {
+    start: { x: 0, y: 50 },
+    end: { x: 100, y: 50 },
+    controlPoints: [],
+    bounds: {
+      minY: 20,   // Limite haute de déplacement
+      maxY: 80    // Limite basse de déplacement
+    }
+  },
+
+  parallax: { layers: [] },
+  sprites: [],
+  transitions: []
+}
+```
+
+### 14.6 Synchronisation Caméra/Personnage
+
+| Mode Zone | Comportement Caméra | Comportement Personnage |
+|-----------|---------------------|-------------------------|
+| Forward | Avance horizontalement → | Suit la caméra, libre en Y |
+| Backward | Recule horizontalement ← | Suit la caméra, libre en Y |
+| Up | Monte verticalement ↑ | Suit la caméra, libre en X |
+| Down | Descend verticalement ↓ | Suit la caméra, libre en X |
+
+### 14.7 Contraintes
+
+- Les points de contrôle doivent rester dans les limites de la zone
+- La zone de déplacement personnage ne peut pas dépasser la vue caméra
+- Minimum 2 points par chemin (start et end)
+- Maximum 10 points de contrôle intermédiaires par zone
+
+### 14.8 Toolbar - Nouveaux outils
+
+| Outil | Icône | Raccourci | Description |
+|-------|-------|-----------|-------------|
+| Camera Path | 📷 | `C` | Éditer le chemin caméra |
+| Character Path | 🏃 | `P` | Éditer le chemin personnage |
+
+### 14.9 Panel Droit - Section Parcours
+
+Affichée quand une zone est sélectionnée.
+
+| Champ | Type | Description |
+|-------|------|-------------|
+| **Caméra** | | |
+| Start X/Y | Number | Position de départ |
+| End X/Y | Number | Position d'arrivée |
+| **Personnage** | | |
+| Start X/Y | Number | Position de départ |
+| End X/Y | Number | Position d'arrivée |
+| Bounds Min Y | Number | Limite haute |
+| Bounds Max Y | Number | Limite basse |
+
+### 14.10 Export JSON mis à jour
+
+```json
+{
+  "version": "1.1",
+  "id": "level_1234567890",
+  "meta": {
+    "name": "Nom du niveau",
+    "createdAt": "2024-01-15T10:30:00.000Z"
+  },
+  "sequence": [
+    {
+      "id": "zone_001",
+      "order": 0,
+      "mode": "FORWARD",
+      "length": 100,
+      "cameraPath": {
+        "start": { "x": 0, "y": 0 },
+        "end": { "x": 100, "y": 0 },
+        "controlPoints": []
+      },
+      "characterPath": {
+        "start": { "x": 0, "y": 50 },
+        "end": { "x": 100, "y": 50 },
+        "controlPoints": [],
+        "bounds": { "minY": 20, "maxY": 80 }
+      },
+      "parallax": { "layers": [] },
+      "sprites": [],
+      "transitions": []
+    }
+  ],
+  "spawn": {
+    "zoneId": "zone_001",
+    "position": { "x": 100, "y": 50 }
+  }
+}

@@ -2,6 +2,9 @@
  * Point d'entrée BackOffice - Game 2.5D
  */
 
+import { SpriteLoader, Assets } from '/shared/components/loaders/SpriteLoader.js';
+import { AssetStore } from '/shared/components/storage/AssetStore.js';
+
 // État de l'application
 const state = {
   assets: [],
@@ -32,11 +35,17 @@ const elements = {
 };
 
 // Initialisation
-function init() {
+async function init() {
   console.log('📁 BackOffice - Initialisation...');
 
-  // Charger les assets depuis localStorage (temporaire)
-  loadAssets();
+  // Migration depuis localStorage si nécessaire
+  await AssetStore.migrateFromLocalStorage();
+
+  // Charger les assets depuis IndexedDB
+  await loadAssets();
+
+  // Précharger les sprites via SpriteLoader
+  await preloadSprites();
 
   // Bind des événements
   bindEvents();
@@ -45,24 +54,67 @@ function init() {
   renderAssetGrid();
 
   console.log('✅ BackOffice - Prêt!');
+  console.log(`📊 ${SpriteLoader.count()} sprites préchargés dans Assets`);
 }
 
-// Chargement des assets
-function loadAssets() {
-  const saved = localStorage.getItem('game25d_assets');
-  if (saved) {
+// Précharger les sprites existants via SpriteLoader
+async function preloadSprites() {
+  const imagesToLoad = {};
+
+  // Construire la liste des images à charger depuis state.assets
+  state.assets.forEach(asset => {
+    if (asset.dataUrl || asset.file) {
+      imagesToLoad[asset.id] = asset.dataUrl || `/assets/sprites/${asset.file}`;
+    }
+  });
+
+  if (Object.keys(imagesToLoad).length > 0) {
     try {
-      state.assets = JSON.parse(saved);
-    } catch (e) {
-      console.error('Erreur chargement assets:', e);
-      state.assets = [];
+      await SpriteLoader.loadImages(imagesToLoad);
+    } catch (error) {
+      console.warn('⚠️ Certains sprites n\'ont pas pu être chargés');
     }
   }
 }
 
-// Sauvegarde des assets
-function saveAssets() {
-  localStorage.setItem('game25d_assets', JSON.stringify(state.assets));
+// Charger un nouveau sprite via SpriteLoader
+async function loadSpriteToAssets(asset) {
+  const url = asset.dataUrl || `/assets/sprites/${asset.file}`;
+  try {
+    await SpriteLoader.loadImage(asset.id, url);
+    return true;
+  } catch (error) {
+    console.error(`Erreur chargement sprite ${asset.name}:`, error);
+    return false;
+  }
+}
+
+// Chargement des assets depuis IndexedDB
+async function loadAssets() {
+  try {
+    state.assets = await AssetStore.getAll();
+  } catch (e) {
+    console.error('Erreur chargement assets:', e);
+    state.assets = [];
+  }
+}
+
+// Sauvegarde d'un asset dans IndexedDB
+async function saveAsset(asset) {
+  try {
+    await AssetStore.put(asset);
+  } catch (e) {
+    console.error('Erreur sauvegarde asset:', e);
+  }
+}
+
+// Sauvegarde de plusieurs assets
+async function saveAssets(assets) {
+  try {
+    await AssetStore.putMany(assets);
+  } catch (e) {
+    console.error('Erreur sauvegarde assets:', e);
+  }
 }
 
 // Filtrage des assets
@@ -329,17 +381,25 @@ function renderImportPreview() {
 }
 
 // Confirmer import
-function confirmImport() {
+async function confirmImport() {
+  // Charger chaque sprite dans le SpriteLoader
+  for (const asset of state.pendingImports) {
+    await loadSpriteToAssets(asset);
+  }
+
+  // Sauvegarder dans IndexedDB
+  await saveAssets(state.pendingImports);
+
+  // Mettre à jour l'état local
   state.assets.push(...state.pendingImports);
-  saveAssets();
   renderAssetGrid();
   closeModals();
 
-  console.log(`✅ ${state.pendingImports.length} assets importés`);
+  console.log(`✅ ${state.pendingImports.length} assets importés et chargés dans Assets`);
 }
 
 // Sauvegarder détails asset
-function saveAssetDetails() {
+async function saveAssetDetails() {
   if (!state.selectedAsset) return;
 
   const asset = state.assets.find(a => a.id === state.selectedAsset.id);
@@ -358,27 +418,38 @@ function saveAssetDetails() {
     asset.modes.push(cb.value);
   });
 
-  saveAssets();
+  await saveAsset(asset);
   renderAssetGrid();
 
   console.log('✅ Asset sauvegardé');
 }
 
 // Supprimer asset
-function deleteSelectedAsset() {
+async function deleteSelectedAsset() {
   if (!state.selectedAsset) return;
 
   if (!confirm(`Supprimer "${state.selectedAsset.name}" ?`)) return;
 
+  // Supprimer du SpriteLoader
+  SpriteLoader.remove(state.selectedAsset.id);
+
+  // Supprimer de IndexedDB
+  await AssetStore.delete(state.selectedAsset.id);
+
+  // Mettre à jour l'état local
   state.assets = state.assets.filter(a => a.id !== state.selectedAsset.id);
   state.selectedAsset = null;
   elements.detailPanel.classList.add('hidden');
 
-  saveAssets();
   renderAssetGrid();
 
   console.log('🗑️ Asset supprimé');
 }
+
+// Exporter globalement pour le debug
+window.Assets = Assets;
+window.SpriteLoader = SpriteLoader;
+window.AssetStore = AssetStore;
 
 // Lancer l'initialisation
 document.addEventListener('DOMContentLoaded', init);

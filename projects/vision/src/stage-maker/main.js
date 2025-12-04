@@ -37,6 +37,8 @@ const elements = {
   linearTimeline: document.getElementById('linear-timeline'),
   addZoneBtn: document.getElementById('add-zone-btn'),
   microCanvas: document.getElementById('micro-canvas'),
+  pathCanvas: document.getElementById('path-canvas'),
+  pathPreview: document.getElementById('path-preview'),
   macroView: document.getElementById('macro-view'),
   microView: document.getElementById('micro-view'),
   levelName: document.getElementById('level-name'),
@@ -47,8 +49,12 @@ const elements = {
   exportPreview: document.getElementById('export-preview')
 };
 
-// Contexte canvas (micro view uniquement)
+// Contexte canvas
 let microCtx;
+let pathCtx;
+
+// État du drag pour les points de contrôle
+let draggedPoint = null;
 
 // Couleurs et icônes des modes
 const MODE_CONFIG = {
@@ -63,12 +69,16 @@ function init() {
   console.log('🎨 Stage Maker - Initialisation...');
 
   microCtx = elements.microCanvas.getContext('2d');
+  pathCtx = elements.pathCanvas.getContext('2d');
 
   // Bind événements
   bindEvents();
+  bindPathCanvasEvents();
+  bindPathPanelEvents();
 
   // Rendu initial
   renderLinearView();
+  renderPathPreview();
 
   // Charger assets depuis BackOffice
   loadAssetsFromBackOffice();
@@ -207,6 +217,8 @@ function handleKeyDown(e) {
   if (e.key === 'z' && !e.ctrlKey && !e.metaKey) selectTool('zone');
   if (e.key === 't') selectTool('transition');
   if (e.key === 's' && !e.ctrlKey && !e.metaKey) selectTool('sprite');
+  if (e.key === 'c' && !e.ctrlKey && !e.metaKey) selectTool('camera-path');
+  if (e.key === 'p') selectTool('character-path');
   if (e.key === 'e') selectTool('erase');
 
   if (e.key === 'Delete' || e.key === 'Backspace') {
@@ -302,10 +314,36 @@ function bindZoneBlocksDragDrop() {
 
 // Gestion des zones
 function createZone({ mode, length = 100, insertAt = -1 }) {
+  // Calculer la position de départ basée sur les zones existantes
+  let startX = 0;
+  if (state.level.zones.length > 0) {
+    const lastZone = state.level.zones[state.level.zones.length - 1];
+    startX = (lastZone.cameraPath?.end?.x || 0) + 50;
+  }
+
   const zone = {
     id: `zone_${Date.now()}`,
     mode,
     length, // Longueur visuelle de la zone (pour l'étirement)
+
+    // Parcours caméra
+    cameraPath: {
+      start: { x: startX, y: 100 },
+      end: { x: startX + length, y: 100 },
+      controlPoints: []
+    },
+
+    // Parcours personnage
+    characterPath: {
+      start: { x: startX, y: 120 },
+      end: { x: startX + length, y: 120 },
+      controlPoints: [],
+      bounds: {
+        minY: 80,
+        maxY: 160
+      }
+    },
+
     parallax: { layers: [] },
     sprites: [],
     transitions: []
@@ -322,6 +360,7 @@ function createZone({ mode, length = 100, insertAt = -1 }) {
   selectZone(zone);
   updateStatus();
   renderLinearView();
+  renderPathPreview();
 
   console.log('✅ Zone créée:', zone.id);
 }
@@ -340,6 +379,7 @@ function reorderZone(draggedId, targetId) {
   zones.splice(targetIndex, 0, draggedZone);
 
   renderLinearView();
+  renderPathPreview();
   console.log(`🔄 Zone ${draggedId} déplacée vers position ${targetIndex}`);
 }
 
@@ -349,8 +389,20 @@ function resizeZone(zoneId, newLength) {
   if (!zone) return;
 
   saveToHistory();
+  const oldLength = zone.length || 100;
   zone.length = Math.max(60, Math.min(400, newLength)); // Min 60px, max 400px
+
+  // Mettre à jour les positions de fin des chemins proportionnellement
+  const ratio = zone.length / oldLength;
+  if (zone.cameraPath) {
+    zone.cameraPath.end.x = zone.cameraPath.start.x + (zone.cameraPath.end.x - zone.cameraPath.start.x) * ratio;
+  }
+  if (zone.characterPath) {
+    zone.characterPath.end.x = zone.characterPath.start.x + (zone.characterPath.end.x - zone.characterPath.start.x) * ratio;
+  }
+
   renderLinearView();
+  renderPathPreview();
 }
 
 function findZoneById(id) {
@@ -369,11 +421,54 @@ function selectZone(zone) {
     document.getElementById('zone-width').value = zone.length || 100;
     document.getElementById('zone-height').value = '-';
     elements.statusSelection.textContent = `Sélection: ${zone.id}`;
+
+    // Mettre à jour le panel Parcours
+    updatePathPanel(zone);
   } else {
     elements.statusSelection.textContent = 'Aucune sélection';
+    clearPathPanel();
   }
 
   renderLinearView();
+  renderPathPreview();
+}
+
+// Mettre à jour le panel des parcours
+function updatePathPanel(zone) {
+  if (!zone) return;
+
+  // Camera path
+  const cameraStart = zone.cameraPath?.start || { x: 0, y: 0 };
+  const cameraEnd = zone.cameraPath?.end || { x: 100, y: 0 };
+  document.getElementById('camera-start-x').value = cameraStart.x;
+  document.getElementById('camera-start-y').value = cameraStart.y;
+  document.getElementById('camera-end-x').value = cameraEnd.x;
+  document.getElementById('camera-end-y').value = cameraEnd.y;
+
+  // Character path
+  const charStart = zone.characterPath?.start || { x: 0, y: 50 };
+  const charEnd = zone.characterPath?.end || { x: 100, y: 50 };
+  const bounds = zone.characterPath?.bounds || { minY: 20, maxY: 80 };
+  document.getElementById('character-start-x').value = charStart.x;
+  document.getElementById('character-start-y').value = charStart.y;
+  document.getElementById('character-end-x').value = charEnd.x;
+  document.getElementById('character-end-y').value = charEnd.y;
+  document.getElementById('character-bounds-min').value = bounds.minY;
+  document.getElementById('character-bounds-max').value = bounds.maxY;
+}
+
+// Effacer le panel des parcours
+function clearPathPanel() {
+  document.getElementById('camera-start-x').value = '';
+  document.getElementById('camera-start-y').value = '';
+  document.getElementById('camera-end-x').value = '';
+  document.getElementById('camera-end-y').value = '';
+  document.getElementById('character-start-x').value = '';
+  document.getElementById('character-start-y').value = '';
+  document.getElementById('character-end-x').value = '';
+  document.getElementById('character-end-y').value = '';
+  document.getElementById('character-bounds-min').value = '';
+  document.getElementById('character-bounds-max').value = '';
 }
 
 function deleteZone(id) {
@@ -382,6 +477,7 @@ function deleteZone(id) {
   state.selection = null;
   updateStatus();
   renderLinearView();
+  renderPathPreview();
 }
 
 // History (Undo/Redo)
@@ -410,6 +506,7 @@ function undo() {
     updateHistoryButtons();
     updateStatus();
     renderLinearView();
+    renderPathPreview();
   }
 }
 
@@ -421,6 +518,7 @@ function redo() {
     updateHistoryButtons();
     updateStatus();
     renderLinearView();
+    renderPathPreview();
   }
 }
 
@@ -584,6 +682,286 @@ function renderMicro() {
   ctx.fillText('Vue Micro - Sélectionnez une zone', canvas.width / 2, canvas.height / 2);
 }
 
+// ═══════════════════════════════════════════════════════════════
+// PATH PREVIEW - Rendu des chemins caméra et personnage
+// ═══════════════════════════════════════════════════════════════
+
+function renderPathPreview() {
+  const canvas = elements.pathCanvas;
+  const ctx = pathCtx;
+
+  if (!canvas || !ctx) return;
+
+  // Calculer la largeur nécessaire pour afficher toutes les zones
+  let totalWidth = 100; // Marge initiale
+  state.level.zones.forEach(zone => {
+    totalWidth += (zone.length || 100) + 50; // longueur + espace entre zones
+  });
+  totalWidth = Math.max(totalWidth, canvas.parentElement?.clientWidth || 1200);
+
+  // Redimensionner le canvas si nécessaire
+  if (canvas.width !== totalWidth) {
+    canvas.width = totalWidth;
+  }
+
+  // Effacer le canvas
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  if (state.level.zones.length === 0) {
+    // État vide
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+    ctx.font = '16px sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('Ajoutez des zones pour voir les parcours', canvas.width / 2, canvas.height / 2);
+    return;
+  }
+
+  const padding = 50;
+  const scale = 1;
+
+  // Dessiner chaque zone
+  state.level.zones.forEach((zone, index) => {
+    const isSelected = state.selection?.id === zone.id;
+    drawZonePaths(ctx, zone, isSelected, scale);
+  });
+}
+
+// Dessiner les chemins d'une zone
+function drawZonePaths(ctx, zone, isSelected, scale) {
+  const cameraPath = zone.cameraPath;
+  const characterPath = zone.characterPath;
+
+  if (!cameraPath || !characterPath) return;
+
+  // Zone de déplacement du personnage (fond semi-transparent)
+  if (characterPath.bounds) {
+    ctx.fillStyle = isSelected ? 'rgba(241, 196, 15, 0.15)' : 'rgba(241, 196, 15, 0.08)';
+    ctx.beginPath();
+    ctx.rect(
+      characterPath.start.x * scale,
+      characterPath.bounds.minY * scale,
+      (characterPath.end.x - characterPath.start.x) * scale,
+      (characterPath.bounds.maxY - characterPath.bounds.minY) * scale
+    );
+    ctx.fill();
+
+    // Bordure de la zone
+    ctx.strokeStyle = isSelected ? 'rgba(241, 196, 15, 0.5)' : 'rgba(241, 196, 15, 0.2)';
+    ctx.setLineDash([5, 5]);
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.setLineDash([]);
+  }
+
+  // Chemin caméra (ligne blanche épaisse)
+  ctx.beginPath();
+  ctx.strokeStyle = isSelected ? '#ffffff' : 'rgba(255, 255, 255, 0.6)';
+  ctx.lineWidth = isSelected ? 4 : 3;
+  ctx.moveTo(cameraPath.start.x * scale, cameraPath.start.y * scale);
+
+  // Points de contrôle intermédiaires
+  if (cameraPath.controlPoints && cameraPath.controlPoints.length > 0) {
+    cameraPath.controlPoints.forEach(point => {
+      ctx.lineTo(point.x * scale, point.y * scale);
+    });
+  }
+
+  ctx.lineTo(cameraPath.end.x * scale, cameraPath.end.y * scale);
+  ctx.stroke();
+
+  // Chemin personnage (ligne jaune pointillée)
+  ctx.beginPath();
+  ctx.strokeStyle = isSelected ? '#f1c40f' : 'rgba(241, 196, 15, 0.6)';
+  ctx.lineWidth = isSelected ? 3 : 2;
+  ctx.setLineDash([8, 4]);
+  ctx.moveTo(characterPath.start.x * scale, characterPath.start.y * scale);
+
+  // Points de contrôle intermédiaires
+  if (characterPath.controlPoints && characterPath.controlPoints.length > 0) {
+    characterPath.controlPoints.forEach(point => {
+      ctx.lineTo(point.x * scale, point.y * scale);
+    });
+  }
+
+  ctx.lineTo(characterPath.end.x * scale, characterPath.end.y * scale);
+  ctx.stroke();
+  ctx.setLineDash([]);
+
+  // Points de contrôle caméra
+  drawControlPoint(ctx, cameraPath.start, 'camera', isSelected);
+  drawControlPoint(ctx, cameraPath.end, 'camera', isSelected);
+
+  // Points de contrôle personnage
+  drawControlPoint(ctx, characterPath.start, 'character', isSelected);
+  drawControlPoint(ctx, characterPath.end, 'character', isSelected);
+}
+
+// Dessiner un point de contrôle
+function drawControlPoint(ctx, point, type, isSelected) {
+  const radius = isSelected ? 8 : 6;
+
+  ctx.beginPath();
+  ctx.arc(point.x, point.y, radius, 0, Math.PI * 2);
+
+  if (type === 'camera') {
+    // Point caméra: cercle plein blanc
+    ctx.fillStyle = isSelected ? '#ffffff' : 'rgba(255, 255, 255, 0.8)';
+    ctx.fill();
+    if (isSelected) {
+      ctx.strokeStyle = '#4a90d9';
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+  } else {
+    // Point personnage: cercle vide jaune
+    ctx.strokeStyle = isSelected ? '#f1c40f' : 'rgba(241, 196, 15, 0.8)';
+    ctx.lineWidth = 3;
+    ctx.stroke();
+    if (isSelected) {
+      ctx.fillStyle = 'rgba(241, 196, 15, 0.3)';
+      ctx.fill();
+    }
+  }
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PATH INTERACTIONS - Drag & Drop des points de contrôle
+// ═══════════════════════════════════════════════════════════════
+
+function bindPathCanvasEvents() {
+  const canvas = elements.pathCanvas;
+  if (!canvas) return;
+
+  canvas.addEventListener('mousedown', handlePathMouseDown);
+  canvas.addEventListener('mousemove', handlePathMouseMove);
+  canvas.addEventListener('mouseup', handlePathMouseUp);
+  canvas.addEventListener('mouseleave', handlePathMouseUp);
+}
+
+function handlePathMouseDown(e) {
+  const canvas = elements.pathCanvas;
+  const rect = canvas.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+
+  // Vérifier si on clique sur un point de contrôle
+  const point = findControlPointAt(x, y);
+  if (point) {
+    draggedPoint = point;
+    canvas.style.cursor = 'grabbing';
+  }
+}
+
+function handlePathMouseMove(e) {
+  const canvas = elements.pathCanvas;
+  const rect = canvas.getBoundingClientRect();
+  const x = e.clientX - rect.left;
+  const y = e.clientY - rect.top;
+
+  if (draggedPoint) {
+    // Déplacer le point
+    saveToHistory();
+    draggedPoint.point.x = Math.round(x);
+    draggedPoint.point.y = Math.round(y);
+    renderPathPreview();
+    updatePathPanel(state.selection);
+  } else {
+    // Changer le curseur si on survole un point
+    const point = findControlPointAt(x, y);
+    canvas.style.cursor = point ? 'grab' : 'default';
+  }
+
+  // Mettre à jour la position dans la status bar
+  elements.statusPosition.textContent = `X: ${Math.round(x)}, Y: ${Math.round(y)}`;
+}
+
+function handlePathMouseUp() {
+  draggedPoint = null;
+  elements.pathCanvas.style.cursor = 'default';
+}
+
+// Trouver un point de contrôle aux coordonnées données
+function findControlPointAt(x, y) {
+  const hitRadius = 12;
+
+  for (const zone of state.level.zones) {
+    if (!zone.cameraPath || !zone.characterPath) continue;
+
+    // Points caméra
+    if (isPointNear(zone.cameraPath.start, x, y, hitRadius)) {
+      return { zone, type: 'camera', pointType: 'start', point: zone.cameraPath.start };
+    }
+    if (isPointNear(zone.cameraPath.end, x, y, hitRadius)) {
+      return { zone, type: 'camera', pointType: 'end', point: zone.cameraPath.end };
+    }
+
+    // Points personnage
+    if (isPointNear(zone.characterPath.start, x, y, hitRadius)) {
+      return { zone, type: 'character', pointType: 'start', point: zone.characterPath.start };
+    }
+    if (isPointNear(zone.characterPath.end, x, y, hitRadius)) {
+      return { zone, type: 'character', pointType: 'end', point: zone.characterPath.end };
+    }
+  }
+
+  return null;
+}
+
+function isPointNear(point, x, y, radius) {
+  const dx = point.x - x;
+  const dy = point.y - y;
+  return Math.sqrt(dx * dx + dy * dy) <= radius;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// PATH PANEL EVENTS - Mise à jour depuis le panel droit
+// ═══════════════════════════════════════════════════════════════
+
+function bindPathPanelEvents() {
+  // Camera path inputs
+  ['camera-start-x', 'camera-start-y', 'camera-end-x', 'camera-end-y'].forEach(id => {
+    const input = document.getElementById(id);
+    if (input) {
+      input.addEventListener('change', handlePathInputChange);
+    }
+  });
+
+  // Character path inputs
+  ['character-start-x', 'character-start-y', 'character-end-x', 'character-end-y',
+   'character-bounds-min', 'character-bounds-max'].forEach(id => {
+    const input = document.getElementById(id);
+    if (input) {
+      input.addEventListener('change', handlePathInputChange);
+    }
+  });
+}
+
+function handlePathInputChange(e) {
+  if (!state.selection) return;
+
+  const id = e.target.id;
+  const value = parseInt(e.target.value) || 0;
+  const zone = state.selection;
+
+  saveToHistory();
+
+  // Camera path
+  if (id === 'camera-start-x') zone.cameraPath.start.x = value;
+  if (id === 'camera-start-y') zone.cameraPath.start.y = value;
+  if (id === 'camera-end-x') zone.cameraPath.end.x = value;
+  if (id === 'camera-end-y') zone.cameraPath.end.y = value;
+
+  // Character path
+  if (id === 'character-start-x') zone.characterPath.start.x = value;
+  if (id === 'character-start-y') zone.characterPath.start.y = value;
+  if (id === 'character-end-x') zone.characterPath.end.x = value;
+  if (id === 'character-end-y') zone.characterPath.end.y = value;
+  if (id === 'character-bounds-min') zone.characterPath.bounds.minY = value;
+  if (id === 'character-bounds-max') zone.characterPath.bounds.maxY = value;
+
+  renderPathPreview();
+}
+
 // Export
 function openExportModal() {
   const levelData = generateLevelJSON();
@@ -597,7 +975,7 @@ function closeModals() {
 
 function generateLevelJSON() {
   return {
-    version: '1.0',
+    version: '1.1',
     id: state.level.id || `level_${Date.now()}`,
     meta: {
       name: state.level.name,
@@ -609,13 +987,26 @@ function generateLevelJSON() {
       order: index,
       mode: zone.mode.toUpperCase(),
       length: zone.length || 100,
+      // Parcours caméra
+      cameraPath: zone.cameraPath || {
+        start: { x: 0, y: 0 },
+        end: { x: zone.length || 100, y: 0 },
+        controlPoints: []
+      },
+      // Parcours personnage
+      characterPath: zone.characterPath || {
+        start: { x: 0, y: 50 },
+        end: { x: zone.length || 100, y: 50 },
+        controlPoints: [],
+        bounds: { minY: 20, maxY: 80 }
+      },
       parallax: zone.parallax,
       sprites: zone.sprites,
       transitions: zone.transitions
     })),
     spawn: state.level.spawn || {
       zoneId: state.level.zones[0]?.id || null,
-      position: { x: 100, y: 100 }
+      position: { x: 100, y: 50 }
     }
   };
 }

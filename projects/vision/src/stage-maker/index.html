@@ -35,6 +35,12 @@
           <button class="tool-btn" data-tool="sprite" data-tooltip="Sprite (S) - Placer un élément de décor">
             <span>🖼</span>
           </button>
+          <button class="tool-btn" data-tool="camera-path" data-tooltip="Chemin Caméra (C) - Éditer le trajet de la caméra">
+            <span>📷</span>
+          </button>
+          <button class="tool-btn" data-tool="character-path" data-tooltip="Chemin Personnage (P) - Éditer le trajet du joueur">
+            <span>🏃</span>
+          </button>
           <button class="tool-btn" data-tool="erase" data-tooltip="Effacer (E) - Supprimer un élément">
             <span>🗑</span>
           </button>
@@ -150,14 +156,38 @@
 
       <!-- Canvas area -->
       <div class="editor-canvas-container">
-        <!-- Macro view (Linear Timeline) -->
+        <!-- Macro view (Linear Timeline + Path Preview) -->
         <div class="editor-view editor-view--macro" id="macro-view">
-          <div class="linear-view" id="linear-view">
-            <div class="linear-timeline" id="linear-timeline">
-              <!-- Zones will be rendered here -->
-              <div class="linear-drop-zone" id="add-zone-btn" data-tooltip="Glissez un bloc de zone ici ou cliquez pour ajouter">
-                +
+          <!-- Timeline Section -->
+          <div class="macro-section macro-section--timeline">
+            <div class="macro-section__header">
+              <span class="macro-section__title">Timeline</span>
+            </div>
+            <div class="linear-view" id="linear-view">
+              <div class="linear-timeline" id="linear-timeline">
+                <!-- Zones will be rendered here -->
+                <div class="linear-drop-zone" id="add-zone-btn" data-tooltip="Glissez un bloc de zone ici ou cliquez pour ajouter">
+                  +
+                </div>
               </div>
+            </div>
+          </div>
+
+          <!-- Path Preview Section -->
+          <div class="macro-section macro-section--path">
+            <div class="macro-section__header">
+              <span class="macro-section__title">Aperçu des parcours</span>
+              <div class="path-legend">
+                <span class="path-legend__item path-legend__item--camera">
+                  <span class="path-legend__line"></span> Caméra
+                </span>
+                <span class="path-legend__item path-legend__item--character">
+                  <span class="path-legend__line"></span> Personnage
+                </span>
+              </div>
+            </div>
+            <div class="path-preview" id="path-preview">
+              <canvas id="path-canvas" width="1200" height="200"></canvas>
             </div>
           </div>
         </div>
@@ -217,6 +247,57 @@
           <button class="btn btn--danger btn--small w-full mt-md" id="btn-delete-zone">
             Supprimer zone
           </button>
+        </div>
+      </div>
+
+      <!-- Path config (Camera & Character) -->
+      <div class="panel-section" id="path-config">
+        <h3 class="panel-section__title">Parcours</h3>
+        <div class="panel-section__content">
+          <!-- Camera Path -->
+          <div class="path-config-group">
+            <span class="path-config-group__label path-config-group__label--camera">📷 Caméra</span>
+            <div class="form-group">
+              <label>Départ</label>
+              <div class="form-row">
+                <input type="number" class="input input--small" id="camera-start-x" placeholder="X">
+                <input type="number" class="input input--small" id="camera-start-y" placeholder="Y">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Arrivée</label>
+              <div class="form-row">
+                <input type="number" class="input input--small" id="camera-end-x" placeholder="X">
+                <input type="number" class="input input--small" id="camera-end-y" placeholder="Y">
+              </div>
+            </div>
+          </div>
+
+          <!-- Character Path -->
+          <div class="path-config-group">
+            <span class="path-config-group__label path-config-group__label--character">🏃 Personnage</span>
+            <div class="form-group">
+              <label>Départ</label>
+              <div class="form-row">
+                <input type="number" class="input input--small" id="character-start-x" placeholder="X">
+                <input type="number" class="input input--small" id="character-start-y" placeholder="Y">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Arrivée</label>
+              <div class="form-row">
+                <input type="number" class="input input--small" id="character-end-x" placeholder="X">
+                <input type="number" class="input input--small" id="character-end-y" placeholder="Y">
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Limites Y (zone de liberté)</label>
+              <div class="form-row">
+                <input type="number" class="input input--small" id="character-bounds-min" placeholder="Min Y">
+                <input type="number" class="input input--small" id="character-bounds-max" placeholder="Max Y">
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 

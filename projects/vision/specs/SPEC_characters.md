@@ -445,3 +445,152 @@ Prévoir des frames de transition entre :
 - Sol → Saut
 - Saut → Chute
 - Véhicule → À pied
+
+---
+
+## 9. Système de chargement (SpriteLoader)
+
+### 9.1 SpriteLoader
+
+Le module `SpriteLoader` permet de charger et gérer les sprites.
+
+```javascript
+import { SpriteLoader, Assets } from '/shared/components/loaders/SpriteLoader.js';
+
+// Liste des images à charger
+const imagesToLoad = {
+  'hero_sheet': '/assets/sprites/prince/spritesheet.png',
+  'princess_sheet': '/assets/sprites/princess/spritesheet.png',
+  'robot_sheet': '/assets/sprites/robot/spritesheet.png'
+};
+
+// Charger toutes les images
+await SpriteLoader.loadImages(imagesToLoad);
+
+// Accéder à une image chargée
+const heroSprite = Assets['hero_sheet'];
+// ou
+const heroSprite = SpriteLoader.get('hero_sheet');
+```
+
+### 9.2 Configuration d'animation (Sprite Sheet)
+
+Structure de configuration pour un sprite sheet :
+
+```javascript
+const spriteConfig = {
+  // Animation de course
+  run: {
+    y: 0,           // Position Y dans le sprite sheet (ligne)
+    width: 64,      // Largeur d'un frame
+    height: 96,     // Hauteur d'un frame
+    frames: 8,      // Nombre de frames
+    speed: 8        // Vitesse (frames de jeu par frame d'anim)
+  },
+  // Animation d'attente
+  idle: {
+    y: 96,          // 2ème ligne
+    width: 64,
+    height: 96,
+    frames: 6,
+    speed: 12
+  },
+  // Animation de saut
+  jump: {
+    y: 192,         // 3ème ligne
+    width: 64,
+    height: 96,
+    frames: 6,
+    speed: 6
+  }
+};
+```
+
+### 9.3 Boucle d'animation
+
+```javascript
+let frameTick = 0;
+let currentFrame = 0;
+let currentAnimation = 'run';
+
+function gameLoop() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  const anim = spriteConfig[currentAnimation];
+
+  // Avancer l'animation
+  frameTick++;
+  if (frameTick >= anim.speed) {
+    frameTick = 0;
+    currentFrame++;
+    if (currentFrame >= anim.frames) {
+      currentFrame = 0;
+    }
+  }
+
+  // Dessiner le sprite (slicing)
+  const img = Assets.hero_sheet;
+  const sx = currentFrame * anim.width;  // Position X source
+  const sy = anim.y;                      // Position Y source
+
+  ctx.drawImage(
+    img,
+    sx, sy, anim.width, anim.height,      // Source (découpe)
+    playerX, playerY, anim.width, anim.height  // Destination
+  );
+
+  requestAnimationFrame(gameLoop);
+}
+```
+
+### 9.4 Organisation du Sprite Sheet
+
+Chaque sprite sheet est organisé en lignes :
+
+```
+┌────────────────────────────────────────────────────────────┐
+│ Ligne 0 (y=0)   : RUN    │ F1 │ F2 │ F3 │ F4 │ F5 │ ...  │
+├────────────────────────────────────────────────────────────┤
+│ Ligne 1 (y=96)  : IDLE   │ F1 │ F2 │ F3 │ F4 │ F5 │ F6   │
+├────────────────────────────────────────────────────────────┤
+│ Ligne 2 (y=192) : WALK   │ F1 │ F2 │ F3 │ F4 │ F5 │ ...  │
+├────────────────────────────────────────────────────────────┤
+│ Ligne 3 (y=288) : JUMP   │ F1 │ F2 │ F3 │ F4 │ F5 │ F6   │
+├────────────────────────────────────────────────────────────┤
+│ Ligne 4 (y=384) : FALL   │ F1 │ F2 │ F3 │ F4 │            │
+└────────────────────────────────────────────────────────────┘
+```
+
+### 9.5 Manifeste des sprites
+
+Fichier `assets/sprites/manifest.json` :
+
+```json
+{
+  "version": "1.0",
+  "sprites": [
+    {
+      "id": "prince",
+      "name": "Le Petit Prince",
+      "file": "prince/spritesheet.png",
+      "frameWidth": 64,
+      "frameHeight": 96,
+      "animations": {
+        "idle": { "row": 0, "frames": 6, "speed": 12 },
+        "walk": { "row": 1, "frames": 8, "speed": 10 },
+        "run": { "row": 2, "frames": 8, "speed": 8 },
+        "jump": { "row": 3, "frames": 6, "speed": 6 },
+        "fall": { "row": 4, "frames": 4, "speed": 8 }
+      }
+    },
+    {
+      "id": "princess",
+      "name": "La Petite Princesse",
+      "file": "princess/spritesheet.png",
+      "frameWidth": 64,
+      "frameHeight": 96,
+      "animations": { ... }
+    }
+  ]
+}
+```

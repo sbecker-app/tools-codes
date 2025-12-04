@@ -974,3 +974,148 @@
 .linear-empty__text {
   font-size: var(--font-size-lg);
 }
+
+/* ═══════════════════════════════════════════════════════════════
+   MACRO VIEW SECTIONS (Timeline + Path Preview)
+   ═══════════════════════════════════════════════════════════════ */
+
+.editor-view--macro {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.macro-section {
+  display: flex;
+  flex-direction: column;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.macro-section--timeline {
+  flex: 1;
+  min-height: 150px;
+}
+
+.macro-section--path {
+  height: 250px;
+  min-height: 200px;
+}
+
+.macro-section__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-xs) var(--space-md);
+  background: var(--surface-2);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.macro-section__title {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PATH PREVIEW (Canvas pour visualiser les chemins)
+   ═══════════════════════════════════════════════════════════════ */
+
+.path-preview {
+  flex: 1;
+  position: relative;
+  overflow: auto;
+  background:
+    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+
+.path-preview canvas {
+  display: block;
+  min-width: 100%;
+}
+
+/* Path Legend */
+.path-legend {
+  display: flex;
+  gap: var(--space-md);
+}
+
+.path-legend__item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-size: var(--font-size-xs);
+  color: var(--text-secondary);
+}
+
+.path-legend__line {
+  width: 20px;
+  height: 3px;
+  border-radius: 2px;
+}
+
+.path-legend__item--camera .path-legend__line {
+  background: #ffffff;
+}
+
+.path-legend__item--character .path-legend__line {
+  background: #f1c40f;
+  background: repeating-linear-gradient(
+    90deg,
+    #f1c40f 0px,
+    #f1c40f 4px,
+    transparent 4px,
+    transparent 8px
+  );
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PATH CONFIG (Panel droit)
+   ═══════════════════════════════════════════════════════════════ */
+
+.path-config-group {
+  padding: var(--space-sm);
+  background: var(--surface-2);
+  border-radius: var(--radius-md);
+  margin-bottom: var(--space-sm);
+}
+
+.path-config-group__label {
+  display: block;
+  font-size: var(--font-size-sm);
+  font-weight: var(--font-weight-semibold);
+  margin-bottom: var(--space-sm);
+  padding-bottom: var(--space-xs);
+  border-bottom: 1px solid var(--border-color);
+}
+
+.path-config-group__label--camera {
+  color: #ffffff;
+}
+
+.path-config-group__label--character {
+  color: #f1c40f;
+}
+
+/* ═══════════════════════════════════════════════════════════════
+   PATH CONTROL POINTS (sur le canvas)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* Ces styles sont pour référence - les points sont dessinés sur le canvas */
+
+/*
+Point caméra :
+- Cercle plein blanc 8px
+- Hover: scale 1.2, glow
+
+Point personnage :
+- Cercle vide jaune 8px (stroke 2px)
+- Hover: scale 1.2, glow
+
+Zone de déplacement :
+- Rectangle semi-transparent jaune
+- Bordure pointillée jaune
+*/
