@@ -1,0 +1,425 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 80 120">
+  <defs>
+    <!-- Couleurs du personnage -->
+    <style>
+      :root {
+        --skin-color: #FFDAB9;
+        --skin-shadow: #E8C4A0;
+        --hair-color: #FFD700;
+        --hair-highlight: #FFF0A0;
+        --hair-shadow: #DAA520;
+        --eye-color: #4169E1;
+        --eye-highlight: #87CEEB;
+        --scarf-color: #FFD700;
+        --scarf-shadow: #DAA520;
+        --tunic-color: #4169E1;
+        --tunic-shadow: #3A5BA0;
+        --tunic-highlight: #5A7BC1;
+        --pants-color: #FFFDF5;
+        --pants-shadow: #E8E8E0;
+        --boot-color: #8B4513;
+        --boot-shadow: #6B3510;
+      }
+
+      /* Points d'articulation */
+      .leg-front { transform-origin: 45px 78px; }
+      .leg-back { transform-origin: 35px 78px; }
+      .arm-front { transform-origin: 52px 52px; }
+      .arm-back { transform-origin: 28px 52px; }
+
+      /* ========== ANIMATIONS ========== */
+
+      /* IDLE - Respiration et echarpe flottante */
+      @keyframes idle-breathe {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(-1px); }
+      }
+
+      @keyframes idle-scarf {
+        0% { d: path("M48,38 Q58,36 68,38 Q78,42 85,36 Q92,30 98,32"); }
+        25% { d: path("M48,38 Q60,34 70,36 Q82,40 90,34 Q98,28 105,30"); }
+        50% { d: path("M48,38 Q62,32 72,34 Q85,38 94,32 Q102,26 110,28"); }
+        75% { d: path("M48,38 Q60,34 70,36 Q82,40 90,34 Q98,28 105,30"); }
+        100% { d: path("M48,38 Q58,36 68,38 Q78,42 85,36 Q92,30 98,32"); }
+      }
+
+      @keyframes idle-scarf-end {
+        0%, 100% { d: path("M98,32 Q102,30 105,32 Q108,36 106,40"); }
+        50% { d: path("M110,28 Q114,26 118,28 Q122,32 120,38"); }
+      }
+
+      @keyframes idle-hair {
+        0%, 100% { transform: rotate(0deg); }
+        50% { transform: rotate(2deg); }
+      }
+
+      .character-root.idle {
+        animation: idle-breathe 3s ease-in-out infinite;
+      }
+
+      .character-root.idle .scarf-main {
+        animation: idle-scarf 4s ease-in-out infinite;
+      }
+
+      .character-root.idle .hair-strand {
+        animation: idle-hair 3s ease-in-out infinite;
+      }
+
+      /* WALK */
+      @keyframes walk-leg-front {
+        0%, 100% { transform: rotate(-18deg); }
+        50% { transform: rotate(18deg); }
+      }
+
+      @keyframes walk-leg-back {
+        0%, 100% { transform: rotate(18deg); }
+        50% { transform: rotate(-18deg); }
+      }
+
+      @keyframes walk-arm-front {
+        0%, 100% { transform: rotate(12deg); }
+        50% { transform: rotate(-12deg); }
+      }
+
+      @keyframes walk-arm-back {
+        0%, 100% { transform: rotate(-12deg); }
+        50% { transform: rotate(12deg); }
+      }
+
+      @keyframes walk-body {
+        0%, 50%, 100% { transform: translateY(0); }
+        25%, 75% { transform: translateY(-1.5px); }
+      }
+
+      @keyframes walk-scarf {
+        0%, 100% { d: path("M48,38 Q62,34 76,36 Q88,40 98,34 Q108,28 115,30"); }
+        50% { d: path("M48,38 Q64,32 80,34 Q94,38 106,32 Q116,26 124,28"); }
+      }
+
+      .character-root.walk .leg-front {
+        animation: walk-leg-front 0.5s ease-in-out infinite;
+      }
+
+      .character-root.walk .leg-back {
+        animation: walk-leg-back 0.5s ease-in-out infinite;
+      }
+
+      .character-root.walk .arm-front {
+        animation: walk-arm-front 0.5s ease-in-out infinite;
+      }
+
+      .character-root.walk .arm-back {
+        animation: walk-arm-back 0.5s ease-in-out infinite;
+      }
+
+      .character-root.walk .body-group {
+        animation: walk-body 0.25s ease-in-out infinite;
+      }
+
+      .character-root.walk .scarf-main {
+        animation: walk-scarf 0.5s ease-in-out infinite;
+      }
+
+      /* RUN */
+      @keyframes run-leg-front {
+        0%, 100% { transform: rotate(-30deg); }
+        50% { transform: rotate(30deg); }
+      }
+
+      @keyframes run-leg-back {
+        0%, 100% { transform: rotate(30deg); }
+        50% { transform: rotate(-30deg); }
+      }
+
+      @keyframes run-arm-front {
+        0%, 100% { transform: rotate(25deg); }
+        50% { transform: rotate(-25deg); }
+      }
+
+      @keyframes run-arm-back {
+        0%, 100% { transform: rotate(-25deg); }
+        50% { transform: rotate(25deg); }
+      }
+
+      @keyframes run-body {
+        0%, 100% { transform: translateY(0) rotate(-3deg); }
+        50% { transform: translateY(-3px) rotate(-3deg); }
+      }
+
+      @keyframes run-scarf {
+        0%, 100% { d: path("M48,38 Q70,32 92,30 Q114,28 130,26 Q146,24 158,26"); }
+        50% { d: path("M48,38 Q72,30 96,28 Q120,26 138,24 Q156,22 168,24"); }
+      }
+
+      .character-root.run .leg-front {
+        animation: run-leg-front 0.35s ease-in-out infinite;
+      }
+
+      .character-root.run .leg-back {
+        animation: run-leg-back 0.35s ease-in-out infinite;
+      }
+
+      .character-root.run .arm-front {
+        animation: run-arm-front 0.35s ease-in-out infinite;
+      }
+
+      .character-root.run .arm-back {
+        animation: run-arm-back 0.35s ease-in-out infinite;
+      }
+
+      .character-root.run .body-group {
+        animation: run-body 0.175s ease-in-out infinite;
+      }
+
+      .character-root.run .scarf-main {
+        animation: run-scarf 0.35s ease-in-out infinite;
+      }
+
+      /* JUMP */
+      @keyframes jump-body {
+        0% { transform: scaleY(0.92) translateY(3px); }
+        30% { transform: scaleY(1.08) translateY(-8px); }
+        100% { transform: scaleY(1.04) translateY(-5px); }
+      }
+
+      @keyframes jump-arms {
+        0% { transform: rotate(0deg); }
+        40% { transform: rotate(-50deg); }
+        100% { transform: rotate(-35deg); }
+      }
+
+      @keyframes jump-legs {
+        0% { transform: rotate(0deg); }
+        40% { transform: rotate(-15deg); }
+        100% { transform: rotate(-10deg); }
+      }
+
+      @keyframes jump-scarf {
+        0% { d: path("M48,38 Q58,36 68,38 Q78,42 85,36"); }
+        40% { d: path("M48,38 Q52,28 56,20 Q60,12 64,6"); }
+        100% { d: path("M48,38 Q50,26 52,16 Q54,8 56,2"); }
+      }
+
+      .character-root.jump .body-group {
+        animation: jump-body 0.45s ease-out forwards;
+      }
+
+      .character-root.jump .arm-front,
+      .character-root.jump .arm-back {
+        animation: jump-arms 0.45s ease-out forwards;
+      }
+
+      .character-root.jump .leg-front,
+      .character-root.jump .leg-back {
+        animation: jump-legs 0.45s ease-out forwards;
+      }
+
+      .character-root.jump .scarf-main {
+        animation: jump-scarf 0.45s ease-out forwards;
+      }
+
+      /* FALL */
+      @keyframes fall-body {
+        0%, 100% { transform: translateY(0); }
+        50% { transform: translateY(2px); }
+      }
+
+      @keyframes fall-limbs {
+        0%, 100% { transform: rotate(-8deg); }
+        50% { transform: rotate(8deg); }
+      }
+
+      @keyframes fall-scarf {
+        0%, 100% { d: path("M48,38 Q50,28 52,18 Q54,10 56,4"); }
+        50% { d: path("M48,38 Q52,26 56,16 Q60,8 64,2"); }
+      }
+
+      .character-root.fall .body-group {
+        animation: fall-body 0.3s ease-in-out infinite;
+      }
+
+      .character-root.fall .arm-front,
+      .character-root.fall .arm-back,
+      .character-root.fall .leg-front,
+      .character-root.fall .leg-back {
+        animation: fall-limbs 0.3s ease-in-out infinite;
+      }
+
+      .character-root.fall .scarf-main {
+        animation: fall-scarf 0.3s ease-in-out infinite;
+      }
+    </style>
+
+    <!-- Degradés pour effet aquarelle -->
+    <linearGradient id="skinGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFE4C4"/>
+      <stop offset="100%" style="stop-color:#FFDAB9"/>
+    </linearGradient>
+
+    <linearGradient id="hairGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFE55C"/>
+      <stop offset="50%" style="stop-color:#FFD700"/>
+      <stop offset="100%" style="stop-color:#DAA520"/>
+    </linearGradient>
+
+    <linearGradient id="tunicGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#5A7BC1"/>
+      <stop offset="100%" style="stop-color:#3A5BA0"/>
+    </linearGradient>
+
+    <linearGradient id="scarfGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#FFD700"/>
+      <stop offset="100%" style="stop-color:#FFC000"/>
+    </linearGradient>
+
+    <radialGradient id="eyeGradient" cx="30%" cy="30%" r="70%">
+      <stop offset="0%" style="stop-color:#87CEEB"/>
+      <stop offset="100%" style="stop-color:#4169E1"/>
+    </radialGradient>
+
+    <!-- Filtre pour effet doux/aquarelle -->
+    <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="0.5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- ASSEMBLAGE DU PERSONNAGE -->
+  <g class="character-root idle" filter="url(#softGlow)">
+
+    <!-- ECHARPE (derriere le corps) -->
+    <g class="scarf-group">
+      <!-- Echarpe principale -->
+      <path class="scarf-main"
+            d="M48,38 Q58,36 68,38 Q78,42 85,36 Q92,30 98,32"
+            fill="none"
+            stroke="url(#scarfGradient)"
+            stroke-width="8"
+            stroke-linecap="round"/>
+      <!-- Bout de l'echarpe -->
+      <path class="scarf-end"
+            d="M98,32 Q102,30 105,32 Q108,36 106,40"
+            fill="none"
+            stroke="#DAA520"
+            stroke-width="6"
+            stroke-linecap="round"/>
+    </g>
+
+    <!-- BRAS ARRIERE -->
+    <g class="arm-back">
+      <!-- Manche -->
+      <ellipse fill="url(#tunicGradient)" cx="26" cy="54" rx="5" ry="8"/>
+      <!-- Main -->
+      <circle fill="url(#skinGradient)" cx="24" cy="64" r="4"/>
+    </g>
+
+    <!-- JAMBE ARRIERE -->
+    <g class="leg-back">
+      <!-- Pantalon -->
+      <path fill="#E8E8E0" d="M32,78 L38,78 L40,100 L30,100 Z"/>
+      <!-- Botte -->
+      <path fill="#6B3510" d="M29,98 L41,98 L42,108 L40,110 L30,110 L28,108 Z"/>
+      <path fill="#8B4513" d="M30,100 L40,100 L41,106 L29,106 Z"/>
+    </g>
+
+    <!-- CORPS -->
+    <g class="body-group">
+      <!-- Tunique -->
+      <path fill="url(#tunicGradient)"
+            d="M30,46
+               Q40,44 50,46
+               L54,78
+               L26,78
+               Z"/>
+      <!-- Col -->
+      <path fill="#3A5BA0" d="M34,46 Q40,42 46,46 L44,50 Q40,48 36,50 Z"/>
+      <!-- Detail tunique -->
+      <line stroke="#3A5BA0" stroke-width="1" x1="40" y1="50" x2="40" y2="76" opacity="0.5"/>
+    </g>
+
+    <!-- JAMBE AVANT -->
+    <g class="leg-front">
+      <!-- Pantalon -->
+      <path fill="#FFFDF5" d="M42,78 L48,78 L50,100 L40,100 Z"/>
+      <!-- Botte -->
+      <path fill="#6B3510" d="M39,98 L51,98 L52,108 L50,110 L40,110 L38,108 Z"/>
+      <path fill="#8B4513" d="M40,100 L50,100 L51,106 L39,106 Z"/>
+    </g>
+
+    <!-- BRAS AVANT -->
+    <g class="arm-front">
+      <!-- Manche -->
+      <ellipse fill="url(#tunicGradient)" cx="54" cy="54" rx="5" ry="8"/>
+      <!-- Main -->
+      <circle fill="url(#skinGradient)" cx="56" cy="64" r="4"/>
+    </g>
+
+    <!-- TETE -->
+    <g class="head-group">
+      <!-- Visage (forme arrondie style chibi) -->
+      <ellipse fill="url(#skinGradient)" cx="40" cy="26" rx="18" ry="20"/>
+
+      <!-- Ombre joue -->
+      <ellipse fill="#FFB6A0" cx="30" cy="30" rx="4" ry="3" opacity="0.4"/>
+      <ellipse fill="#FFB6A0" cx="50" cy="30" rx="4" ry="3" opacity="0.4"/>
+
+      <!-- Cheveux (masse principale) -->
+      <g class="hair-group">
+        <!-- Base des cheveux -->
+        <path fill="url(#hairGradient)"
+              d="M22,22
+                 Q20,10 30,6
+                 Q40,2 50,6
+                 Q60,10 58,22
+                 Q55,16 40,14
+                 Q25,16 22,22"/>
+
+        <!-- Meches et epis -->
+        <g class="hair-strand">
+          <path fill="#FFE55C" d="M28,8 Q26,2 30,0 Q34,2 32,8 Z"/>
+          <path fill="#FFD700" d="M38,6 Q38,0 42,0 Q46,0 44,6 Z"/>
+          <path fill="#FFE55C" d="M48,8 Q50,2 54,4 Q52,8 48,10 Z"/>
+        </g>
+
+        <!-- Meche devant -->
+        <path fill="#DAA520" d="M26,18 Q24,22 28,24 Q30,20 26,18"/>
+        <path fill="#FFD700" d="M52,16 Q56,18 54,24 Q50,20 52,16"/>
+      </g>
+
+      <!-- YEUX -->
+      <g class="eyes-group">
+        <!-- Oeil gauche -->
+        <ellipse fill="white" cx="33" cy="26" rx="6" ry="7"/>
+        <ellipse fill="url(#eyeGradient)" cx="34" cy="27" rx="4" ry="5"/>
+        <circle fill="#1a1a4e" cx="34" cy="27" r="2.5"/>
+        <circle fill="white" cx="35.5" cy="25.5" r="1.5"/>
+        <circle fill="white" cx="33" cy="29" r="0.8"/>
+
+        <!-- Oeil droit -->
+        <ellipse fill="white" cx="47" cy="26" rx="6" ry="7"/>
+        <ellipse fill="url(#eyeGradient)" cx="46" cy="27" rx="4" ry="5"/>
+        <circle fill="#1a1a4e" cx="46" cy="27" r="2.5"/>
+        <circle fill="white" cx="47.5" cy="25.5" r="1.5"/>
+        <circle fill="white" cx="45" cy="29" r="0.8"/>
+
+        <!-- Sourcils -->
+        <path fill="none" stroke="#DAA520" stroke-width="1.5" stroke-linecap="round"
+              d="M28,20 Q33,18 38,20"/>
+        <path fill="none" stroke="#DAA520" stroke-width="1.5" stroke-linecap="round"
+              d="M42,20 Q47,18 52,20"/>
+      </g>
+
+      <!-- Nez (subtil) -->
+      <path fill="none" stroke="#E8B090" stroke-width="1" stroke-linecap="round"
+            d="M40,30 Q41,32 40,33"/>
+
+      <!-- Bouche (petit sourire) -->
+      <path fill="none" stroke="#D4836A" stroke-width="1.5" stroke-linecap="round"
+            d="M36,36 Q40,39 44,36"/>
+    </g>
+
+  </g>
+</svg>

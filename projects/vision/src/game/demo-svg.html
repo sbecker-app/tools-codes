@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo SVG - Game 2.5D</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #1a1a2e;
+      color: white;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Container du jeu */
+    #game-container {
+      width: 100vw;
+      height: 80vh;
+      position: relative;
+      overflow: hidden;
+      background: #87CEEB;
+    }
+
+    /* Couches de parallaxe */
+    .parallax-layer {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      will-change: transform;
+    }
+
+    .parallax-layer svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Personnage */
+    #character-container {
+      position: absolute;
+      bottom: 15%;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 128px;
+      height: 192px;
+      z-index: 100;
+    }
+
+    #character-container svg {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Panneau de controle */
+    #controls {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(26, 26, 46, 0.95);
+      padding: 20px;
+      display: flex;
+      gap: 20px;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      border-top: 2px solid #4a90d9;
+    }
+
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .control-group label {
+      font-size: 12px;
+      color: #888;
+      text-transform: uppercase;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 8px;
+    }
+
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 14px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+
+    button.primary {
+      background: #4a90d9;
+      color: white;
+    }
+
+    button.primary:hover {
+      background: #3a80c9;
+    }
+
+    button.primary.active {
+      background: #2ecc71;
+    }
+
+    button.secondary {
+      background: #333;
+      color: white;
+    }
+
+    button.secondary:hover {
+      background: #444;
+    }
+
+    /* Info overlay */
+    #info {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      background: rgba(0,0,0,0.7);
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 13px;
+      z-index: 200;
+    }
+
+    #info h3 {
+      color: #4a90d9;
+      margin-bottom: 10px;
+    }
+
+    #info p {
+      margin: 5px 0;
+      color: #ccc;
+    }
+
+    #info span {
+      color: #2ecc71;
+      font-weight: bold;
+    }
+
+    /* Instructions */
+    #instructions {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: rgba(0,0,0,0.7);
+      padding: 15px;
+      border-radius: 8px;
+      font-size: 12px;
+      z-index: 200;
+      max-width: 200px;
+    }
+
+    #instructions h4 {
+      color: #FFD700;
+      margin-bottom: 8px;
+    }
+
+    #instructions kbd {
+      background: #333;
+      padding: 2px 6px;
+      border-radius: 3px;
+      font-family: monospace;
+    }
+
+    /* Loading */
+    #loading {
+      position: fixed;
+      inset: 0;
+      background: #1a1a2e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 20px;
+      z-index: 1000;
+      transition: opacity 0.5s;
+    }
+
+    #loading.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 4px solid #333;
+      border-top-color: #4a90d9;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Ecran de chargement -->
+  <div id="loading">
+    <div class="spinner"></div>
+    <p>Chargement des assets SVG...</p>
+  </div>
+
+  <!-- Container du jeu -->
+  <div id="game-container">
+    <!-- Les couches de parallaxe seront injectees ici -->
+
+    <!-- Personnage -->
+    <div id="character-container"></div>
+  </div>
+
+  <!-- Informations -->
+  <div id="info">
+    <h3>Demo SVG 2.5D</h3>
+    <p>Animation: <span id="current-anim">idle</span></p>
+    <p>Camera X: <span id="camera-x">0</span></p>
+    <p>Direction: <span id="direction">droite</span></p>
+  </div>
+
+  <!-- Instructions -->
+  <div id="instructions">
+    <h4>Controles</h4>
+    <p><kbd>←</kbd> <kbd>→</kbd> Deplacer</p>
+    <p><kbd>Shift</kbd> + fleche = Courir</p>
+    <p><kbd>Espace</kbd> Sauter</p>
+    <p><kbd>1-5</kbd> Animations</p>
+  </div>
+
+  <!-- Panneau de controle -->
+  <div id="controls">
+    <div class="control-group">
+      <label>Animation</label>
+      <div class="btn-group">
+        <button class="primary active" data-anim="idle">Idle</button>
+        <button class="primary" data-anim="walk">Walk</button>
+        <button class="primary" data-anim="run">Run</button>
+        <button class="primary" data-anim="jump">Jump</button>
+        <button class="primary" data-anim="fall">Fall</button>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label>Direction</label>
+      <div class="btn-group">
+        <button class="secondary" id="btn-flip">Retourner</button>
+      </div>
+    </div>
+
+    <div class="control-group">
+      <label>Couleurs</label>
+      <div class="btn-group">
+        <button class="secondary" data-color="hair" data-value="#FFD700">Blond</button>
+        <button class="secondary" data-color="hair" data-value="#8B4513">Brun</button>
+        <button class="secondary" data-color="tunic" data-value="#4169E1">Bleu</button>
+        <button class="secondary" data-color="tunic" data-value="#2ecc71">Vert</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module">
+    // Import des modules
+    import { SVGLoader } from './shared/components/loaders/SVGLoader.js';
+    import { SVGAnimator } from './shared/components/animation/SVGAnimator.js';
+    import { ParallaxSVG } from './shared/components/parallax/ParallaxSVG.js';
+
+    // Elements DOM
+    const gameContainer = document.getElementById('game-container');
+    const characterContainer = document.getElementById('character-container');
+    const loadingScreen = document.getElementById('loading');
+
+    // Etat du jeu
+    let animator = null;
+    let parallax = null;
+    let cameraX = 0;
+    let facingRight = true;
+    let isMoving = false;
+    let isRunning = false;
+
+    // Constantes
+    const WALK_SPEED = 3;
+    const RUN_SPEED = 8;
+
+    // Touches pressees
+    const keys = {
+      left: false,
+      right: false,
+      shift: false,
+      space: false
+    };
+
+    /**
+     * Initialisation
+     */
+    async function init() {
+      try {
+        // Charger et configurer la parallaxe
+        parallax = new ParallaxSVG(gameContainer);
+
+        await parallax.addLayers([
+          { url: '/assets/svg/backgrounds/sky.svg', depth: 0.1 },
+          { url: '/assets/svg/backgrounds/mountains.svg', depth: 0.3 },
+          { url: '/assets/svg/backgrounds/trees-far.svg', depth: 0.5, options: { repeat: true, repeatWidth: 200 } },
+          { url: '/assets/svg/backgrounds/trees-near.svg', depth: 0.7, options: { repeat: true, repeatWidth: 200 } }
+        ]);
+
+        // Charger le personnage
+        const svg = await SVGLoader.inject(
+          '/assets/svg/characters/prince.svg',
+          characterContainer
+        );
+
+        // Creer l'animateur
+        animator = new SVGAnimator(svg);
+        animator.play('idle');
+
+        // Configurer les controles
+        setupControls();
+        setupKeyboard();
+
+        // Demarrer la boucle de jeu
+        requestAnimationFrame(gameLoop);
+
+        // Cacher l'ecran de chargement
+        loadingScreen.classList.add('hidden');
+
+      } catch (error) {
+        console.error('Erreur initialisation:', error);
+        loadingScreen.innerHTML = `<p style="color: #e74c3c;">Erreur: ${error.message}</p>`;
+      }
+    }
+
+    /**
+     * Boucle de jeu
+     */
+    function gameLoop() {
+      // Gerer le mouvement
+      if (keys.left || keys.right) {
+        isMoving = true;
+        isRunning = keys.shift;
+
+        const speed = isRunning ? RUN_SPEED : WALK_SPEED;
+        const direction = keys.right ? 1 : -1;
+
+        cameraX += speed * direction;
+
+        // Changer la direction du personnage
+        if (keys.right && !facingRight) {
+          facingRight = true;
+          animator.setDirection(true);
+        } else if (keys.left && facingRight) {
+          facingRight = false;
+          animator.setDirection(false);
+        }
+
+        // Jouer l'animation appropriee
+        if (isRunning) {
+          animator.play('run');
+        } else {
+          animator.play('walk');
+        }
+      } else if (isMoving) {
+        isMoving = false;
+        animator.play('idle');
+      }
+
+      // Mettre a jour la parallaxe
+      parallax.update(cameraX);
+
+      // Mettre a jour l'UI
+      updateUI();
+
+      requestAnimationFrame(gameLoop);
+    }
+
+    /**
+     * Configurer les boutons
+     */
+    function setupControls() {
+      // Boutons d'animation
+      document.querySelectorAll('[data-anim]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const anim = btn.dataset.anim;
+          animator.play(anim);
+
+          // Mettre a jour les boutons actifs
+          document.querySelectorAll('[data-anim]').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+        });
+      });
+
+      // Bouton flip
+      document.getElementById('btn-flip').addEventListener('click', () => {
+        facingRight = !facingRight;
+        animator.setDirection(facingRight);
+      });
+
+      // Boutons de couleur
+      document.querySelectorAll('[data-color]').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const colorName = btn.dataset.color;
+          const colorValue = btn.dataset.value;
+          animator.setColor(colorName, colorValue);
+        });
+      });
+    }
+
+    /**
+     * Configurer les controles clavier
+     */
+    function setupKeyboard() {
+      document.addEventListener('keydown', (e) => {
+        switch(e.key) {
+          case 'ArrowLeft':
+          case 'a':
+            keys.left = true;
+            break;
+          case 'ArrowRight':
+          case 'd':
+            keys.right = true;
+            break;
+          case 'Shift':
+            keys.shift = true;
+            break;
+          case ' ':
+            e.preventDefault();
+            animator.play('jump');
+            setTimeout(() => {
+              if (!isMoving) animator.play('idle');
+            }, 400);
+            break;
+          case '1':
+            animator.play('idle');
+            break;
+          case '2':
+            animator.play('walk');
+            break;
+          case '3':
+            animator.play('run');
+            break;
+          case '4':
+            animator.play('jump');
+            break;
+          case '5':
+            animator.play('fall');
+            break;
+        }
+      });
+
+      document.addEventListener('keyup', (e) => {
+        switch(e.key) {
+          case 'ArrowLeft':
+          case 'a':
+            keys.left = false;
+            break;
+          case 'ArrowRight':
+          case 'd':
+            keys.right = false;
+            break;
+          case 'Shift':
+            keys.shift = false;
+            break;
+        }
+      });
+    }
+
+    /**
+     * Mettre a jour l'interface
+     */
+    function updateUI() {
+      document.getElementById('current-anim').textContent = animator.getCurrentAnimation() || 'idle';
+      document.getElementById('camera-x').textContent = Math.round(cameraX);
+      document.getElementById('direction').textContent = facingRight ? 'droite' : 'gauche';
+    }
+
+    // Lancer l'initialisation
+    init();
+  </script>
+</body>
+</html>

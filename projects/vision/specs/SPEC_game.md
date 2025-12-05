@@ -112,6 +112,57 @@ friction: 0.8    // Friction au sol
 - Répétition horizontale configurable
 - Offset Y personnalisable par couche
 
+### 4.3 Implémentation SVG (recommandée)
+
+Le système de parallaxe utilise des **fichiers SVG** pour un rendu scalable et performant.
+
+#### Structure DOM
+
+```html
+<div id="game-container">
+  <!-- Couches de parallaxe (générées par ParallaxSVG) -->
+  <div class="parallax-layer" data-depth="0.1" style="z-index: 0">
+    <svg><!-- sky.svg --></svg>
+  </div>
+  <div class="parallax-layer" data-depth="0.3" style="z-index: 1">
+    <svg><!-- mountains.svg --></svg>
+  </div>
+  <!-- ... autres couches -->
+
+  <!-- Couche de jeu -->
+  <div id="game-layer" style="z-index: 4">
+    <!-- Personnage, obstacles, etc. -->
+  </div>
+</div>
+```
+
+#### Fichiers backgrounds SVG
+
+```
+assets/svg/backgrounds/
+├── sky.svg              <- Depth 0.1 (ciel, nuages)
+├── mountains.svg        <- Depth 0.3 (montagnes)
+├── trees-far.svg        <- Depth 0.5 (arbres lointains)
+├── trees-near.svg       <- Depth 0.7 (arbres proches)
+└── foreground.svg       <- Depth 1.2 (premier plan)
+```
+
+#### Module ParallaxSVG
+
+```javascript
+import { ParallaxSVG } from '/shared/components/parallax/ParallaxSVG.js';
+
+const parallax = new ParallaxSVG(gameContainer);
+await parallax.addLayer('/assets/svg/backgrounds/sky.svg', 0.1);
+await parallax.addLayer('/assets/svg/backgrounds/mountains.svg', 0.3);
+// ...
+
+// Dans la game loop
+parallax.update(camera.x, camera.y);
+```
+
+> **Voir aussi** : `SPEC_svg-system.md` pour l'architecture complète du système SVG.
+
 ---
 
 ## 5. Robot Compagnon

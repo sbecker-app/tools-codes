@@ -1,0 +1,108 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 3840 1080" preserveAspectRatio="xMidYMax slice">
+  <defs>
+    <!-- Couleurs arbres proches (plus satures) -->
+    <linearGradient id="treeNearGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#4A8A5A"/>
+      <stop offset="100%" style="stop-color:#2A6A3A"/>
+    </linearGradient>
+
+    <linearGradient id="treeNearDark" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#3A7A4A"/>
+      <stop offset="100%" style="stop-color:#2A5A3A"/>
+    </linearGradient>
+
+    <!-- Tronc -->
+    <linearGradient id="trunkGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#5A4334"/>
+      <stop offset="50%" style="stop-color:#7A5344"/>
+      <stop offset="100%" style="stop-color:#4A3324"/>
+    </linearGradient>
+
+    <!-- Symbole grand sapin -->
+    <symbol id="pineNear" viewBox="0 0 100 200">
+      <!-- Tronc -->
+      <rect fill="url(#trunkGradient)" x="42" y="150" width="16" height="50"/>
+      <!-- Feuillage (4 niveaux) -->
+      <path fill="url(#treeNearGradient)" d="M50,0 L85,50 L75,50 L95,90 L80,90 L100,140 L85,140 L100,180 L0,180 L15,140 L0,140 L20,90 L5,90 L25,50 L15,50 Z"/>
+      <!-- Ombre -->
+      <path fill="url(#treeNearDark)" opacity="0.5" d="M50,0 L50,180 L0,180 L15,140 L0,140 L20,90 L5,90 L25,50 L15,50 Z"/>
+    </symbol>
+
+    <!-- Symbole grand arbre feuillu -->
+    <symbol id="treeNear" viewBox="0 0 140 220">
+      <!-- Tronc -->
+      <path fill="url(#trunkGradient)" d="M60,150 L80,150 L85,220 L55,220 Z"/>
+      <!-- Branches visibles -->
+      <path fill="#5A4334" d="M70,160 L40,140 L45,145 L70,165 Z"/>
+      <path fill="#5A4334" d="M70,165 L100,150 L95,155 L70,170 Z"/>
+      <!-- Feuillage -->
+      <ellipse fill="url(#treeNearGradient)" cx="70" cy="85" rx="60" ry="75"/>
+      <ellipse fill="#3A7A4A" cx="50" cy="70" rx="40" ry="55" opacity="0.8"/>
+      <ellipse fill="#5A9A6A" cx="90" cy="95" rx="35" ry="50" opacity="0.6"/>
+      <ellipse fill="#4A8A5A" cx="70" cy="110" rx="45" ry="40" opacity="0.7"/>
+    </symbol>
+
+    <!-- Buisson -->
+    <symbol id="bush" viewBox="0 0 80 50">
+      <ellipse fill="#3A7A4A" cx="40" cy="35" rx="35" ry="25"/>
+      <ellipse fill="#4A8A5A" cx="25" cy="30" rx="20" ry="18"/>
+      <ellipse fill="#5A9A6A" cx="55" cy="32" rx="22" ry="20"/>
+    </symbol>
+  </defs>
+
+  <!-- Arbres proches - plus grands et plus detailles -->
+  <g>
+    <!-- Premiere serie -->
+    <use href="#bush" x="20" y="900" width="60" height="40"/>
+    <use href="#pineNear" x="80" y="720" width="80" height="160"/>
+    <use href="#treeNear" x="180" y="680" width="110" height="180"/>
+    <use href="#bush" x="300" y="910" width="50" height="35"/>
+    <use href="#pineNear" x="350" y="740" width="70" height="140"/>
+    <use href="#treeNear" x="440" y="700" width="100" height="160"/>
+    <use href="#bush" x="560" y="905" width="55" height="38"/>
+    <use href="#pineNear" x="620" y="730" width="75" height="150"/>
+    <use href="#treeNear" x="720" y="690" width="105" height="170"/>
+    <use href="#bush" x="840" y="895" width="65" height="42"/>
+    <use href="#pineNear" x="920" y="710" width="85" height="170"/>
+    <use href="#treeNear" x="1020" y="670" width="115" height="190"/>
+
+    <!-- Deuxieme serie -->
+    <use href="#bush" x="1150" y="908" width="52" height="36"/>
+    <use href="#pineNear" x="1200" y="735" width="72" height="144"/>
+    <use href="#treeNear" x="1300" y="695" width="102" height="165"/>
+    <use href="#bush" x="1420" y="902" width="58" height="40"/>
+    <use href="#pineNear" x="1480" y="725" width="78" height="155"/>
+    <use href="#treeNear" x="1580" y="685" width="108" height="175"/>
+    <use href="#bush" x="1710" y="898" width="62" height="43"/>
+    <use href="#pineNear" x="1780" y="715" width="82" height="165"/>
+    <use href="#treeNear" x="1880" y="675" width="112" height="185"/>
+
+    <!-- Troisieme serie (continuation scroll) -->
+    <use href="#bush" x="2010" y="900" width="60" height="40"/>
+    <use href="#pineNear" x="2070" y="720" width="80" height="160"/>
+    <use href="#treeNear" x="2170" y="680" width="110" height="180"/>
+    <use href="#bush" x="2290" y="910" width="50" height="35"/>
+    <use href="#pineNear" x="2340" y="740" width="70" height="140"/>
+    <use href="#treeNear" x="2430" y="700" width="100" height="160"/>
+    <use href="#bush" x="2550" y="905" width="55" height="38"/>
+    <use href="#pineNear" x="2610" y="730" width="75" height="150"/>
+    <use href="#treeNear" x="2710" y="690" width="105" height="170"/>
+    <use href="#bush" x="2830" y="895" width="65" height="42"/>
+    <use href="#pineNear" x="2910" y="710" width="85" height="170"/>
+    <use href="#treeNear" x="3010" y="670" width="115" height="190"/>
+
+    <!-- Quatrieme serie -->
+    <use href="#bush" x="3140" y="908" width="52" height="36"/>
+    <use href="#pineNear" x="3190" y="735" width="72" height="144"/>
+    <use href="#treeNear" x="3290" y="695" width="102" height="165"/>
+    <use href="#bush" x="3410" y="902" width="58" height="40"/>
+    <use href="#pineNear" x="3470" y="725" width="78" height="155"/>
+    <use href="#treeNear" x="3570" y="685" width="108" height="175"/>
+    <use href="#bush" x="3700" y="898" width="62" height="43"/>
+    <use href="#pineNear" x="3770" y="715" width="82" height="165"/>
+  </g>
+
+  <!-- Sol/herbe -->
+  <rect fill="#4A7A4A" x="0" y="950" width="100%" height="130"/>
+  <path fill="#5A8A5A" d="M0,950 Q100,940 200,950 Q300,945 400,950 Q500,942 600,950 Q700,948 800,950 Q900,943 1000,950 Q1100,947 1200,950 Q1300,944 1400,950 Q1500,946 1600,950 Q1700,941 1800,950 Q1900,949 2000,950 Q2100,944 2200,950 Q2300,948 2400,950 Q2500,943 2600,950 Q2700,947 2800,950 Q2900,945 3000,950 Q3100,948 3200,950 Q3300,942 3400,950 Q3500,946 3600,950 Q3700,944 3840,950 L3840,960 L0,960 Z"/>
+</svg>

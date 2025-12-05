@@ -38,7 +38,16 @@
       "mcp__playwright__browser_tabs",
       "Bash(pkill:*)",
       "Bash(git add:*)",
-      "mcp__playwright__browser_console_messages"
+      "mcp__playwright__browser_console_messages",
+      "Bash(ls:*)",
+      "Bash(node server.js:*)",
+      "mcp__playwright__browser_evaluate",
+      "Bash(echo:*)",
+      "Bash(pbcopy:*)",
+      "mcp__playwright__browser_run_code",
+      "Bash(npx @fonciastark/foncia-duck@latest ra create:*)",
+      "Bash(pnpm add:*)",
+      "Bash(node:*)"
     ],
     "deny": [
       "Bash(git commit:*)",

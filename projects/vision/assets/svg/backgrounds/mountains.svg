@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMax slice">
+  <defs>
+    <!-- Degrade montagne lointaine -->
+    <linearGradient id="mountainFarGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#9BA8B4"/>
+      <stop offset="100%" style="stop-color:#7A8B9A"/>
+    </linearGradient>
+
+    <!-- Degrade montagne proche -->
+    <linearGradient id="mountainNearGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#6B7B8A"/>
+      <stop offset="100%" style="stop-color:#4A5A6A"/>
+    </linearGradient>
+
+    <!-- Neige sur les sommets -->
+    <linearGradient id="snowGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF"/>
+      <stop offset="100%" style="stop-color:#E8F0F5" stop-opacity="0"/>
+    </linearGradient>
+
+    <!-- Texture douce -->
+    <filter id="mountainTexture" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="3" result="noise"/>
+      <feDisplacementMap in="SourceGraphic" in2="noise" scale="5" xChannelSelector="R" yChannelSelector="G"/>
+    </filter>
+  </defs>
+
+  <!-- Montagnes lointaines (arriere-plan) -->
+  <g opacity="0.6">
+    <path fill="url(#mountainFarGradient)"
+          d="M-100,1080
+             L100,500
+             L300,650
+             L500,400
+             L700,550
+             L900,350
+             L1100,500
+             L1300,380
+             L1500,520
+             L1700,420
+             L1920,550
+             L2020,1080 Z"/>
+    <!-- Neige -->
+    <path fill="url(#snowGradient)"
+          d="M500,400 L480,450 L520,450 Z
+             M900,350 L875,420 L925,420 Z
+             M1300,380 L1275,440 L1325,440 Z
+             M1700,420 L1680,480 L1720,480 Z"/>
+  </g>
+
+  <!-- Montagnes proches -->
+  <g opacity="0.85">
+    <path fill="url(#mountainNearGradient)"
+          d="M-50,1080
+             L200,600
+             L400,750
+             L600,500
+             L800,680
+             L1000,450
+             L1200,620
+             L1400,480
+             L1600,650
+             L1800,520
+             L1970,700
+             L1970,1080 Z"/>
+    <!-- Neige sur sommets proches -->
+    <path fill="url(#snowGradient)"
+          d="M600,500 L570,580 L630,580 Z
+             M1000,450 L965,540 L1035,540 Z
+             M1400,480 L1365,560 L1435,560 Z"/>
+    <!-- Details/ombres -->
+    <path fill="rgba(0,0,0,0.1)"
+          d="M600,500 L700,680 L600,680 Z
+             M1000,450 L1100,620 L1000,620 Z
+             M1400,480 L1500,650 L1400,650 Z"/>
+  </g>
+
+  <!-- Collines au premier plan -->
+  <path fill="#5A6A7A" opacity="0.4"
+        d="M0,900 Q200,800 400,850 Q600,900 800,830 Q1000,760 1200,820 Q1400,880 1600,810 Q1800,740 1920,800 L1920,1080 L0,1080 Z"/>
+</svg>

@@ -1,3 +1,10 @@
+```
+╔══════════════════════════════════════════════════════════════╗
+║                  🎮 AGENT VISION ACTIF                       ║
+║                    Game 2.5D                                 ║
+╚══════════════════════════════════════════════════════════════╝
+```
+
 # Agent Vision - Game 2.5D
 
 Tu es maintenant en mode **Agent Vision** pour travailler sur le projet Game 2.5D.
@@ -79,6 +86,18 @@ Et dans `agents/` (racine mcp) :
 2. **Applique** les regles de coding lors de review/creation de code
 3. **Verifie** les versions reelles avant de repondre
 4. **Met a jour** les specs avant d'implementer
+
+## Format de reponse
+
+**Prefixe chaque reponse avec le nom de l'agent :**
+
+```
+[VISION] Ta reponse ici...
+```
+
+Exemple :
+- `[VISION] Je vais mettre a jour les specs...`
+- `[VISION] ✅ Niveau cree`
 
 ---
 

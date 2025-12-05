@@ -1,0 +1,47 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <!-- Degrade du ciel -->
+    <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#87CEEB"/>
+      <stop offset="40%" style="stop-color:#B0E0E6"/>
+      <stop offset="100%" style="stop-color:#E6F3FF"/>
+    </linearGradient>
+
+    <!-- Nuage style aquarelle -->
+    <filter id="cloudFilter" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur"/>
+      <feColorMatrix in="blur" type="matrix"
+        values="1 0 0 0 0
+                0 1 0 0 0
+                0 0 1 0 0
+                0 0 0 0.7 0"/>
+    </filter>
+
+    <!-- Symbole nuage -->
+    <symbol id="cloud" viewBox="0 0 200 100">
+      <g filter="url(#cloudFilter)">
+        <ellipse cx="60" cy="60" rx="50" ry="35" fill="white"/>
+        <ellipse cx="100" cy="50" rx="60" ry="40" fill="white"/>
+        <ellipse cx="150" cy="60" rx="45" ry="30" fill="white"/>
+        <ellipse cx="80" cy="70" rx="40" ry="25" fill="white"/>
+        <ellipse cx="130" cy="70" rx="35" ry="25" fill="white"/>
+      </g>
+    </symbol>
+  </defs>
+
+  <!-- Fond du ciel -->
+  <rect width="100%" height="100%" fill="url(#skyGradient)"/>
+
+  <!-- Nuages (disposes de maniere poetique) -->
+  <use href="#cloud" x="100" y="80" width="250" height="125" opacity="0.9"/>
+  <use href="#cloud" x="500" y="150" width="200" height="100" opacity="0.8"/>
+  <use href="#cloud" x="900" y="50" width="280" height="140" opacity="0.85"/>
+  <use href="#cloud" x="1300" y="120" width="220" height="110" opacity="0.75"/>
+  <use href="#cloud" x="1600" y="200" width="180" height="90" opacity="0.7"/>
+
+  <!-- Petits nuages supplementaires -->
+  <use href="#cloud" x="300" y="250" width="120" height="60" opacity="0.5"/>
+  <use href="#cloud" x="750" y="280" width="100" height="50" opacity="0.45"/>
+  <use href="#cloud" x="1100" y="230" width="140" height="70" opacity="0.55"/>
+  <use href="#cloud" x="1500" y="300" width="110" height="55" opacity="0.4"/>
+</svg>

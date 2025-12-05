@@ -594,3 +594,103 @@ Fichier `assets/sprites/manifest.json` :
   ]
 }
 ```
+
+---
+
+## 10. Sprites SVG (Approche Alternative)
+
+### 10.1 Avantages du SVG pour les personnages
+
+| Avantage | Description |
+|----------|-------------|
+| **Scalabilité** | Parfait à toutes les résolutions |
+| **Animations fluides** | CSS transforms sur les articulations |
+| **Modification facile** | Changement de couleurs via CSS variables |
+| **Fichiers légers** | Plus petit que les spritesheets PNG |
+
+### 10.2 Structure SVG modulaire
+
+Chaque personnage est composé de parties articulées :
+
+```xml
+<svg viewBox="0 0 64 96">
+  <defs>
+    <style>
+      .skin { fill: var(--skin-color, #FFE4C4); }
+      .hair { fill: var(--hair-color, #FFD700); }
+      .primary { fill: var(--primary-color, #4169E1); }
+    </style>
+    <symbol id="head">...</symbol>
+    <symbol id="body">...</symbol>
+    <symbol id="arm">...</symbol>
+    <symbol id="leg">...</symbol>
+  </defs>
+
+  <g class="character-root">
+    <g class="leg-back" style="transform-origin: 28px 58px">
+      <use href="#leg"/>
+    </g>
+    <use href="#body"/>
+    <g class="leg-front" style="transform-origin: 36px 58px">
+      <use href="#leg"/>
+    </g>
+    <g class="accessory scarf">...</g>
+    <use href="#head"/>
+  </g>
+</svg>
+```
+
+### 10.3 Points d'articulation
+
+| Partie | Pivot (x, y) | Rotation max |
+|--------|--------------|--------------|
+| Tête | 32, 34 | ±15° |
+| Bras | 40/24, 40 | ±45° |
+| Jambes | 36/28, 58 | ±30° |
+
+### 10.4 Animations CSS
+
+```css
+/* Walk animation */
+@keyframes walk-leg {
+  0%, 100% { transform: rotate(-20deg); }
+  50% { transform: rotate(20deg); }
+}
+
+.character-root.walk .leg-front {
+  animation: walk-leg 0.5s ease-in-out infinite;
+}
+.character-root.walk .leg-back {
+  animation: walk-leg 0.5s ease-in-out infinite reverse;
+}
+```
+
+### 10.5 Éléments physiques (écharpe, cheveux)
+
+Les accessoires flottants utilisent le **path morphing** :
+
+```css
+@keyframes scarf-float {
+  0%, 100% { d: path("M26,30 Q32,32 38,30 Q50,35 55,28"); }
+  50% { d: path("M26,30 Q32,34 38,30 Q52,38 58,32"); }
+}
+
+.scarf path {
+  animation: scarf-float 2s ease-in-out infinite;
+}
+```
+
+### 10.6 Fichiers SVG par personnage
+
+```
+assets/svg/characters/
+├── prince.svg           <- Personnage complet modulaire
+├── princess.svg
+└── robot.svg
+```
+
+> **Voir aussi** : `SPEC_svg-system.md` pour l'architecture complète du système SVG.
+
+---
+
+*Dernière mise à jour: 2025-12-05*
